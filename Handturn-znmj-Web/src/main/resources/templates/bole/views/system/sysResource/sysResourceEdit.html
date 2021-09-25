@@ -1,0 +1,172 @@
+<style>
+    #sysResource-edit {
+        padding: 20px 25px 25px 0;
+    }
+</style>
+<div class="layui-fluid" id="sysResource-edit">
+    <form class="layui-form" action="" lay-filter="sysResource-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">菜单id:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysResource.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">主模块:</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="rootResourceId" autocomplete="off" class="layui-input" data-th-value="${sysResource.rootResourceId}">
+                <input type="text" name="rootResourceName" autocomplete="off" class="layui-input" data-th-value="${sysResource.rootResourceName}" readonly="true">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级菜单:</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="parentResourceId" autocomplete="off" class="layui-input" data-th-value="${sysResource.parentResourceId}">
+                <input type="text" name="parentResourceName" autocomplete="off" class="layui-input" data-th-value="${sysResource.parentResourceName}" readonly="true">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="resourceName" lay-verify="required" autocomplete="off" class="layui-input" data-th-value="${sysResource.resourceName}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">类型:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="resourceNodeType" lay-filter="resourceNodeTypeFilter" data-th-each="option:${sysResourceTypeOption}" data-th-value="${option.value}"  data-th-title="${option.text}"
+                       data-th-checked="${option.value eq sysResource.resourceNodeType}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标:</label>
+            <div class="layui-input-block">
+                <input type="text" name="icon" autocomplete="off" class="layui-input"
+                       maxlength="50" lay-verify="rang" data-th-value="${sysResource.icon}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限标记:</label>
+            <div class="layui-input-block">
+                <input type="text" name="perms" autocomplete="off" class="layui-input"
+                       maxlength="100" lay-verify="rang" data-th-value="${sysResource.perms}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">URL:</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" autocomplete="off" class="layui-input"
+                       maxlength="100" lay-verify="rang" data-th-value="${sysResource.url}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">排序:</label>
+            <div class="layui-input-block">
+                <input type="text" name="sortNo" autocomplete="off" class="layui-input"
+                       lay-verify="integer|positiveNumber" data-th-value="${sysResource.sortNo}">
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysResource-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $view = $('#sysResource-edit'),
+            $icon = $view.find('input[name="icon"]'),
+            $icon_parent = $icon.parents('.layui-form-item'),
+            $url = $view.find('input[name="url"]'),
+            $url_parent = $url.parents('.layui-form-item'),
+            $sortNo = $view.find('input[name="sortNo"]'),
+            $sortNo_parent = $sortNo.parents('.layui-form-item'),
+            $header = $view.find('#form-header'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+
+        form.on('submit(sysResource-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysResource/save', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('保存成功!');
+                $('#febs-sysResource').find('#query').click();
+            });
+            return false;
+        });
+
+        form.on("radio(resourceNodeTypeFilter)", function (data) {
+            handleTypeChange(data.value);
+        });
+
+        $icon.focus(function () {
+            febs.modal.open('图标选择', 'others/febs/icon', {
+                btn: ['确定'],
+                yes: function (index) {
+                    var icon = $('#febs-icon').find('.icon-active .icon-name').text();
+                    if (icon) {
+                        form.val("sysResource-form", {
+                            "icon": 'layui-icon-' + icon
+                        });
+                    } else {
+                        form.val("sysResource-form", {
+                            "icon": ''
+                        });
+                    }
+                    layer.close(index);
+                }
+            });
+        });
+
+        var handleTypeChange = function (type) {
+            form.val("menu-form", {
+                "icon": '',
+                "url": '',
+                "sortNo": ''
+            });
+            if (type === 'MENU_ROOT') {
+                $header.text('编辑模块');
+                $icon_parent.show();
+                $url_parent.hide();
+                $sortNo_parent.show();
+            }else
+            if (type === 'MENU_DIR') {
+                $header.text('编辑目录');
+                $icon_parent.show();
+                $url_parent.hide();
+                $sortNo_parent.show();
+            }else
+            if (type === 'MENU') {
+                $header.text('编辑菜单');
+                $icon_parent.show();
+                $url_parent.show();
+                $sortNo_parent.show();
+            }else
+            if (type === 'RESOURCE_COMPONENT') {
+                $header.text('编辑按钮');
+                $icon_parent.hide();
+                $url_parent.show();
+                $sortNo_parent.show();
+            }else
+            if (type === 'MENU_ACTION') {
+                $header.text('编辑请求');
+                $icon_parent.hide();
+                $url_parent.show();
+                $sortNo_parent.show();
+            }else{
+                $icon_parent.show();
+                $url_parent.show();
+                $sortNo_parent.show();
+            }
+        };
+    });
+</script>

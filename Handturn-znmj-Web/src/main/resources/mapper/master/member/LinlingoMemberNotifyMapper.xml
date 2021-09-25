@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.member.mapper.MemberNotifyMapper">
+
+    <resultMap id="memberNotify" type="com.handturn.bole.master.member.entity.MemberNotify">
+        <id column="id" property="id"/> <!--//-->
+        <result column="memberId" property="memberId"/>  <!--//会员ID-->
+        <result column="accountCode" property="accountCode"/>
+        <result column="notifyType" property="notifyType"/>  <!--//通知类型-->
+
+        <result column="innerNotifyMessage" property="innerNotifyMessage"/>
+        <result column="innerNotifyToPage" property="innerNotifyToPage"/>
+        <result column="wxNotifyTemplateId" property="wxNotifyTemplateId"/>
+        <result column="wxNotifyDataJson" property="wxNotifyDataJson"/>
+        <result column="wxNotifyToPage" property="wxNotifyToPage"/>
+        <result column="smsNotifyTemplateCode" property="smsNotifyTemplateCode"/>
+        <result column="smsPhoneNumber" property="smsPhoneNumber"/>
+        <result column="smsNotifyDataJson" property="smsNotifyDataJson"/>
+
+        <result column="cacheStatus" property="cacheStatus"/>  <!--//通知状态:UNCACHE-未缓存,CACHED-已缓存-->
+        <result column="readStatus" property="readStatus"/>  <!--//通知状态:UNREAD-未读,READED-已读-->
+        <result column="sendStatus" property="sendStatus"/>
+
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+    </resultMap>
+
+    <sql id="SqlWithMemberNotifySelectAll">
+        SELECT
+            MemberNotify.id AS id,
+            MemberNotify.member_id AS memberId,
+            MemberNotify.account_code AS accountCode,
+            MemberNotify.notify_type AS notifyType,
+
+            MemberNotify.inner_notify_message AS innerNotifyMessage,
+            MemberNotify.inner_notify_to_page AS innerNotifyToPage,
+            MemberNotify.wx_notify_template_id AS wxNotifyTemplateId,
+            MemberNotify.wx_notify_data_json AS wxNotifyDataJson,
+            MemberNotify.wx_notify_to_page AS wxNotifyToPage,
+            MemberNotify.sms_notify_template_code AS smsNotifyTemplateCode,
+            MemberNotify.sms_phone_number AS smsPhoneNumber,
+            MemberNotify.sms_notify_data_json AS smsNotifyDataJson,
+
+            MemberNotify.cache_status AS cacheStatus,
+            MemberNotify.read_status AS readStatus,
+            MemberNotify.send_status AS sendStatus,
+            MemberNotify.create_date AS createDate,
+            MemberNotify.last_upd_date AS lastUpdDate
+        FROM member_notify AS MemberNotify
+    </sql>
+
+    <select id="findForPage" parameterType="memberNotify" resultType="memberNotify">
+        <include refid="SqlWithMemberNotifySelectAll"/>
+        WHERE 1=1
+
+            <if test="memberNotify.id != null and memberNotify.id != ''">
+                AND MemberNotify.id =#{memberNotify.id}
+            </if>
+            <if test="memberNotify.memberId != null and memberNotify.memberId != ''">
+                AND MemberNotify.member_id =#{memberNotify.memberId}
+            </if>
+            <if test="memberNotify.accountCode != null and memberNotify.accountCode != ''">
+                AND MemberNotify.account_code =#{memberNotify.accountCode}
+            </if>
+
+            <if test="memberNotify.notifyType != null and memberNotify.notifyType != ''">
+                AND MemberNotify.notify_type =#{memberNotify.notifyType}
+            </if>
+            <if test="memberNotify.cacheStatus != null and memberNotify.cacheStatus != ''">
+                AND MemberNotify.cache_status =#{memberNotify.cacheStatus}
+            </if>
+            <if test="memberNotify.readStatus != null and memberNotify.readStatus != ''">
+                AND MemberNotify.read_status =#{memberNotify.readStatus}
+            </if>
+        <if test="memberNotify.sendStatus != null and memberNotify.sendStatus != ''">
+            AND  MemberNotify.send_status =#{memberNotify.sendStatus}
+        </if>
+            <if test="memberNotify.createDate != null and memberNotify.createDate != ''">
+                AND MemberNotify.create_date =#{memberNotify.createDate}
+            </if>
+            <if test="memberNotify.lastUpdDate != null and memberNotify.lastUpdDate != ''">
+                AND MemberNotify.last_upd_date =#{memberNotify.lastUpdDate}
+            </if>
+    </select>
+
+    <select id="findForPageByMember" parameterType="memberNotify" resultType="memberNotify">
+        <include refid="SqlWithMemberNotifySelectAll"/>
+        WHERE 1=1
+
+        <if test="accountCode != null and accountCode != ''">
+            AND MemberNotify.account_code =#{accountCode}
+        </if>
+        <if test="readStatuses != null and readStatuses.size != 0">
+            AND MemberNotify.read_status IN
+            <foreach close=")" collection="readStatuses" item="listItem" open="(" separator=",">
+                #{listItem}
+            </foreach>
+        </if>
+    </select>
+</mapper>

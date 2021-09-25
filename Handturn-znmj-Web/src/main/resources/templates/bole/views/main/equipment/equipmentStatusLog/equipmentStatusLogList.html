@@ -1,0 +1,414 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-equipmentStatusLog" lay-title="EquipmentStatusLog管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="equipmentStatusLog-table-form" id="equipmentStatusLog-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">ID</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="id" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备系统编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备出厂编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentMdCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备型号编号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentModelCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">网点编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="ocCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">组织编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="orgCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">网点名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">组织名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">备注</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="remark" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备序号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="erectLocation" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">所属区域编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="areaCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">日志日期</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="logDate" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">离线次数</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="offlineCount" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">在线次数</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="onlineCount" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">上次心跳时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="onlineTime" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">版本编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="recordVersion" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createDate" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增用户编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createUserCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增用户名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createUserName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdDate" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改用户编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdUserCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改用户名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdUserName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="equipmentStatusLogTable" lay-filter="equipmentStatusLogTable" lay-data="{id: 'equipmentStatusLogTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="equipmentStatusLogTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="equipmentStatusLog:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="equipmentStatusLog:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="equipmentStatusLog:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+</script>
+<script type="text/html" id="equipmentStatusLog-option">
+    <span shiro:lacksPermission="equipmentStatusLog:view,equipmentStatusLog:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="update" shiro:hasPermission="equipmentStatusLog:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="view" shiro:hasPermission="equipmentStatusLog:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-equipmentStatusLog'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#equipmentStatusLog-table-form'),
+            baseStatusOption = [[----{baseStatusOption}]],
+            baseStatusOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(equipmentStatusLogTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('equipmentStatusLogTable');
+            if (layEvent === 'add') {
+                febs.modal.open('新增EquipmentStatusLog', 'equipmentStatusLog/equipmentStatusLog/add', {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                    yes: function (index, layero) {
+                        $('#equipmentStatusLog-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#equipmentStatusLog-edit').find('#reset').trigger('click');
+                        return false;
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的EquipmentStatusLog');
+                } else {
+                    var equipmentStatusLogIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        equipmentStatusLogIds.push(item.id)
+                    });
+                    febs.post(ctx + 'equipmentStatusLog/equipmentStatusLog/enable/' + equipmentStatusLogIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的EquipmentStatusLog');
+                } else {
+                    var equipmentStatusLogIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        equipmentStatusLogIds.push(item.id)
+                    });
+                    febs.post(ctx + 'equipmentStatusLog/equipmentStatusLog/disable/' + equipmentStatusLogIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('tool(equipmentStatusLogTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('EquipmentStatusLog信息', 'equipmentStatusLog/equipmentStatusLog/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改EquipmentStatusLog', 'equipmentStatusLog/equipmentStatusLog/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#equipmentStatusLog-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('sort(equipmentStatusLogTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'equipmentStatusLogTable',
+                toolbar: '#equipmentStatusLogTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'equipmentStatusLog/equipmentStatusLog/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'id', title: 'ID',sort: true, minWidth: 100},
+                            {field: 'equipmentCode', title: '设备系统编码',sort: true, minWidth: 100},
+                            {field: 'equipmentMdCode', title: '设备出厂编码',sort: true, minWidth: 100},
+                            {field: 'equipmentModelCode', title: '设备型号编号',sort: true, minWidth: 100},
+                            {field: 'ocCode', title: '网点编码',sort: true, minWidth: 100},
+                            {field: 'orgCode', title: '组织编码',sort: true, minWidth: 100},
+                            {field: 'ocName', title: '网点名称',sort: true, minWidth: 100},
+                            {field: 'orgName', title: '组织名称',sort: true, minWidth: 100},
+                            {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                            {field: 'erectLocation', title: '设备序号',sort: true, minWidth: 100},
+                            {field: 'areaCode', title: '所属区域编码',sort: true, minWidth: 100},
+                            {field: 'logDate', title: '日志日期',sort: true, minWidth: 100},
+                            {field: 'offlineCount', title: '离线次数',sort: true, minWidth: 100},
+                            {field: 'onlineCount', title: '在线次数',sort: true, minWidth: 100},
+                            {field: 'onlineTime', title: '上次心跳时间',sort: true, minWidth: 100},
+                            {field: 'recordVersion', title: '版本编码',sort: true, minWidth: 100},
+                            {field: 'createDate', title: '新增时间',sort: true, minWidth: 100},
+                            {field: 'createUserCode', title: '新增用户编码',sort: true, minWidth: 100},
+                            {field: 'createUserName', title: '新增用户名',sort: true, minWidth: 100},
+                            {field: 'lastUpdDate', title: '最后修改时间',sort: true, minWidth: 100},
+                            {field: 'lastUpdUserCode', title: '最后修改用户编码',sort: true, minWidth: 100},
+                            {field: 'lastUpdUserName', title: '最后修改用户名',sort: true, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#equipmentStatusLog-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#equipmentStatusLogTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'equipmentStatusLog/equipmentStatusLog/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    id: $searchForm.find('input[name="id"]').val().trim(),
+                    equipmentCode: $searchForm.find('input[name="equipmentCode"]').val().trim(),
+                    equipmentMdCode: $searchForm.find('input[name="equipmentMdCode"]').val().trim(),
+                    equipmentModelCode: $searchForm.find('input[name="equipmentModelCode"]').val().trim(),
+                    ocCode: $searchForm.find('input[name="ocCode"]').val().trim(),
+                    orgCode: $searchForm.find('input[name="orgCode"]').val().trim(),
+                    ocName: $searchForm.find('input[name="ocName"]').val().trim(),
+                    orgName: $searchForm.find('input[name="orgName"]').val().trim(),
+                    remark: $searchForm.find('input[name="remark"]').val().trim(),
+                    erectLocation: $searchForm.find('input[name="erectLocation"]').val().trim(),
+                    areaCode: $searchForm.find('input[name="areaCode"]').val().trim(),
+                    logDate: $searchForm.find('input[name="logDate"]').val().trim(),
+                    offlineCount: $searchForm.find('input[name="offlineCount"]').val().trim(),
+                    onlineCount: $searchForm.find('input[name="onlineCount"]').val().trim(),
+                    onlineTime: $searchForm.find('input[name="onlineTime"]').val().trim(),
+                    recordVersion: $searchForm.find('input[name="recordVersion"]').val().trim(),
+                    createDate: $searchForm.find('input[name="createDate"]').val().trim(),
+                    createUserCode: $searchForm.find('input[name="createUserCode"]').val().trim(),
+                    createUserName: $searchForm.find('input[name="createUserName"]').val().trim(),
+                    lastUpdDate: $searchForm.find('input[name="lastUpdDate"]').val().trim(),
+                    lastUpdUserCode: $searchForm.find('input[name="lastUpdUserCode"]').val().trim(),
+                    lastUpdUserName: $searchForm.find('input[name="lastUpdUserName"]').val().trim(),
+            };
+        }
+    })
+</script>

@@ -1,0 +1,91 @@
+<style>
+    #areaInfo-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #areaInfo-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="areaInfo-edit">
+    <form class="layui-form" action="" lay-filter="areaInfo-edit-form">
+        <div class="layui-form-item">
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">ID:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" data-th-value="${areaInfo.id}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">系统编码:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="areaCode"
+                           autocomplete="off" class="layui-input" data-th-value="${areaInfo.areaCode}" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">定制编码:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="areaClientCode" lay-verify="required"
+                           autocomplete="off" class="layui-input" data-th-value="${areaInfo.areaClientCode}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">区域名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="areaName" lay-verify="required"
+                           autocomplete="off" class="layui-input" data-th-value="${areaInfo.areaName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">所属区域:</label>
+                <div class="layui-input-block">
+                    <select name="parentAreaId" id="parentAreaId">
+                        <option value="0">默认区域</option>
+                        <option data-th-each="option:${parentAreasOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                data-th-selected="${option.value eq areaInfo.id+''}"/>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${areaInfo.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="areaInfo-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#areaInfo-edit'),
+            areaInfo = [[${areaInfo}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(areaInfo-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/area/areaInfo/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-areaInfo').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

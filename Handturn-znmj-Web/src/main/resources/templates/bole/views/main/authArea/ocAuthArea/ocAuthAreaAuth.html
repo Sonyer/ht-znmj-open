@@ -1,0 +1,603 @@
+<style>
+    #ocAuthAreaAuth-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #ocAuthAreaAuth-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocAuthAreaAuth-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">访客权限</li>
+            <li>设备权限</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row febs-container">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-form-item febs-hide">
+                                <label class="layui-form-label">ID:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="authAreaId" name="authAreaId" data-th-value="${ocAuthArea.id}">
+                                </div>
+                            </div>
+
+                            <div class="layui-card-body febs-table-full" id="ocVisitorInfoAuth-table-all">
+                                <form class="layui-form layui-table-form" lay-filter="ocVisitorInfoAuth-table-form" id="ocVisitorInfoAuth-table-form">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md10">
+                                            <div class="layui-form-item">
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">访客类型</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="visitorType" id="visitorType" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${ocVisitorTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">真实姓名</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="idCardName" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">身份证号码</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="idCard" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">用户手机号</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="phoneNumber" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">冻结状态</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="freezeStatus" id="freezeStatus" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${ocVisitorFreezeStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">录入类型</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="createType" id="createType" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${ocVisitorCreateTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="visitor_query">
+                                                <i class="layui-icon">&#xe848;</i>
+                                            </div>
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="visitor_qeryReset">
+                                                <i class="layui-icon">&#xe79b;</i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <table id="ocVisitorInfoAuthTable" lay-filter="ocVisitorInfoAuthTable" lay-data="{id: 'ocVisitorInfoAuthTable'}" ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body febs-table-full" id="basEquipmentAuth-table-all">
+                                <form class="layui-form layui-table-form" lay-filter="basEquipmentAuth-table-form" id="basEquipmentAuth-table-form">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md10">
+                                            <div class="layui-form-item">
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">系统编码</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="equipmentCode" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">出厂编码</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="equipmentMdCode" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">设备型号</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="equipmentModelCode" id="equipmentModelCode" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${equipmentModelsOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">所属区域</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="areaCode" id="areaCode" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${areaInfosOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">设备序号</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="seqNum" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">进出标识</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="inOutFlag" id="inOutFlag" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${equipmentInOutOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">安装状态</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="erectStatus" id="erectStatus" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${equipmentInfoErectStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">在线状态</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="onlineStatus" id="onlineStatus" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${equipmentInfoOnlineStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="equipment_query">
+                                                <i class="layui-icon">&#xe848;</i>
+                                            </div>
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="equipment_qeryReset">
+                                                <i class="layui-icon">&#xe79b;</i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <table id="basEquipmentAuthTable" lay-filter="basEquipmentAuthTable" lay-data="{id: 'basEquipmentAuthTable'}" ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'table', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            table = layui.table,
+            $view = $('#ocAuthAreaAuth-edit'),
+            $visitor_query = $view.find('#visitor_query'),
+            $visitor_qeryReset = $view.find('#visitor_qeryReset'),
+            $equipment_query = $view.find('#equipment_query'),
+            $equipment_qeryReset = $view.find('#equipment_qeryReset'),
+            $ocVisitorInfoAuth_searchForm = $view.find('#ocVisitorInfoAuth-table-form'),
+            $basEquipmentAuth_searchForm = $view.find('#basEquipmentAuth-table-form'),
+            ocAuthArea = [[#{ocAuthArea}]],
+            ocVisitorTypeOption = [[${ocVisitorTypeOption}]],
+            ocVisitorTypeOptionMap = {},
+            ocVisitorAuditStatusOption = [[${ocVisitorAuditStatusOption}]],
+            ocVisitorAuditStatusOptionMap = {},
+            ocVisitorFreezeStatusOption = [[${ocVisitorFreezeStatusOption}]],
+            ocVisitorFreezeStatusOptionMap = {},
+            equipmentInfoErectStatusOption = [[${equipmentInfoErectStatusOption}]],
+            equipmentInfoErectStatusOptionMap = {},
+            equipmentInfoOnlineStatusOption = [[${equipmentInfoOnlineStatusOption}]],
+            equipmentInfoOnlineStatusOptionMap = {},
+            equipmentModelsOption = [[${equipmentModelsOption}]],
+            equipmentModelsOptionMap = {},
+            equipmentInOutOption = [[${equipmentInOutOption}]],
+            equipmentInOutOptionMap = {},
+            ocVisitorCreateTypeOption = [[${ocVisitorCreateTypeOption}]],
+            ocVisitorCreateTypeOptionMap = {},
+            validate = layui.validate,
+            sortObject = {field: 'createDate', type: null},
+            ocVisitorInfoAuthTable_tableIns,
+            basEquipmentAuthTable_tableIns,
+            ocVisitorIds = [],
+            equipmentIds = [];
+
+        form.verify(validate);
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        $visitor_query.on('click', function () {
+            var params = $.extend(ocVisitorInfoAuthTable_getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            ocVisitorInfoAuthTable_tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $visitor_qeryReset.on('click', function () {
+            $ocVisitorInfoAuth_searchForm[0].reset();
+            ocVisitorInfoAuthTable_tableIns.reload({where: ocVisitorInfoAuthTable_getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        $equipment_query.on('click', function () {
+            var params = $.extend(basEquipmentAuthTable_getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            basEquipmentAuthTable_tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $equipment_qeryReset.on('click', function () {
+            $basEquipmentAuth_searchForm[0].reset();
+            basEquipmentAuthTable_tableIns.reload({where: basEquipmentAuthTable_getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        //监听事件
+        table.on('toolbar(ocVisitorInfoAuthTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('ocVisitorInfoAuthTable');
+            if (layEvent === 'DEFAULT_EXPORT') {
+                ocVisitorInfoAuthTable_exportTable();
+            }
+        });
+
+        //监听事件
+        table.on('toolbar(basEquipmentAuthTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('basEquipmentAuthTable');
+            if (layEvent === 'DEFAULT_EXPORT') {
+                basEquipmentAuthTable_exportTable();
+            }
+        });
+
+        function initDictData(){
+            ocVisitorTypeOptionMap = {};
+            for(var index in ocVisitorTypeOption){
+                ocVisitorTypeOptionMap[ocVisitorTypeOption[index].value] = ocVisitorTypeOption[index].text;
+            }
+            ocVisitorAuditStatusOptionMap = {};
+            for(var index in ocVisitorAuditStatusOption){
+                ocVisitorAuditStatusOptionMap[ocVisitorAuditStatusOption[index].value] = ocVisitorAuditStatusOption[index].text;
+            }
+            ocVisitorFreezeStatusOptionMap = {};
+            for(var index in ocVisitorFreezeStatusOption){
+                ocVisitorFreezeStatusOptionMap[ocVisitorFreezeStatusOption[index].value] = ocVisitorFreezeStatusOption[index].text;
+            }
+
+            ocVisitorCreateTypeOptionMap = {};
+            for(var index in ocVisitorCreateTypeOption){
+                ocVisitorCreateTypeOptionMap[ocVisitorCreateTypeOption[index].value] = ocVisitorCreateTypeOption[index].text;
+            }
+
+            equipmentInfoErectStatusOptionMap = {};
+            for(var index in equipmentInfoErectStatusOption){
+                equipmentInfoErectStatusOptionMap[equipmentInfoErectStatusOption[index].value] = equipmentInfoErectStatusOption[index].text;
+            }
+
+            equipmentInfoOnlineStatusOptionMap = {};
+            for(var index in equipmentInfoOnlineStatusOption){
+                equipmentInfoOnlineStatusOptionMap[equipmentInfoOnlineStatusOption[index].value] = equipmentInfoOnlineStatusOption[index].text;
+            }
+
+            equipmentModelsOptionMap = {};
+            for(var index in equipmentModelsOption){
+                equipmentModelsOptionMap[equipmentModelsOption[index].value] = equipmentModelsOption[index].text;
+            }
+
+            equipmentInOutOptionMap = {};
+            for(var index in equipmentInOutOption){
+                equipmentInOutOptionMap[equipmentInOutOption[index].value] = equipmentInOutOption[index].text;
+            }
+        }
+
+        table.on('checkbox(ocVisitorInfoAuthTable)', function(data){
+            //console.log(data.checked); //当前是否选中状态
+            //console.log(data.data); //选中行的相关数据
+            //console.log(data.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+            //console.log(table.checkStatus('ocVisitorInfoAuthTable').data); // 获取表格中选中行的数据
+
+            var authAreaId = $view.find("#authAreaId").val();
+            if(data.checked){
+                if(data.type == 'all' && ocVisitorIds.length > 0){
+                    var requestData = {authAreaId:authAreaId,ocVisitorIds:ocVisitorIds.join(',')};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/authOcVisitors', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+                if(data.type == 'one' && ocVisitorIds.length > 0){
+                    var ocVisitorIds_one = data.data.id;
+                    var requestData = {authAreaId:authAreaId,ocVisitorIds:ocVisitorIds_one};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/authOcVisitors', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }else{
+                if(data.type == 'all' && ocVisitorIds.length > 0){
+                    var requestData = {authAreaId:authAreaId,ocVisitorIds:ocVisitorIds.join(',')};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/cancelAuthOcVisitors', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+                if(data.type == 'one' && ocVisitorIds.length > 0){
+                    var ocVisitorIds_one = data.data.id;
+                    var requestData = {authAreaId:authAreaId,ocVisitorIds:ocVisitorIds_one};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/cancelAuthOcVisitors', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+
+        });
+
+        table.on('checkbox(basEquipmentAuthTable)', function(data){
+            //console.log(data.checked); //当前是否选中状态
+            //console.log(data.data); //选中行的相关数据
+            //console.log(data.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+            //console.log(table.checkStatus('ocVisitorInfoAuthTable').data); // 获取表格中选中行的数据
+
+            var authAreaId = $view.find("#authAreaId").val();
+            if(data.checked){
+                if(data.type == 'all' && equipmentIds.length > 0){
+                    var requestData = {authAreaId:authAreaId,equipmentIds:equipmentIds.join(',')};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/authOcEquipments', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+                if(data.type == 'one' && equipmentIds.length > 0){
+                    var equipmentIds_one = data.data.id;
+                    var requestData = {authAreaId:authAreaId,equipmentIds:equipmentIds_one};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/authOcEquipments', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }else{
+                if(data.type == 'all' && equipmentIds.length > 0){
+                    var requestData = {authAreaId:authAreaId,equipmentIds:equipmentIds.join(',')};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/cancelAuthOcEquipments', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+                if(data.type == 'one' && equipmentIds.length > 0){
+                    var equipmentIds_one = data.data.id;
+                    var requestData = {authAreaId:authAreaId,equipmentIds:equipmentIds_one};
+                    febs.post(ctx + 'main/authArea/ocAuthArea/cancelAuthOcEquipments', requestData, function () {
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+
+        });
+
+        function initTable() {
+            //table = $.extend(table, {config: {checkName: 'layChecked'}});
+            ocVisitorInfoAuthTable_tableIns = febs.table.init({
+                elem: $view.find('#ocVisitorInfoAuthTable'),
+                id: 'ocVisitorInfoAuthTable',
+                toolbar: '#ocVisitorInfoAuthTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                where:ocVisitorInfoAuthTable_getQueryParams(),
+                url: ctx + 'main/authArea/ocAuthArea/ocVisitorInfoList',
+                cols: [
+                    [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'visitorType', title: '访客类型',sort: true,dataMap:ocVisitorTypeOptionMap,templet: function(d){
+                                return ocVisitorTypeOptionMap[d.visitorType] == null? d.visitorType:ocVisitorTypeOptionMap[d.visitorType];
+                            }, minWidth: 100},
+                        {field: 'idCardName', title: '真实姓名',sort: true, minWidth: 100},
+                        {field: 'idCard', title: '身份证号码',sort: true, minWidth: 100},
+                        {field: 'phoneNumber', title: '用户手机号',sort: true, minWidth: 100},
+                        {field: 'positionName', title: '职位名称',sort: true, minWidth: 100},
+                        {field: 'abstractMsg', title: '摘要信息',sort: true, minWidth: 100},
+                        {field: 'freezeStatus', title: '冻结状态',sort: true,dataMap:ocVisitorFreezeStatusOptionMap,templet: function(d){
+                                return ocVisitorFreezeStatusOptionMap[d.freezeStatus] == null? d.freezeStatus:ocVisitorFreezeStatusOptionMap[d.freezeStatus];
+                            }, minWidth: 100},
+                        {field: 'createType', title: '录入类型',sort: true,dataMap:ocVisitorCreateTypeOptionMap,templet: function(d){
+                                return ocVisitorCreateTypeOptionMap[d.createType] == null? d.createType:ocVisitorCreateTypeOptionMap[d.createType];
+                            }, minWidth: 100},
+                    ]
+                ],
+                height: $(document).height() - $('#ocVisitorInfoAuthTable').offset().top - 120,
+                done: function(res, curr, count){
+                    ocVisitorIds = [];
+                    layui.each(res.data, function (key, item) {
+                        ocVisitorIds.push(item.id)
+
+                        if(item.layChecked == 'true' || item.layChecked == true){
+                            //这里才是真正实现的有效勾选
+                            item["LAY_CHECKED"] = 'true';
+                            //找到对应数据改变勾选样式，呈现出选中效果
+                            var _index = item['LAY_TABLE_INDEX'];
+                            $view.find('#ocVisitorInfoAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').prop('checked', true);
+                            $view.find('#ocVisitorInfoAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    });
+                }
+
+            });
+
+
+            basEquipmentAuthTable_tableIns = febs.table.init({
+                elem: $view.find('#basEquipmentAuthTable'),
+                id: 'basEquipmentAuthTable',
+                toolbar: '#basEquipmentAuthTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                where:basEquipmentAuthTable_getQueryParams(),
+                url: ctx + 'main/authArea/ocAuthArea/equipmentList',
+                cols: [
+                    [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'equipmentCode', title: '设备系统编码',sort: true, minWidth: 100},
+                        {field: 'equipmentMdCode', title: '设备出厂编码',sort: true, minWidth: 100},
+                        {field: 'equipmentModelCode', title: '设备型号',dataMap:equipmentModelsOptionMap,templet: function(d){
+                                return equipmentModelsOptionMap[d.equipmentModelCode] == null? d.equipmentModelCode:equipmentModelsOptionMap[d.equipmentModelCode];
+                            }, minWidth: 200},
+                        {field: 'erectStatus', title: '安装状态',sort: true,dataMap:equipmentInfoErectStatusOptionMap,templet: function(d){
+                                return equipmentInfoErectStatusOptionMap[d.erectStatus] == null? d.erectStatus:equipmentInfoErectStatusOptionMap[d.erectStatus];
+                            }, minWidth: 100},
+                        {field: 'onlineStatus', title: '在线状态',sort: true,dataMap:equipmentInfoOnlineStatusOptionMap,templet: function(d){
+                                return equipmentInfoOnlineStatusOptionMap[d.onlineStatus] == null? d.onlineStatus:equipmentInfoOnlineStatusOptionMap[d.onlineStatus];
+                            }, minWidth: 100},
+                        {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                        {field: 'seqNum', title: '设备序号',sort: true, minWidth: 100},
+                        {field: 'inOutFlag', title: '进出标识',dataMap:equipmentInOutOptionMap,templet: function(d){
+                                return equipmentInOutOptionMap[d.inOutFlag] == null? d.inOutFlag:equipmentInOutOptionMap[d.inOutFlag];
+                            }, minWidth: 200},
+                        {field: 'areaClientCode', title: '区域定制编码',sort: true, minWidth: 100},
+                        {field: 'areaName', title: '区域名称',sort: true, minWidth: 100}
+                    ]
+                ],
+                height: $(document).height() - $('#ocVisitorInfoAuthTable').offset().top - 120,
+                done: function(res, curr, count){
+                    equipmentIds = [];
+                    layui.each(res.data, function (key, item) {
+                        equipmentIds.push(item.id)
+
+                        if(item.layChecked == 'true' || item.layChecked == true){
+                            //这里才是真正实现的有效勾选
+                            item["LAY_CHECKED"] = 'true';
+                            //找到对应数据改变勾选样式，呈现出选中效果
+                            var _index = item['LAY_TABLE_INDEX'];
+                            $view.find('#basEquipmentAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').prop('checked', true);
+                            $view.find('#basEquipmentAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    });
+                }
+            });
+        }
+
+        //导出函数
+        function ocVisitorInfoAuthTable_exportTable(){
+            var queryData = ocVisitorInfoAuthTable_getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = ocVisitorInfoAuthTable_tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'main/authArea/ocAuthArea/ocVisitorInfoExport/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        //导出函数
+        function basEquipmentAuthTable_exportTable(){
+            var queryData = basEquipmentAuthTable_getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = basEquipmentAuthTable_tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'main/authArea/ocAuthArea/equipmentExport/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        form.on('submit(ocAuthAreaAuth-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/authArea/ocAuthArea/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-ocAuthArea').find('#query').click();
+            });
+            return false;
+        });
+
+        function basEquipmentAuthTable_getQueryParams() {
+            return {
+                authAreaId:$view.find("#authAreaId").val(),
+                equipmentCode: $basEquipmentAuth_searchForm.find('input[name="equipmentCode"]').val().trim(),
+                equipmentMdCode: $basEquipmentAuth_searchForm.find('input[name="equipmentMdCode"]').val().trim(),
+                equipmentModelCode: $basEquipmentAuth_searchForm.find('select[name="equipmentModelCode"]').val(),
+                areaCode: $basEquipmentAuth_searchForm.find('select[name="areaCode"]').val(),
+                seqNum: $basEquipmentAuth_searchForm.find('input[name="seqNum"]').val(),
+                erectStatus: $basEquipmentAuth_searchForm.find('select[name="erectStatus"]').val(),
+                onlineStatus: $basEquipmentAuth_searchForm.find('select[name="onlineStatus"]').val(),
+                createType: $basEquipmentAuth_searchForm.find('select[name="createType"]').val()
+            };
+        }
+
+        function ocVisitorInfoAuthTable_getQueryParams() {
+            return {
+                authAreaId:$view.find("#authAreaId").val(),
+                visitorType: $ocVisitorInfoAuth_searchForm.find('select[name="visitorType"]').val(),
+                idCardName: $ocVisitorInfoAuth_searchForm.find('input[name="idCardName"]').val().trim(),
+                idCard: $ocVisitorInfoAuth_searchForm.find('input[name="idCard"]').val().trim(),
+                phoneNumber: $ocVisitorInfoAuth_searchForm.find('input[name="phoneNumber"]').val().trim(),
+                auditStatus: $ocVisitorInfoAuth_searchForm.find('select[name="auditStatus"]').val(),
+                freezeStatus: $ocVisitorInfoAuth_searchForm.find('select[name="freezeStatus"]').val(),
+            };
+        }
+    });
+</script>

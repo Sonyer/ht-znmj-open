@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.equipment.mapper.EquipmentInfoMapper">
+
+    <resultMap id="equipmentInfo" type="com.handturn.bole.main.equipment.entity.EquipmentInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="equipmentCode" property="equipmentCode"/>  <!--//设备系统编码-->
+        <result column="equipmentMdCode" property="equipmentMdCode"/>  <!--//设备出厂编码-->
+        <result column="equipmentModelCode" property="equipmentModelCode"/>  <!--//设备型号编号-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="seqNum" property="seqNum"/>  <!--//设备序号-->
+        <result column="areaCode" property="areaCode"/>  <!--//所属区域编码-->
+        <result column="inOutFlag" property="inOutFlag"/>
+        <result column="erectStatus" property="erectStatus"/>  <!--//状态: UNERECT-未安装;ERECTED-已安装-->
+        <result column="onlineStatus" property="onlineStatus"/>  <!--//状态: OFFLINE-离线;ONLINE-在线-->
+        <result column="onlineTime" property="onlineTime"/>  <!--//上次心跳时间-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="areaClientCode" property="areaClientCode"/>
+        <result column="areaName" property="areaName"/>
+
+        <result column="layChecked" property="layChecked"/>
+
+    </resultMap>
+
+    <sql id="SqlWithEquipmentInfoSelectAll">
+        SELECT
+            EquipmentInfo.id AS id,
+            EquipmentInfo.equipment_code AS equipmentCode,
+            EquipmentInfo.equipment_md_code AS equipmentMdCode,
+            EquipmentInfo.equipment_model_code AS equipmentModelCode,
+            EquipmentInfo.oc_code AS ocCode,
+            EquipmentInfo.org_code AS orgCode,
+            EquipmentInfo.oc_name AS ocName,
+            EquipmentInfo.org_name AS orgName,
+            EquipmentInfo.remark AS remark,
+            EquipmentInfo.seq_num AS seqNum,
+            EquipmentInfo.area_code AS areaCode,
+            EquipmentInfo.in_out_flag AS inOutFlag,
+            EquipmentInfo.erect_status AS erectStatus,
+            EquipmentInfo.online_status AS onlineStatus,
+            EquipmentInfo.online_time AS onlineTime,
+            EquipmentInfo.record_version AS recordVersion,
+            EquipmentInfo.create_date AS createDate,
+            EquipmentInfo.create_user_code AS createUserCode,
+            EquipmentInfo.create_user_name AS createUserName,
+            EquipmentInfo.last_upd_date AS lastUpdDate,
+            EquipmentInfo.last_upd_user_code AS lastUpdUserCode,
+            EquipmentInfo.last_upd_user_name AS lastUpdUserName,
+
+            AreaInfo.area_name AS areaClientCode,
+            AreaInfo.area_client_code AS areaName
+
+    </sql>
+
+    <select id="findForPage" parameterType="equipmentInfo" resultType="equipmentInfo">
+        <include refid="SqlWithEquipmentInfoSelectAll"/>
+        <if test="equipmentInfo.authCheck != null and equipmentInfo.authCheck == true">
+            ,CASE WHEN OcAuthAreaEquipment.id IS NOT NULL THEN
+                'true'
+                ELSE 'false'
+                END AS layChecked
+            FROM equipment_info AS EquipmentInfo
+            LEFT JOIN area_info AS AreaInfo ON EquipmentInfo.area_code = AreaInfo.area_code AND EquipmentInfo.org_code = AreaInfo.org_code AND EquipmentInfo.oc_code = AreaInfo.oc_code
+            LEFT JOIN oc_auth_area_equipment AS OcAuthAreaEquipment ON EquipmentInfo.id = OcAuthAreaEquipment.equipment_id AND EquipmentInfo.org_code = OcAuthAreaEquipment.org_code AND EquipmentInfo.oc_code = OcAuthAreaEquipment.oc_code
+            AND OcAuthAreaEquipment.auth_area_id =#{equipmentInfo.authAreaId}
+        </if>
+        <if test="equipmentInfo.authCheck == null or equipmentInfo.authCheck == false">
+            FROM equipment_info AS EquipmentInfo
+            LEFT JOIN area_info AS AreaInfo ON EquipmentInfo.area_code = AreaInfo.area_code AND EquipmentInfo.org_code = AreaInfo.org_code AND EquipmentInfo.oc_code = AreaInfo.oc_code
+        </if>
+
+        WHERE 1=1
+
+            <if test="equipmentInfo.id != null and equipmentInfo.id != ''">
+                AND EquipmentInfo.id =#{equipmentInfo.id}
+            </if>
+            <if test="equipmentInfo.equipmentCode != null and equipmentInfo.equipmentCode != ''">
+                AND EquipmentInfo.equipment_code =#{equipmentInfo.equipmentCode}
+            </if>
+            <if test="equipmentInfo.equipmentMdCode != null and equipmentInfo.equipmentMdCode != ''">
+                AND EquipmentInfo.equipment_md_code =#{equipmentInfo.equipmentMdCode}
+            </if>
+            <if test="equipmentInfo.equipmentModelCode != null and equipmentInfo.equipmentModelCode != ''">
+                AND EquipmentInfo.equipment_model_code =#{equipmentInfo.equipmentModelCode}
+            </if>
+            <if test="equipmentInfo.ocCode != null and equipmentInfo.ocCode != ''">
+                AND EquipmentInfo.oc_code =#{equipmentInfo.ocCode}
+            </if>
+            <if test="equipmentInfo.orgCode != null and equipmentInfo.orgCode != ''">
+                AND EquipmentInfo.org_code =#{equipmentInfo.orgCode}
+            </if>
+            <if test="equipmentInfo.ocName != null and equipmentInfo.ocName != ''">
+                AND EquipmentInfo.oc_name =#{equipmentInfo.ocName}
+            </if>
+            <if test="equipmentInfo.orgName != null and equipmentInfo.orgName != ''">
+                AND EquipmentInfo.org_name =#{equipmentInfo.orgName}
+            </if>
+            <if test="equipmentInfo.remark != null and equipmentInfo.remark != ''">
+                AND EquipmentInfo.remark =#{equipmentInfo.remark}
+            </if>
+            <if test="equipmentInfo.seqNum != null and equipmentInfo.seqNum != ''">
+                AND EquipmentInfo.seq_num LIKE CONCAT('%',#{equipmentInfo.seqNum},'%')
+            </if>
+            <if test="equipmentInfo.areaCode != null and equipmentInfo.areaCode != ''">
+                AND EquipmentInfo.area_code =#{equipmentInfo.areaCode}
+            </if>
+            <if test="equipmentInfo.inOutFlag != null and equipmentInfo.inOutFlag != ''">
+                AND EquipmentInfo.in_out_flag =#{equipmentInfo.inOutFlag}
+            </if>
+            <if test="equipmentInfo.erectStatus != null and equipmentInfo.erectStatus != ''">
+                AND EquipmentInfo.erect_status =#{equipmentInfo.erectStatus}
+            </if>
+            <if test="equipmentInfo.onlineStatus != null and equipmentInfo.onlineStatus != ''">
+                AND EquipmentInfo.online_status =#{equipmentInfo.onlineStatus}
+            </if>
+            <if test="equipmentInfo.onlineTime != null and equipmentInfo.onlineTime != ''">
+                AND EquipmentInfo.online_time =#{equipmentInfo.onlineTime}
+            </if>
+    </select>
+</mapper>

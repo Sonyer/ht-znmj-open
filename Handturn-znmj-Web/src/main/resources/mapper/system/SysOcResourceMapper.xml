@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOcResourceMapper">
+
+    <resultMap id="sysOcResource" type="com.handturn.bole.system.entity.SysOcResource">
+        <id column="id" property="id"/> <!--//-->
+        <result column="ocId" property="ocId"/>  <!--//网点id-->
+        <result column="resourceId" property="resourceId"/>  <!--//资源id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOcResourceSelectAll">
+        SELECT
+            SysOcResource.id AS id,
+            SysOcResource.oc_id AS ocId,
+            SysOcResource.resource_id AS resourceId,
+            SysOcResource.record_version AS recordVersion,
+            SysOcResource.create_date AS createDate,
+            SysOcResource.create_user_code AS createUserCode,
+            SysOcResource.create_user_name AS createUserName,
+            SysOcResource.last_upd_date AS lastUpdDate,
+            SysOcResource.last_upd_user_code AS lastUpdUserCode,
+            SysOcResource.last_upd_user_name AS lastUpdUserName
+        FROM sys_oc_resource AS SysOcResource
+    </sql>
+
+    <select id="findForPage" parameterType="sysOcResource" resultType="sysOcResource">
+        <include refid="SqlWithSysOcResourceSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysOcResource.id != null and sysOcResource.id != ''">
+                AND SysOcResource.id = #{sysOcResource.id}
+            </if>
+            <if test="sysOcResource.ocId != null and sysOcResource.ocId != ''">
+                AND SysOcResource.oc_id = #{sysOcResource.ocId}
+            </if>
+            <if test="sysOcResource.resourceId != null and sysOcResource.resourceId != ''">
+                AND SysOcResource.resource_id = #{sysOcResource.resourceId}
+            </if>
+            <if test="sysOcResource.recordVersion != null and sysOcResource.recordVersion != ''">
+                AND SysOcResource.record_version = #{sysOcResource.recordVersion}
+            </if>
+            <if test="sysOcResource.createDate != null and sysOcResource.createDate != ''">
+                AND SysOcResource.create_date = #{sysOcResource.createDate}
+            </if>
+            <if test="sysOcResource.createUserCode != null and sysOcResource.createUserCode != ''">
+                AND SysOcResource.create_user_code = #{sysOcResource.createUserCode}
+            </if>
+            <if test="sysOcResource.createUserName != null and sysOcResource.createUserName != ''">
+                AND SysOcResource.create_user_name = #{sysOcResource.createUserName}
+            </if>
+            <if test="sysOcResource.lastUpdDate != null and sysOcResource.lastUpdDate != ''">
+                AND SysOcResource.last_upd_date = #{sysOcResource.lastUpdDate}
+            </if>
+            <if test="sysOcResource.lastUpdUserCode != null and sysOcResource.lastUpdUserCode != ''">
+                AND SysOcResource.last_upd_user_code = #{sysOcResource.lastUpdUserCode}
+            </if>
+            <if test="sysOcResource.lastUpdUserName != null and sysOcResource.lastUpdUserName != ''">
+                AND SysOcResource.last_upd_user_name = #{sysOcResource.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

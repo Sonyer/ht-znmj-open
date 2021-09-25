@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOcReportMapper">
+
+    <resultMap id="sysOcReport" type="com.handturn.bole.system.entity.SysOcReport">
+        <id column="id" property="id"/> <!--//-->
+        <result column="ocId" property="ocId"/>  <!--//网点id-->
+        <result column="reportId" property="reportId"/>  <!--//报表id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOcReportSelectAll">
+        SELECT
+            SysOcReport.id AS id,
+            SysOcReport.oc_id AS ocId,
+            SysOcReport.report_id AS reportId,
+            SysOcReport.record_version AS recordVersion,
+            SysOcReport.create_date AS createDate,
+            SysOcReport.create_user_code AS createUserCode,
+            SysOcReport.create_user_name AS createUserName,
+            SysOcReport.last_upd_date AS lastUpdDate,
+            SysOcReport.last_upd_user_code AS lastUpdUserCode,
+            SysOcReport.last_upd_user_name AS lastUpdUserName
+        FROM sys_oc_report AS SysOcReport
+    </sql>
+
+    <select id="findForPage" parameterType="sysOcReport" resultType="sysOcReport">
+        <include refid="SqlWithSysOcReportSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysOcReport.id != null and sysOcReport.id != ''">
+                AND SysOcReport.id =#{sysOcReport.id}
+            </if>
+            <if test="sysOcReport.ocId != null and sysOcReport.ocId != ''">
+                AND SysOcReport.oc_id =#{sysOcReport.ocId}
+            </if>
+            <if test="sysOcReport.reportId != null and sysOcReport.reportId != ''">
+                AND SysOcReport.report_id =#{sysOcReport.reportId}
+            </if>
+            <if test="sysOcReport.recordVersion != null and sysOcReport.recordVersion != ''">
+                AND SysOcReport.record_version =#{sysOcReport.recordVersion}
+            </if>
+            <if test="sysOcReport.createDate != null and sysOcReport.createDate != ''">
+                AND SysOcReport.create_date =#{sysOcReport.createDate}
+            </if>
+            <if test="sysOcReport.createUserCode != null and sysOcReport.createUserCode != ''">
+                AND SysOcReport.create_user_code =#{sysOcReport.createUserCode}
+            </if>
+            <if test="sysOcReport.createUserName != null and sysOcReport.createUserName != ''">
+                AND SysOcReport.create_user_name =#{sysOcReport.createUserName}
+            </if>
+            <if test="sysOcReport.lastUpdDate != null and sysOcReport.lastUpdDate != ''">
+                AND SysOcReport.last_upd_date =#{sysOcReport.lastUpdDate}
+            </if>
+            <if test="sysOcReport.lastUpdUserCode != null and sysOcReport.lastUpdUserCode != ''">
+                AND SysOcReport.last_upd_user_code =#{sysOcReport.lastUpdUserCode}
+            </if>
+            <if test="sysOcReport.lastUpdUserName != null and sysOcReport.lastUpdUserName != ''">
+                AND SysOcReport.last_upd_user_name =#{sysOcReport.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

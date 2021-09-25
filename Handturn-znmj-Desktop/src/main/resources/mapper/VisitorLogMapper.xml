@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ht.znmj.mapper.VisitorLogMapper">
+    <resultMap id="VisitorLog" type="com.ht.znmj.entity.VisitorLog">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="visitorId" property="visitorId"/>
+        <result column="visitorCloudId" property="visitorCloudId"/>
+        <result column="equipmentId" property="equipmentId"/>
+        <result column="equipmentCloudId" property="equipmentCloudId"/>
+        <result column="visitorName" property="visitorName"/>
+        <result column="phoneNumber" property="phoneNumber"/>
+        <result column="idCard" property="idCard"/>
+
+        <result column="department" property="department"/>
+        <result column="positor" property="positor"/>
+
+        <result column="wigan" property="wigan"/>
+        <result column="equipmentSn" property="equipmentSn"/>
+        <result column="areaName" property="areaName"/>
+        <result column="seqNum" property="seqNum"/>
+        <result column="inOut" property="inOut"/>
+        <result column="openStatus" property="openStatus"/>
+        <result column="openTime" property="openTime"/>
+        <result column="faceFilePath" property="faceFilePath"/>
+        <result column="cloudFlag" property="cloudFlag"/>
+        <result column="logFlag" property="logFlag"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="SqlWithVisitorLogSelectAll">
+        SELECT
+            VisitorLog.id AS id,
+            VisitorLog.visitorId AS visitorId,
+            VisitorLog.visitorCloudId AS visitorCloudId,
+            VisitorLog.equipmentId AS equipmentId,
+            VisitorLog.equipmentCloudId AS equipmentCloudId,
+            VisitorLog.visitorName AS visitorName,
+            VisitorLog.phoneNumber AS phoneNumber,
+            VisitorLog.idCard AS idCard,
+
+            VisitorLog.department AS department,
+            VisitorLog.positor AS positor,
+
+            VisitorLog.wigan AS wigan,
+            VisitorLog.equipmentSn AS equipmentSn,
+            VisitorLog.areaName AS areaName,
+            VisitorLog.seqNum AS seqNum,
+            VisitorLog.inOut AS inOut,
+            VisitorLog.openStatus AS openStatus,
+            VisitorLog.openTime AS openTime,
+            VisitorLog.faceFilePath AS faceFilePath,
+            VisitorLog.cloudFlag AS cloudFlag,
+            VisitorLog.logFlag AS logFlag,
+            VisitorLog.createTime AS createTime,
+            VisitorLog.updateTime AS updateTime
+        FROM VisitorLog AS VisitorLog
+    </sql>
+
+    <select id="findForPage" parameterType="visitorLog" resultType="visitorLog">
+        <include refid="SqlWithVisitorLogSelectAll"/>
+        WHERE 1=1
+            <if test="visitorLog.id != null and visitorLog.id != ''">
+                AND VisitorLog.id = #{visitorLog.id}
+            </if>
+            <if test="visitorLog.visitorId != null and visitorLog.visitorId != ''">
+                AND VisitorLog.visitorId = #{visitorLog.visitorId}
+            </if>
+            <if test="visitorLog.equipmentId != null and visitorLog.equipmentId != ''">
+                AND VisitorLog.equipmentId = #{visitorLog.equipmentId}
+            </if>
+            <if test="visitorLog.visitorName != null and visitorLog.visitorName != ''">
+                AND VisitorLog.visitorName LIKE '%${visitorLog.visitorName}%'
+            </if>
+            <if test="visitorLog.phoneNumber != null and visitorLog.phoneNumber != ''">
+                AND VisitorLog.phoneNumber LIKE '%${visitorLog.phoneNumber}%'
+            </if>
+            <if test="visitorLog.idCard != null and visitorLog.idCard != ''">
+                AND VisitorLog.idCard LIKE '%${visitorLog.idCard}%'
+            </if>
+            <if test="visitorLog.department != null and visitorLog.department != ''">
+                AND VisitorLog.department LIKE '%${visitorLog.department}%'
+            </if>
+            <if test="visitorLog.positor != null and visitorLog.positor != ''">
+                AND VisitorLog.positor LIKE '%${visitorLog.positor}%'
+            </if>
+            <if test="visitorLog.wigan != null and visitorLog.wigan != ''">
+                AND VisitorLog.wigan LIKE '%${visitorLog.wigan}%'
+            </if>
+            <if test="visitorLog.equipmentSn != null and visitorLog.equipmentSn != ''">
+                AND VisitorLog.equipmentSn LIKE '%${visitorLog.equipmentSn}%'
+            </if>
+            <if test="visitorLog.areaName != null and visitorLog.areaName != ''">
+                AND VisitorLog.areaName LIKE '%${visitorLog.areaName}%'
+            </if>
+            <if test="visitorLog.seqNum != null and visitorLog.seqNum != ''">
+                AND VisitorLog.seqNum = #{visitorLog.seqNum}
+            </if>
+            <if test="visitorLog.inOut != null and visitorLog.inOut != ''">
+                AND VisitorLog.inOut = #{visitorLog.inOut}
+            </if>
+            <if test="visitorLog.openStatus != null and visitorLog.openStatus != ''">
+                AND VisitorLog.openStatus = #{visitorLog.openStatus}
+            </if>
+            <if test="visitorLog.startOpenTime != null">
+                AND VisitorLog.openTime &gt;= #{visitorLog.startOpenTime}
+            </if>
+            <if test="visitorLog.logFlag != null and visitorLog.logFlag != ''">
+                AND VisitorLog.logFlag = #{visitorLog.logFlag}
+            </if>
+            <if test="visitorLog.endOpenTime != null">
+                AND VisitorLog.openTime &lt;= #{visitorLog.endOpenTime}
+            </if>
+    </select>
+</mapper>

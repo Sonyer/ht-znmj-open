@@ -1,0 +1,157 @@
+<style>
+    #memberVisitorInfo-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #memberVisitorInfo-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="memberVisitorInfo-edit">
+    <form class="layui-form" action="" lay-filter="memberVisitorInfo-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="${memberVisitorInfo.id}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">用户ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="memberId"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.memberId}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">用户账号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="memberAccountCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.memberAccountCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">真实姓名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="idCardName"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.idCardName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">身份证号码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="idCard"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.idCard}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">用户手机号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phoneNumber"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.phoneNumber}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">人脸附件-存根地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="faceImgAttchment"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.faceImgAttchment}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">人脸图片-请求地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="faceImgRequest"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.faceImgRequest}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">审核状态:INIT-草稿,UPLOAD-已认证:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="status"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.status}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">版本编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="recordVersion"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.recordVersion}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createDate"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.createDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增用户编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createUserCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.createUserCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增用户名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createUserName"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.createUserName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdDate"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.lastUpdDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改用户编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdUserCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.lastUpdUserCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改用户名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdUserName"
+                                   autocomplete="off" class="layui-input" data-th-value="${memberVisitorInfo.lastUpdUserName}">
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="memberVisitorInfo-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#memberVisitorInfo-edit'),
+            memberVisitorInfo = [[${memberVisitorInfo}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(memberVisitorInfo-edit-form-submit)', function (data) {
+            febs.post(ctx + 'memberVisitorInfo/memberVisitorInfo/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-memberVisitorInfo').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

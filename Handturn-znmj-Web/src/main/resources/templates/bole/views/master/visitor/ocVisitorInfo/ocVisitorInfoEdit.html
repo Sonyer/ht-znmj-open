@@ -1,0 +1,179 @@
+<style>
+    #ocVisitorInfo-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #ocVisitorInfo-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocVisitorInfo-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">访客信息</li>
+            <li>访客人脸图片</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="ocVisitorInfo-edit-form">
+                    <div class="layui-form-item">
+                        <div class="layui-form-item febs-hide">
+                            <label class="layui-form-label">ID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" data-th-value="${ocVisitorInfo.id}">
+                                <input type="text" name="faceUploadImgId" data-th-value="${ocVisitorInfo.faceUploadImgId}">
+                                <input type="text" name="faceImgAttchment" data-th-value="${ocVisitorInfo.faceImgAttchment}">
+                                <input type="text" name="faceImgRequest" data-th-value="${ocVisitorInfo.faceImgRequest}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">访客类型</label>
+                            <div class="layui-input-block">
+                                <select name="visitorType" id="visitorType" lay-verify="required" lay-search>
+                                    <option value=""></option>
+                                    <option data-th-each="option:${ocVisitorTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocVisitorInfo.visitorType}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">真实姓名:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="idCardName" lay-verify="required"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocVisitorInfo.idCardName}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">用户手机号:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="phoneNumber" lay-verify="required"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocVisitorInfo.phoneNumber}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">身份证号码:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="idCard"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocVisitorInfo.idCard}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">部门名称:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="depName"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocVisitorInfo.depName}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">职位名称:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="positionName"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocVisitorInfo.positionName}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">其他摘要信息:</label>
+                        <div class="layui-input-block">
+                            <textarea name="abstractMsg" maxlength="100"
+                                      class="layui-textarea" data-th-text="${ocVisitorInfo.abstractMsg}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="ocVisitorInfo-edit-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <form class="layui-form">
+                        <div class="layui-row">
+                            <div class="layui-form-item" id="visitorImgShow">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect','upload'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            upload = layui.upload,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#ocVisitorInfo-edit'),
+            ocVisitorInfo = [[${ocVisitorInfo}]],
+            validate = layui.validate,
+            currentImgCount = 0;
+
+        form.verify(validate);
+        form.render();
+
+        //查询获取图片
+        if(ocVisitorInfo.faceImgRequest != null && ocVisitorInfo.faceImgRequest != ""){
+            var htmlText = ' <div class=\"layui-inline\"><div style=\"width: 400px;height: 400px;align-items: center;text-align: center;display: flex;background:#9F9F9F;padding: 10px\">'
+                + '<img src=\"'+ ocVisitorInfo.faceImgRequest +'\" style=\"width:400px;max-height: 100%;\">'
+                + '</div></div> ';
+            $view.find('#visitorImgShow').append(htmlText);
+        }
+
+        form.on('checkbox(ocVisitorUploadImg)', function (data) {
+            var oldState = data.elem.checked // 记录状态
+            var elName = data.elem.name || '' // 取当前名称
+            $view.find('#visitorImgsShow').find("input[name='"+elName+"']").prop("checked", false);   //全部取消选中
+            $(this).prop("checked", true);                          //勾选当前选中的选择框
+            if(!oldState){ // 如果是flase表示点击的是之前已被选中的那个
+                $(this).prop("checked", false); // 取消勾选当前的
+            }
+            form.render('checkbox');
+        });
+
+
+        form.on('submit(ocVisitorInfo-edit-form-submit)', function (data) {
+            //将页面全部复选框选中的值拼接到一个数组中
+            var check_ocVisitorImgIds = [];
+            $('input[type=checkbox]:checked').each(function() {
+                check_ocVisitorImgIds.push($(this).val());
+            });
+
+            if(ocVisitorInfo.faceUploadImgId === 0 && ocVisitorInfo.faceImgRequest != null && ocVisitorInfo.faceImgRequest != ""){
+                data.field.faceUploadImgId = 0;
+                data.field.faceImgAttchment = ocVisitorInfo.faceImgAttchment;
+                data.field.faceImgRequest = ocVisitorInfo.faceImgRequest;
+            }else{
+                if(ocVisitorInfo.faceUploadImgId === 0 || ocVisitorInfo.faceUploadImgId == null){
+                    if(check_ocVisitorImgIds.length > 0){
+                        data.field.faceUploadImgId = check_ocVisitorImgIds[0];
+                    }else{
+                        febs.alert.error('请从人脸池中选择图片或上传人脸图片!');
+                        return false;
+                    }
+                }else{
+                    if(check_ocVisitorImgIds.length > 0){
+                        data.field.faceUploadImgId = check_ocVisitorImgIds[0];
+                    }
+                }
+            }
+
+            febs.post(ctx + 'master/visitor/ocVisitorInfo/save', data.field, function () {
+                febs.alert.success('操作成功!');
+                $('#febs-ocVisitorInfo').find('#query').click();
+                $('#febs-ocVisitorInfo').find('#visitorImgFlush').click();
+                layer.closeAll();
+            });
+            return false;
+        });
+
+    });
+
+
+</script>

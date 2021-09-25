@@ -1,0 +1,45 @@
+<style>
+    #sysUser-edit {
+        padding: 20px 25px 25px 0;
+        height: 400px;
+    }
+    #sysUser-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysUser-edit">
+    <form class="layui-form" action="" lay-filter="sysUser-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">用户Id:</label>
+            <div class="layui-input-block">
+                <input type="text" name="ids" id="ids" data-th-value="${sysUserIds}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <textarea name="interfaceSets" id="interfaceSets" maxlength="400" style="height: 400px"
+                          class="layui-textarea" data-th-text="${interfaceSets}"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysUser-edit'),
+            sysUser = [[${sysUser}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+    });
+</script>

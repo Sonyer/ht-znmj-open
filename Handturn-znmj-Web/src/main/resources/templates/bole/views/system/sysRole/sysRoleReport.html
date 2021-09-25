@@ -1,0 +1,120 @@
+<style>
+    #sysRole-report {
+        padding: 20px 25px 25px 0;
+    }
+    #sysRole-report .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysRole-report">
+    <form class="layui-form" action="" lay-filter="sysRole-report-form" id="sysRole-report-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysRole.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">系统模块:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="rootReport" lay-filter="rootReportFilter" data-th-each="rootReport:${rootReports}" data-th-value="${rootReport.id}"  data-th-title="${rootReport.reportName}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysRole-report-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+
+    <div style="height: 100%">
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色权限:</label>
+            <div class="layui-input-block menu-tree" style="margin-top: .8rem;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'eleTree','treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            eleTree = layui.eleTree,
+            $view = $('#sysRole-report'),
+            $searchForm = $view.find('#sysRole-report-form'),
+            validate = layui.validate,
+            reportTree;
+
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+
+        reportTree = reportTreeRender([]);
+
+        function reportTreeRender (dataJson) {
+            return eleTree.render({
+                elem: '.menu-tree',
+                //url: ctx + 'system/sysReport/tree',
+                data: dataJson,
+                dataType: 'json',
+                showCheckbox: true,
+                where: {
+                    "invalidate_ie_cache": new Date()
+                },
+                accordion: true,
+                checkStrictly: false,
+                expandOnClickNode: false,
+                renderAfterExpand: false,
+                request: {
+                    name: "title",
+                    key: "id",
+                    children: "childs",
+                    checked: "checked",
+                    data: "data"
+                },
+                response: {
+                    statusName: "code",
+                    statusCode: 200,
+                    dataName: "data"
+                }
+            });
+        }
+
+        form.on("radio(rootReportFilter)", function (data) {
+            handleRootModuleChange(data.value);
+        });
+
+        var handleRootModuleChange = function (rootReportId) {
+            var roleId = $searchForm.find('input[name="id"]').val().trim();
+            var rootReportId = {roleId:roleId,rootReportId:rootReportId};
+            febs.post(ctx + 'system/sysRole/reportTree', rootReportId, function (res) {
+                reportTree = reportTreeRender($.parseJSON(JSON.stringify(res.data)));
+                //reportTree.reload({data: $.parseJSON(JSON.stringify(res.data))});
+            });
+        }
+
+        form.on('submit(sysRole-report-form-submit)', function (data) {
+            var selected = reportTree.getChecked(false, true);
+            var reportIdArrs = [];
+            layui.each(selected, function (key, item) {
+                reportIdArrs.push(item.id)
+            });
+            var roleId = $searchForm.find('input[name="id"]').val().trim();
+            var rootReportId = $searchForm.find('input[name="rootReport"]:checked').val().trim();
+            var reportIds = reportIdArrs.join(',');
+            var requestData = {roleId:roleId,rootReportId:rootReportId,reportIds:reportIds};
+            febs.post(ctx + 'system/sysRole/saveRoleReport', requestData, function (res) {
+                febs.alert.success('操作成功!');
+            });
+            return false;
+        });
+    });
+</script>

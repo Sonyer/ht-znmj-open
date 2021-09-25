@@ -1,0 +1,153 @@
+<style>
+    #sysconfQueryReportColumn-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysconfQueryReportColumn-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysconfQueryReportColumn-edit">
+    <form class="layui-form" action="" lay-filter="sysconfQueryReportColumn-edit-form">
+        <div class="layui-form-item">
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">ID:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" data-th-value="${sysconfQueryReportColumn.id}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">参数编码:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="columnCode"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfQueryReportColumn.columnCode}" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">参数名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="columnName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfQueryReportColumn.columnName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">参数类型:</label>
+                <div class="layui-input-block">
+                    <select name="columnType" id="columnType" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${queryReportColumnTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.columnType}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">查询条件:</label>
+                <div class="layui-input-block">
+                    <select name="isQuery" id="isQuery" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.isQuery}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">是否必填:</label>
+                <div class="layui-input-block">
+                    <select name="isRequire" id="isRequire" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.isRequire}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">是否隐藏:</label>
+                <div class="layui-input-block">
+                    <select name="isHidden" id="isHidden" lay-verify="required" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.isHidden}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">是否汇总字段:</label>
+                <div class="layui-input-block">
+                    <select name="isTotalRowField" id="isTotalRowField" lay-verify="required" lay-search>
+                        <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.isHidden}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">参数初始化值:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="columnInitValue"
+                           autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReportColumn.columnInitValue}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">参数默认值:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="columnDefaultValue"
+                           autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReportColumn.columnDefaultValue}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">列宽:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="columnWidth"
+                           autocomplete="off" class="layui-input" lay-verify="integer" data-th-value="${sysconfQueryReportColumn.columnWidth}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">格式化:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="formatStr"
+                           autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReportColumn.formatStr}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">时间间隔天数:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="step"
+                           autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReportColumn.step}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">查询方式:</label>
+                <div class="layui-input-block">
+                    <select name="queryMethod" id="queryMethod" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${queryReportColumnQueryMethodOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReportColumn.queryMethod}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysconfQueryReportColumn-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysconfQueryReportColumn-edit'),
+            sysconfQueryReportColumn = [[${sysconfQueryReportColumn}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysconfQueryReportColumn-edit-form-submit)', function (data) {
+            febs.post(ctx + 'sysconf/sysconfQueryReportColumn/save', data.field, function () {
+                $('#sysconfQueryReportColumn-table-form').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,44 @@
+<style>
+    #equipmentAuthCode-edit {
+        padding: 20px 25px 25px 0;
+        height: 400px;
+    }
+    #equipmentAuthCode-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="equipmentAuthCode-edit">
+    <form class="layui-form" action="" lay-filter="equipmentAuthCode-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">设备ID:</label>
+            <div class="layui-input-block">
+                <input type="text" name="ids" id="ids" data-th-value="${equipmentInfoIds}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <textarea name="equipmentAuthCodes" id="equipmentAuthCodes" maxlength="400" style="height: 400px"
+                          class="layui-textarea" data-th-text="${equipmentAuthCodes}"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#equipmentAuthCode-edit'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+    });
+</script>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.visitor.mapper.OcVisitorInfoMapper">
+
+    <resultMap id="ocVisitorInfo" type="com.handturn.bole.main.visitor.entity.OcVisitorInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="memberId" property="memberId"/>  <!--//用户ID-->
+        <result column="memberAccountCode" property="memberAccountCode"/>  <!--//用户账号-->
+        <result column="memberVisitorId" property="memberVisitorId"/>
+        <result column="ocVisitorId" property="ocVisitorId"/>
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="visitorType" property="visitorType"/>  <!--//访客类型:INNER_USER-内部员工,OUTER_USER-外来人员-->
+        <result column="idCardName" property="idCardName"/>  <!--//真实姓名-->
+        <result column="idCard" property="idCard"/>  <!--//身份证号码-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="depName" property="depName"/>
+        <result column="positionName" property="positionName"/>
+        <result column="wegan" property="wegan"/>
+        <result column="faceUploadImgId" property="faceUploadImgId"/>
+        <result column="faceImgAttchment" property="faceImgAttchment"/>  <!--//人脸附件-存根地址-->
+        <result column="faceImgRequest" property="faceImgRequest"/>  <!--//人脸图片-请求地址-->
+        <result column="abstractMsg" property="abstractMsg"/>  <!--//摘要信息，其他信息系统填充位置-->
+        <result column="freezeStatus" property="freezeStatus"/>
+        <result column="createType" property="createType"/>
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="layChecked" property="layChecked"/>
+    </resultMap>
+
+    <sql id="SqlWithOcVisitorInfoSelectAll">
+        SELECT
+            OcVisitorInfo.id AS id,
+            OcVisitorInfo.member_id AS memberId,
+            OcVisitorInfo.member_account_code AS memberAccountCode,
+            OcVisitorInfo.member_visitor_id AS memberVisitorId,
+            OcVisitorInfo.oc_visitor_id AS ocVisitorId,
+            OcVisitorInfo.oc_code AS ocCode,
+            OcVisitorInfo.org_code AS orgCode,
+            OcVisitorInfo.oc_name AS ocName,
+            OcVisitorInfo.org_name AS orgName,
+            OcVisitorInfo.visitor_type AS visitorType,
+            OcVisitorInfo.id_card_name AS idCardName,
+            OcVisitorInfo.id_card AS idCard,
+            OcVisitorInfo.phone_number AS phoneNumber,
+            OcVisitorInfo.dep_name AS depName,
+            OcVisitorInfo.position_name AS positionName,
+            OcVisitorInfo.wegan AS wegan,
+            OcVisitorInfo.face_upload_img_id AS faceUploadImgId,
+            OcVisitorInfo.face_img_attchment AS faceImgAttchment,
+            OcVisitorInfo.face_img_request AS faceImgRequest,
+            OcVisitorInfo.abstract_msg AS abstractMsg,
+            OcVisitorInfo.freeze_status AS freezeStatus,
+            OcVisitorInfo.create_type AS createType,
+            OcVisitorInfo.record_version AS recordVersion,
+            OcVisitorInfo.create_date AS createDate,
+            OcVisitorInfo.create_user_code AS createUserCode,
+            OcVisitorInfo.create_user_name AS createUserName,
+            OcVisitorInfo.last_upd_date AS lastUpdDate,
+            OcVisitorInfo.last_upd_user_code AS lastUpdUserCode,
+            OcVisitorInfo.last_upd_user_name AS lastUpdUserName
+
+    </sql>
+
+    <select id="findForPage" parameterType="ocVisitorInfo" resultType="ocVisitorInfo">
+        <include refid="SqlWithOcVisitorInfoSelectAll"/>
+        <if test="ocVisitorInfo.authCheck != null and ocVisitorInfo.authCheck == true">
+            ,CASE WHEN OcAuthAreaVisitor.id IS NOT NULL THEN
+            'true'
+            ELSE 'false'
+            END AS layChecked
+            FROM oc_visitor_info AS OcVisitorInfo
+            LEFT JOIN oc_auth_area_visitor AS OcAuthAreaVisitor ON OcVisitorInfo.id = OcAuthAreaVisitor.oc_visitor_id AND OcVisitorInfo.org_code = OcAuthAreaVisitor.org_code AND OcVisitorInfo.oc_code = OcAuthAreaVisitor.oc_code
+            AND OcAuthAreaVisitor.auth_area_id =#{ocVisitorInfo.authAreaId}
+        </if>
+        <if test="ocVisitorInfo.authCheck == null or ocVisitorInfo.authCheck == false">
+            FROM oc_visitor_info AS OcVisitorInfo
+        </if>
+        WHERE 1=1
+
+            <if test="ocVisitorInfo.id != null and ocVisitorInfo.id != ''">
+                AND OcVisitorInfo.id =#{ocVisitorInfo.id}
+            </if>
+            <if test="ocVisitorInfo.memberId != null and ocVisitorInfo.memberId != ''">
+                AND OcVisitorInfo.member_id =#{ocVisitorInfo.memberId}
+            </if>
+            <if test="ocVisitorInfo.memberAccountCode != null and ocVisitorInfo.memberAccountCode != ''">
+                AND OcVisitorInfo.member_account_code =#{ocVisitorInfo.memberAccountCode}
+            </if>
+        <if test="ocVisitorInfo.memberVisitorId != null and ocVisitorInfo.memberVisitorId != ''">
+            AND OcVisitorInfo.member_visitor_id =#{ocVisitorInfo.memberVisitorId}
+        </if>
+        <if test="ocVisitorInfo.ocVisitorId != null and ocVisitorInfo.ocVisitorId != ''">
+            AND OcVisitorInfo.oc_visitor_id =#{ocVisitorInfo.ocVisitorId}
+        </if>
+            <if test="ocVisitorInfo.ocCode != null and ocVisitorInfo.ocCode != ''">
+                AND OcVisitorInfo.oc_code =#{ocVisitorInfo.ocCode}
+            </if>
+            <if test="ocVisitorInfo.orgCode != null and ocVisitorInfo.orgCode != ''">
+                AND OcVisitorInfo.org_code =#{ocVisitorInfo.orgCode}
+            </if>
+            <if test="ocVisitorInfo.ocName != null and ocVisitorInfo.ocName != ''">
+                AND (OcVisitorInfo.oc_code LIKE CONCAT('%',#{ocVisitorInfo.ocName},'%')
+                    OR OcVisitorInfo.oc_name LIKE CONCAT('%',#{ocVisitorInfo.ocName},'%'))
+            </if>
+            <if test="ocVisitorInfo.orgName != null and ocVisitorInfo.orgName != ''">
+                AND (OcVisitorInfo.org_code LIKE CONCAT('%',#{ocVisitorInfo.orgName},'%')
+                OR OcVisitorInfo.org_name LIKE CONCAT('%',#{ocVisitorInfo.orgName},'%'))
+            </if>
+            <if test="ocVisitorInfo.visitorType != null and ocVisitorInfo.visitorType != ''">
+                AND OcVisitorInfo.visitor_type =#{ocVisitorInfo.visitorType}
+            </if>
+            <if test="ocVisitorInfo.idCardName != null and ocVisitorInfo.idCardName != ''">
+                AND OcVisitorInfo.id_card_name =#{ocVisitorInfo.idCardName}
+            </if>
+            <if test="ocVisitorInfo.idCard != null and ocVisitorInfo.idCard != ''">
+                AND OcVisitorInfo.id_card =#{ocVisitorInfo.idCard}
+            </if>
+            <if test="ocVisitorInfo.phoneNumber != null and ocVisitorInfo.phoneNumber != ''">
+                AND OcVisitorInfo.phone_number =#{ocVisitorInfo.phoneNumber}
+            </if>
+            <if test="ocVisitorInfo.depName != null and ocVisitorInfo.depName != ''">
+                AND OcVisitorInfo.dep_name =#{ocVisitorInfo.depName}
+            </if>
+            <if test="ocVisitorInfo.positionName != null and ocVisitorInfo.positionName != ''">
+                AND OcVisitorInfo.position_name =#{ocVisitorInfo.positionName}
+            </if>
+        <if test="ocVisitorInfo.wegan != null and ocVisitorInfo.wegan != ''">
+            AND OcVisitorInfo.wegan =#{ocVisitorInfo.wegan}
+        </if>
+            <if test="ocVisitorInfo.faceUploadImgId != null and ocVisitorInfo.faceUploadImgId != ''">
+                AND OcVisitorInfo.face_upload_img_id =#{ocVisitorInfo.faceUploadImgId}
+            </if>
+            <if test="ocVisitorInfo.faceImgAttchment != null and ocVisitorInfo.faceImgAttchment != ''">
+                AND OcVisitorInfo.face_img_attchment =#{ocVisitorInfo.faceImgAttchment}
+            </if>
+            <if test="ocVisitorInfo.faceImgRequest != null and ocVisitorInfo.faceImgRequest != ''">
+                AND OcVisitorInfo.face_img_request =#{ocVisitorInfo.faceImgRequest}
+            </if>
+            <if test="ocVisitorInfo.abstractMsg != null and ocVisitorInfo.abstractMsg != ''">
+                AND OcVisitorInfo.abstract_msg =#{ocVisitorInfo.abstractMsg}
+            </if>
+            <if test="ocVisitorInfo.freezeStatus != null and ocVisitorInfo.freezeStatus != ''">
+                AND OcVisitorInfo.freeze_status =#{ocVisitorInfo.freezeStatus}
+            </if>
+            <if test="ocVisitorInfo.createType != null and ocVisitorInfo.createType != ''">
+                AND OcVisitorInfo.create_type =#{ocVisitorInfo.createType}
+            </if>
+    </select>
+</mapper>

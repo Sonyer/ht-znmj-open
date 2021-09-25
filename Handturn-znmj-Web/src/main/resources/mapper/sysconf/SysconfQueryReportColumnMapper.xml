@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfQueryReportColumnMapper">
+
+    <resultMap id="sysconfQueryReportColumn" type="com.handturn.bole.sysconf.entity.SysconfQueryReportColumn">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="reportId" property="reportId"/>  <!--//报表模型id-->
+        <result column="reportCode" property="reportCode"/>  <!--//报表编码-->
+        <result column="columnSeqNum" property="columnSeqNum"/>  <!--//列顺序号（用于sql排序）-->
+        <result column="columnCode" property="columnCode"/>  <!--//参数编码-->
+        <result column="columnName" property="columnName"/>  <!--//参数名称-->
+        <result column="columnType" property="columnType"/>  <!--//参数类型-->
+        <result column="columnInitValue" property="columnInitValue"/>  <!--//参数初始化值-->
+        <result column="columnDefaultValue" property="columnDefaultValue"/>  <!--//参数默认值-->
+        <result column="columnWidth" property="columnWidth"/>  <!--//列宽-->
+        <result column="isQuery" property="isQuery"/>  <!--//是否作为查询条件(1:是 0:否)-->
+        <result column="isRequire" property="isRequire"/>  <!--//是否必填(1:是 0:否)-->
+        <result column="isHidden" property="isHidden"/>  <!--//是否隐藏(1:是 0:否)-->
+        <result column="isTotalRowField" property="isTotalRowField"/>  <!--//是否汇总字段(1:是 0:否)-->
+        <result column="formatStr" property="formatStr"/>  <!--//格式化-->
+        <result column="step" property="step"/>  <!--//时间间隔天数-->
+        <result column="queryMethod" property="queryMethod"/>
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysconfQueryReportColumnSelectAll">
+        SELECT
+            SysconfQueryReportColumn.id AS id,
+            SysconfQueryReportColumn.report_id AS reportId,
+            SysconfQueryReportColumn.report_code AS reportCode,
+            SysconfQueryReportColumn.column_seq_num AS columnSeqNum,
+            SysconfQueryReportColumn.column_code AS columnCode,
+            SysconfQueryReportColumn.column_name AS columnName,
+            SysconfQueryReportColumn.column_type AS columnType,
+            SysconfQueryReportColumn.column_init_value AS columnInitValue,
+            SysconfQueryReportColumn.column_default_value AS columnDefaultValue,
+            SysconfQueryReportColumn.column_width AS columnWidth,
+            SysconfQueryReportColumn.is_query AS isQuery,
+            SysconfQueryReportColumn.is_require AS isRequire,
+            SysconfQueryReportColumn.is_hidden AS isHidden,
+            SysconfQueryReportColumn.is_total_row_field AS isTotalRowField,
+            SysconfQueryReportColumn.format_str AS formatStr,
+            SysconfQueryReportColumn.step AS step,
+            SysconfQueryReportColumn.query_method  AS queryMethod,
+            SysconfQueryReportColumn.record_version AS recordVersion,
+            SysconfQueryReportColumn.create_date AS createDate,
+            SysconfQueryReportColumn.create_user_code AS createUserCode,
+            SysconfQueryReportColumn.create_user_name AS createUserName,
+            SysconfQueryReportColumn.last_upd_date AS lastUpdDate,
+            SysconfQueryReportColumn.last_upd_user_code AS lastUpdUserCode,
+            SysconfQueryReportColumn.last_upd_user_name AS lastUpdUserName
+        FROM sysconf_query_report_column AS SysconfQueryReportColumn
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfQueryReportColumn" resultType="sysconfQueryReportColumn">
+        <include refid="SqlWithSysconfQueryReportColumnSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysconfQueryReportColumn.id != null and sysconfQueryReportColumn.id != ''">
+                AND SysconfQueryReportColumn.id =#{sysconfQueryReportColumn.id}
+            </if>
+            <if test="sysconfQueryReportColumn.reportId != null and sysconfQueryReportColumn.reportId != ''">
+                AND SysconfQueryReportColumn.report_id =#{sysconfQueryReportColumn.reportId}
+            </if>
+            <if test="sysconfQueryReportColumn.reportCode != null and sysconfQueryReportColumn.reportCode != ''">
+                AND SysconfQueryReportColumn.report_code =#{sysconfQueryReportColumn.reportCode}
+            </if>
+            <if test="sysconfQueryReportColumn.columnSeqNum != null and sysconfQueryReportColumn.columnSeqNum != ''">
+                AND SysconfQueryReportColumn.column_seq_num =#{sysconfQueryReportColumn.columnSeqNum}
+            </if>
+            <if test="sysconfQueryReportColumn.columnCode != null and sysconfQueryReportColumn.columnCode != ''">
+                AND SysconfQueryReportColumn.column_code =#{sysconfQueryReportColumn.columnCode}
+            </if>
+            <if test="sysconfQueryReportColumn.columnName != null and sysconfQueryReportColumn.columnName != ''">
+                AND SysconfQueryReportColumn.column_name =#{sysconfQueryReportColumn.columnName}
+            </if>
+            <if test="sysconfQueryReportColumn.columnType != null and sysconfQueryReportColumn.columnType != ''">
+                AND SysconfQueryReportColumn.column_type =#{sysconfQueryReportColumn.columnType}
+            </if>
+            <if test="sysconfQueryReportColumn.columnInitValue != null and sysconfQueryReportColumn.columnInitValue != ''">
+                AND SysconfQueryReportColumn.column_init_value =#{sysconfQueryReportColumn.columnInitValue}
+            </if>
+            <if test="sysconfQueryReportColumn.columnDefaultValue != null and sysconfQueryReportColumn.columnDefaultValue != ''">
+                AND SysconfQueryReportColumn.column_default_value =#{sysconfQueryReportColumn.columnDefaultValue}
+            </if>
+            <if test="sysconfQueryReportColumn.columnWidth != null and sysconfQueryReportColumn.columnWidth != ''">
+                AND SysconfQueryReportColumn.column_width =#{sysconfQueryReportColumn.columnWidth}
+            </if>
+            <if test="sysconfQueryReportColumn.isQuery != null and sysconfQueryReportColumn.isQuery != ''">
+                AND SysconfQueryReportColumn.is_query =#{sysconfQueryReportColumn.isQuery}
+            </if>
+            <if test="sysconfQueryReportColumn.isRequire != null and sysconfQueryReportColumn.isRequire != ''">
+                AND SysconfQueryReportColumn.is_require =#{sysconfQueryReportColumn.isRequire}
+            </if>
+            <if test="sysconfQueryReportColumn.isHidden != null and sysconfQueryReportColumn.isHidden != ''">
+                AND SysconfQueryReportColumn.is_hidden =#{sysconfQueryReportColumn.isHidden}
+            </if>
+            <if test="sysconfQueryReportColumn.formatStr != null and sysconfQueryReportColumn.formatStr != ''">
+                AND SysconfQueryReportColumn.format_str =#{sysconfQueryReportColumn.formatStr}
+            </if>
+            <if test="sysconfQueryReportColumn.step != null and sysconfQueryReportColumn.step != ''">
+                AND SysconfQueryReportColumn.step =#{sysconfQueryReportColumn.step}
+            </if>
+    </select>
+</mapper>

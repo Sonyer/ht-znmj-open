@@ -1,0 +1,325 @@
+<div class="layui-fluid" id="febs-sysResource" lay-title="菜单管理">
+		<div class="layui-row tree-item" >
+		<div class="childLeft-item">
+			<div class="layui-card" style="overflow:auto">
+	          <div class="layui-card-header">菜单树</div>
+				  <div class="eleTree sysResourceTree" lay-filter="sysResourceTree" style="margin-left: 1rem"></div>
+	        </div>
+		</div>
+		<div class="childRight-item">
+			<div class="layui-row febs-container">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body febs-table-full">
+						<form class="layui-form layui-table-form" lay-filter="sysResource-table-form" id="sysResource-table-form">
+							<div class="layui-row">
+								<div class="layui-col-md10">
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">菜单名称</label>
+											<div class="layui-input-inline">
+												<input type="text" name="resourceName" id="resourceName" autocomplete="off" class="layui-input">
+											</div>
+
+											<div class="layui-input-inline">
+												<input type="hidden" name="sysResourceId" id="sysResourceId">
+												<label class="layui-form-label" style="width: 250px;font-size:18px; color: darkgreen" name="parentSysResourceName" id="parentSysResourceName"></label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+								<div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+									<i class="layui-icon">&#xe848;</i>
+								</div>
+								<div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+									<i class="layui-icon">&#xe79b;</i>
+								</div>
+							</div>
+
+							</div>
+						</form>
+						<table id="sysResourceTable" lay-filter="sysResourceTable" lay-data="{id: 'sysResourceTable'}"></table>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="sysResource-icon">
+	<li><span class="layui-icon {{d.icon}}" aria-hidden="true"></span></li></ul>
+</script>
+<script type="text/html" id="sysResourceTable-toolbar">
+	<button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+			shiro:hasPermission="sysResource:add">
+		<i class="layui-icon">&#xe7aa;</i> 新增
+	</button>
+	<button lay-event="delete" class="layui-btn  layui-btn-sm layui-btn-primary"
+			shiro:hasPermission="sysResource:delete">
+		<i class="layui-icon">&#xe7f9;</i> 删除
+	</button>
+</script>
+<script type="text/html" id="sysResource-option">
+	<span shiro:lacksPermission="sysResource:add,sysResource:update,sysResource:view,sysResource:delete">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+	<a lay-event="add" shiro:hasPermission="sysResource:add" lay-tips="新增">
+		<i class="layui-icon febs-edit-area febs-green">&#xe78a;</i></a>
+	<a lay-event="edit" shiro:hasPermission="sysResource:update" lay-tips="修改">
+		<i class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+	<a lay-event="view" shiro:hasPermission="sysResource:view" lay-tips="查看">
+		<i class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+	<a lay-event="delete" shiro:hasPermission="sysResource:delete" lay-tips="删除">
+		<i class="layui-icon febs-edit-area febs-red">&#xe7f9;</i></a>
+</script>
+
+<script data-th-inline="javascript" type="text/javascript">
+	layui.use(['dropdown', 'jquery', 'laydate','table','febs', 'form', 'eleTree', 'validate'], function () {
+		var $ = layui.jquery,
+				laydate = layui.laydate,
+				febs = layui.febs,
+				form = layui.form,
+				table = layui.table,
+				validate = layui.validate,
+				eleTree = layui.eleTree,
+				dropdown = layui.dropdown,
+				$view = $('#febs-sysResource'),
+				$query = $view.find('#query'),
+				$reset = $view.find('#reset'),
+				$submit = $view.find('#submit'),
+				$searchForm = $view.find('#sysResource-table-form'),
+				$type = $view.find('input[type="radio"][name="type"]'),
+				$icon = $view.find('input[name="icon"]'),
+				$icon_parent = $icon.parents('.layui-form-item'),
+				$url = $view.find('input[name="url"]'),
+				$url_parent = $url.parents('.layui-form-item'),
+				$order = $view.find('input[name="orderNum"]'),
+				$order_parent = $order.parents('.layui-form-item'),
+				$header = $view.find('#form-header'),
+				sortObject = {field: 'createTime', type: null},
+				_currentMenuData,
+				_selectNode,
+				_sysResourceTree,
+				menuTypeOption = [[${menuTypeOption}]],
+				menuTypeOptionMap = {},
+				tableIns;
+
+		form.render();
+
+		initDictData();
+
+		initTable();
+
+		_sysResourceTree = renderMenuTree();
+
+		$query.on('click', function () {
+			tableIns.reload({where: getQueryParams(), initSort: sortObject});
+			_sysResourceTree.reload();
+		});
+
+		$reset.on('click', function () {
+			reset();
+		});
+
+		function reset() {
+			$searchForm[0].reset();
+			$searchForm.find('input[name="sysResourceId"]').val("");
+			$searchForm.find('label[name="parentSysResourceName"]').html("");
+			tableIns.reload({where: getQueryParams(), initSort: sortObject});
+		}
+
+		//监听事件
+		table.on('toolbar(sysResourceTable)', function(obj) {
+			var data = obj.data,
+					layEvent = obj.event;
+			var checkStatus = table.checkStatus('sysResourceTable');
+			if (layEvent === 'add') {
+				var parentSysResourceId = typeof(checkStatus.data[0]) == 'undefined' || typeof(checkStatus.data[0].id) == 'undefined'?0:checkStatus.data[0].id;
+				febs.modal.open('新增菜单', 'system/sysResource/add/'+parentSysResourceId, {
+					btn: ['提交', '重置'],
+					area: $(window).width() <= 750 ? '95%' : '50%',
+					yes: function (index, layero) {
+						$('#sysResource-edit').find('#submit').trigger('click');
+					},
+					btn2: function () {
+						$('#sysResource-edit').find('#reset').trigger('click');
+						return false;
+					}
+				});
+			}
+
+			if (layEvent === 'delete') {
+				if (checkStatus.data.length < 1) {
+					febs.alert.warn('请勾选需要删除的菜单或按钮');
+					return;
+				}
+				var sysResourceIds = [];
+				layui.each(checkStatus.data, function (key, item) {
+					sysResourceIds.push(item.id)
+				});
+				febs.modal.confirm('提示', '当您点击确定按钮后，这些记录将会被彻底删除，如果其包含子记录，也将一并删除！', function () {
+					febs.get(ctx + 'system/sysResource/delete/' + sysResourceIds.join(','), null, function () {
+						febs.alert.success('删除成功！');
+						reloadMenuTree();
+						reset();
+					})
+				});
+			}
+			if (layEvent === 'export') {
+				febs.download(ctx + 'system/sysResource/excel', getQueryParams(), '菜单信息表.xlsx');
+			}
+		});
+
+		table.on('tool(sysResourceTable)', function (obj) {
+			var data = obj.data,
+					layEvent = obj.event;
+			if (layEvent === 'add') {
+				febs.modal.open('新增子菜单', 'system/sysResource/add/'+data.id, {
+					btn: ['提交', '重置'],
+					area: $(window).width() <= 750 ? '95%' : '50%',
+					yes: function (index, layero) {
+						$('#sysResource-edit').find('#submit').trigger('click');
+					},
+					btn2: function () {
+						$('#sysResource-edit').find('#reset').trigger('click');
+						return false;
+					}
+				});
+			}
+			if (layEvent === 'edit') {
+				febs.modal.open('修改菜单', 'system/sysResource/update/' + data.id, {
+					area: $(window).width() <= 750 ? '90%' : '50%',
+					btn: ['提交', '取消'],
+					yes: function (index, layero) {
+						$('#sysResource-edit').find('#submit').trigger('click');
+					},
+					btn2: function () {
+						layer.closeAll();
+					}
+				});
+			}
+			if (layEvent == 'view') {
+				febs.modal.open('查看菜单', 'system/sysResource/update/'+ data.id, {
+					area: $(window).width() <= 750 ? '95%' : '50%'
+				});
+			}
+			if (layEvent === 'delete') {
+				var ids = [];
+				ids.push(data.id);
+				febs.modal.confirm('提示', '当您点击确定按钮后，这些记录将会被彻底删除，如果其包含子记录，也将一并删除！', function () {
+					febs.get(ctx + 'system/sysResource/delete/' + ids.join(','), null, function () {
+						febs.alert.success('删除成功！');
+						reloadMenuTree();
+						reset();
+					})
+				});
+			}
+		});
+
+		function reloadMenuTree() {
+			_sysResourceTree = renderMenuTree();
+		}
+
+		function renderMenuTree() {
+			_sysResourceTree = eleTree.render({
+				elem: '.sysResourceTree',
+				url: ctx + 'system/sysResource/tree',
+				highlightCurrent: true,
+				checkStrictly: true,
+				renderAfterExpand: true,
+				defaultExpandAll: true,
+				expandOnClickNode: false,
+				onlyIconControl: true,     //是否仅允许节点左侧图标控制展开收缩
+				request: {
+					name: "title",
+					key: "id",
+					children: "childs",
+					checked: "checked",
+					data: "data"
+				},
+				response: {
+					statusName: "code",
+					statusCode: 200,
+					dataName: "data"
+				}
+			});
+			return _sysResourceTree;
+		}
+
+		eleTree.on("nodeClick(sysResourceTree)", function (d) {
+			var data = d.data.currentData.data;
+			$searchForm.find('input[name="sysResourceId"]').val(data.id);
+			$searchForm.find('label[name="parentSysResourceName"]').html("已选择菜单:"+data.resourceName);
+
+			$type.attr("disabled", true);
+
+			tableIns.reload({where: getQueryParams(), initSort: sortObject});
+		});
+
+		function initDictData(){
+			menuTypeOptionMap = {};
+			for(var index in menuTypeOption){
+				menuTypeOptionMap[menuTypeOption[index].value] = menuTypeOption[index].text;
+			}
+		}
+
+		function initTable() {
+			tableIns = febs.table.init({
+				elem: $view.find('#sysResourceTable'),
+				id: 'sysResourceTable',
+				toolbar: '#sysResourceTable-toolbar',
+				url: ctx + 'system/sysResource/list',
+				page: false,
+				cols: [
+						[
+						{fixed: 'left',type: 'checkbox', width: 50},
+						{field: 'id', hide: true },
+						{field: 'icon', title: '图标', templet: '#sysResource-icon', minWidth: 60},
+						{field: 'resourceCode', title: '菜单编码', minWidth: 100},
+						{field: 'resourceName', title: '菜单名称', minWidth: 100},
+						{field: 'perms', title: '权限标记', minWidth: 100},
+						{field: 'url', title: '访问地址', minWidth: 200},
+						{field: 'resourceNodeType', title: '类型', templet: function(d){
+								return menuTypeOptionMap[d.resourceNodeType] == null? d.resourceNodeType:menuTypeOptionMap[d.resourceNodeType];
+							}, minWidth: 100},
+						{field: 'sortNo',title: '排序', minWidth: 60},
+						{fixed: 'right',title: '操作', toolbar: '#sysResource-option', width: 150}
+					]
+				],
+				height: $(document).height() - $('#sysResourceTable').offset().top - 30,
+			});
+		}
+
+		function getQueryParams() {
+			return {
+				id: $searchForm.find('input[name="sysResourceId"]').val(),
+				resourceName: $searchForm.find('input[name="resourceName"]').val(),
+			};
+		}
+	});
+</script>
+<style>
+	/*树两列布局*/
+	.tree-item{
+		position: relative;
+		padding-left: 230px;
+		height: 100%;
+	}
+	.tree-item .childLeft-item{
+		position: absolute;
+		width: 230px;
+		left: 0;
+		height: 100%;
+	}
+	.tree-item .childRight-item{
+		height: 100%;
+	}
+	.layui-card:last-child{
+		height:100%;
+	}
+
+
+
+</style>

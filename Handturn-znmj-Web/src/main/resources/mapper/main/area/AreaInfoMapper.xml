@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.area.mapper.AreaInfoMapper">
+
+    <resultMap id="areaInfo" type="com.handturn.bole.main.area.entity.AreaInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="areaCode" property="areaCode"/>  <!--//区域编码-->
+        <result column="areaClientCode" property="areaClientCode"/>
+        <result column="areaName" property="areaName"/>  <!--//区域名称-->
+        <result column="parentAreaId" property="parentAreaId"/>  <!--//所属区域ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-已启用;DISABLED-已禁用-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="parentAreaCode" property="parentAreaCode"/>
+        <result column="parentAreaClientCode" property="parentAreaClientCode"/>
+        <result column="parentAreaName" property="parentAreaName"/>
+
+    </resultMap>
+
+    <sql id="SqlWithAreaInfoSelectAll">
+        SELECT
+            AreaInfo.id AS id,
+            AreaInfo.area_code AS areaCode,
+            AreaInfo.area_client_code AS areaClientCode,
+            AreaInfo.area_name AS areaName,
+            AreaInfo.parent_area_id AS parentAreaId,
+            AreaInfo.oc_code AS ocCode,
+            AreaInfo.org_code AS orgCode,
+            AreaInfo.oc_name AS ocName,
+            AreaInfo.org_name AS orgName,
+            AreaInfo.status AS status,
+            AreaInfo.remark AS remark,
+            AreaInfo.record_version AS recordVersion,
+            AreaInfo.create_date AS createDate,
+            AreaInfo.create_user_code AS createUserCode,
+            AreaInfo.create_user_name AS createUserName,
+            AreaInfo.last_upd_date AS lastUpdDate,
+            AreaInfo.last_upd_user_code AS lastUpdUserCode,
+            AreaInfo.last_upd_user_name AS lastUpdUserName,
+            ParentAreaInfo.area_code AS parentAreaCode,
+            ParentAreaInfo.area_client_code AS parentAreaClientCode,
+            ParentAreaInfo.area_name AS parentAreaName
+        FROM area_info AS AreaInfo
+        LEFT JOIN area_info AS ParentAreaInfo ON AreaInfo.parent_area_id = ParentAreaInfo.id
+    </sql>
+
+    <select id="findForPage" parameterType="areaInfo" resultType="areaInfo">
+        <include refid="SqlWithAreaInfoSelectAll"/>
+        WHERE 1=1
+            <if test="areaInfo.id != null and areaInfo.id != ''">
+                AND AreaInfo.id =#{areaInfo.id}
+            </if>
+            <if test="areaInfo.areaClientCode != null and areaInfo.areaClientCode != ''">
+                AND AreaInfo.area_client_code =#{areaInfo.areaClientCode}
+            </if>
+            <if test="areaInfo.areaCode != null and areaInfo.areaCode != ''">
+                AND AreaInfo.area_code =#{areaInfo.areaCode}
+            </if>
+            <if test="areaInfo.areaName != null and areaInfo.areaName != ''">
+                AND (AreaInfo.area_code LIKE CONCAT('%',#{areaInfo.areaName},'%')
+                OR AreaInfo.area_client_code LIKE CONCAT('%',#{areaInfo.areaName},'%')
+                OR AreaInfo.area_name LIKE CONCAT('%',#{areaInfo.areaName},'%'))
+            </if>
+            <if test="areaInfo.parentAreaId != null and areaInfo.parentAreaId != ''">
+                AND AreaInfo.parent_area_id =#{areaInfo.parentAreaId}
+            </if>
+        <if test="areaInfo.parentAreaCode != null and areaInfo.parentAreaCode != ''">
+            AND ParentAreaInfo.area_code =#{areaInfo.parentAreaCode}
+        </if>
+        <if test="areaInfo.parentAreaClientCode != null and areaInfo.parentAreaClientCode != ''">
+            AND ParentAreaInfo.area_client_code =#{areaInfo.parentAreaClientCode}
+        </if>
+        <if test="areaInfo.parentAreaName != null and areaInfo.parentAreaName != ''">
+            AND (ParentAreaInfo.area_code LIKE CONCAT('%',#{areaInfo.parentAreaName},'%')
+            OR ParentAreaInfo.area_client_code LIKE CONCAT('%',#{areaInfo.parentAreaName},'%')
+            OR ParentAreaInfo.area_name LIKE CONCAT('%',#{areaInfo.parentAreaName},'%'))
+        </if>
+            <if test="areaInfo.ocCode != null and areaInfo.ocCode != ''">
+                AND AreaInfo.oc_code =#{areaInfo.ocCode}
+            </if>
+            <if test="areaInfo.orgCode != null and areaInfo.orgCode != ''">
+                AND AreaInfo.org_code =#{areaInfo.orgCode}
+            </if>
+            <if test="areaInfo.ocName != null and areaInfo.ocName != ''">
+                AND (AreaInfo.oc_code LIKE CONCAT('%',#{areaInfo.ocName},'%')
+                OR AreaInfo.oc_name LIKE CONCAT('%',#{areaInfo.ocName},'%'))
+            </if>
+            <if test="areaInfo.orgName != null and areaInfo.orgName != ''">
+                AND (AreaInfo.org_code LIKE CONCAT('%',#{areaInfo.orgName},'%')
+                OR AreaInfo.org_name LIKE CONCAT('%',#{areaInfo.orgName},'%'))
+            </if>
+            <if test="areaInfo.status != null and areaInfo.status != ''">
+                AND AreaInfo.status =#{areaInfo.status}
+            </if>
+            <if test="areaInfo.remark != null and areaInfo.remark != ''">
+                AND AreaInfo.remark =#{areaInfo.remark}
+            </if>
+    </select>
+</mapper>

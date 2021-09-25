@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.set.mapper.SitSetMapper">
+
+    <resultMap id="sitSet" type="com.handturn.bole.master.set.entity.SitSet">
+        <id column="id" property="id"/> <!--//id-->
+        <result column="copyright" property="copyright"/>  <!--//版权说明-->
+        <result column="aboutUs" property="aboutUs"/>  <!--//关于我们-->
+        <result column="instDocRequest" property="instDocRequest"/>  <!--//说明文档地址-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSitSetSelectAll">
+        SELECT
+            SitSet.id AS id,
+            SitSet.copyright AS copyright,
+            SitSet.about_us AS aboutUs,
+            SitSet.inst_doc_request AS instDocRequest,
+            SitSet.record_version AS recordVersion,
+            SitSet.create_date AS createDate,
+            SitSet.create_user_code AS createUserCode,
+            SitSet.create_user_name AS createUserName,
+            SitSet.last_upd_date AS lastUpdDate,
+            SitSet.last_upd_user_code AS lastUpdUserCode,
+            SitSet.last_upd_user_name AS lastUpdUserName
+        FROM sit_set AS SitSet
+    </sql>
+
+    <select id="findForPage" parameterType="sitSet" resultType="sitSet">
+        <include refid="SqlWithSitSetSelectAll"/>
+        WHERE 1=1
+
+            <if test="sitSet.id != null and sitSet.id != ''">
+                AND SitSet.id =#{sitSet.id}
+            </if>
+            <if test="sitSet.copyright != null and sitSet.copyright != ''">
+                AND SitSet.copyright =#{sitSet.copyright}
+            </if>
+            <if test="sitSet.aboutUs != null and sitSet.aboutUs != ''">
+                AND SitSet.about_us =#{sitSet.aboutUs}
+            </if>
+            <if test="sitSet.recordVersion != null and sitSet.recordVersion != ''">
+                AND SitSet.record_version =#{sitSet.recordVersion}
+            </if>
+            <if test="sitSet.createDate != null and sitSet.createDate != ''">
+                AND SitSet.create_date =#{sitSet.createDate}
+            </if>
+            <if test="sitSet.createUserCode != null and sitSet.createUserCode != ''">
+                AND SitSet.create_user_code =#{sitSet.createUserCode}
+            </if>
+            <if test="sitSet.createUserName != null and sitSet.createUserName != ''">
+                AND SitSet.create_user_name =#{sitSet.createUserName}
+            </if>
+            <if test="sitSet.lastUpdDate != null and sitSet.lastUpdDate != ''">
+                AND SitSet.last_upd_date =#{sitSet.lastUpdDate}
+            </if>
+            <if test="sitSet.lastUpdUserCode != null and sitSet.lastUpdUserCode != ''">
+                AND SitSet.last_upd_user_code =#{sitSet.lastUpdUserCode}
+            </if>
+            <if test="sitSet.lastUpdUserName != null and sitSet.lastUpdUserName != ''">
+                AND SitSet.last_upd_user_name =#{sitSet.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

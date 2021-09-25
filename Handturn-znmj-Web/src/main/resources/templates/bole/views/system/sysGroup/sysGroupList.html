@@ -1,0 +1,288 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-sysGroup" lay-title="分组管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="sysGroup-table-form" id="sysGroup-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">分组编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="groupCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">分组名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="groupName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">状态:</label>
+                                            <div class="layui-input-inline">
+                                                <select name="status" id="status" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${baseStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="sysGroupTable" lay-filter="sysGroupTable" lay-data="{id: 'sysGroupTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="sysGroupTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysGroup:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysGroup:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysGroup:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+    <button lay-event="oneTouchFlush" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysGroup:oneTouchFlush">
+        <i class="layui-icon">&#xe781;</i> 一键刷新
+    </button>
+</script>
+<script type="text/html" id="sysGroup-option">
+    <span shiro:lacksPermission="sysGroup:view,sysGroup:add,sysGroup:update,sysGroup:auth,sysGroup:dataAuth,sysGroup:bindUser,sysGroup:enable,sysGroup:disable">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="update" shiro:hasPermission="sysGroup:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="view" shiro:hasPermission="sysGroup:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+    <a lay-event="auth" shiro:hasPermission="sysGroup:auth" lay-tips="资源权限"><i
+            class="layui-icon febs-edit-area febs-green">&#xe854;</i></a>
+    <a lay-event="report" shiro:hasPermission="sysGroup:report" lay-tips="报表权限"><i
+            class="layui-icon febs-edit-area febs-green">&#xe7d3;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-sysGroup'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#sysGroup-table-form'),
+            baseStatusOption = [[${baseStatusOption}]],
+            baseStatusOptionMap = {},
+            baseBooleanOption = [[${baseBooleanOption}]],
+            baseBooleanOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(sysGroupTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('sysGroupTable');
+            if (layEvent === 'add') {
+                febs.modal.open('新增分组', 'system/sysGroup/add', {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                    yes: function (index, layero) {
+                        $('#sysGroup-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#sysGroup-edit').find('#reset').trigger('click');
+                        return false;
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的分组');
+                } else {
+                    var sysGroupIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysGroupIds.push(item.id)
+                    });
+                    febs.post(ctx + 'system/sysGroup/enable/' + sysGroupIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的分组');
+                } else {
+                    var sysGroupIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysGroupIds.push(item.id)
+                    });
+                    febs.post(ctx + 'system/sysGroup/disable/' + sysGroupIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'oneTouchFlush') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要刷新的分组');
+                } else {
+                    var sysGroupIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysGroupIds.push(item.id)
+                    });
+                    febs.post(ctx + 'system/sysGroup/oneTouchFlush/' + sysGroupIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+
+            if (layEvent === 'export') {
+                var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+                params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+                params.pageNum = $view.find(".layui-laypage-em").next().html();
+                febs.download(ctx + 'system/sysGroup/excel', params, '分组.xlsx');
+            }
+        });
+
+        table.on('tool(sysGroupTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('分组信息', 'system/sysGroup/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改分组', 'system/sysGroup/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysGroup-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+            if (layEvent === 'auth') {
+                febs.modal.open('分组权限', 'system/sysGroup/auth/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysGroup-auth').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+            if (layEvent === 'report') {
+                febs.modal.open('分组报表', 'system/sysGroup/reportAuth/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysGroup-report').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('sort(sysGroupTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+
+            baseBooleanOptionMap = {};
+            for(var index in baseBooleanOption){
+                baseBooleanOptionMap[baseBooleanOption[index].value] = baseBooleanOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'sysGroupTable',
+                toolbar: '#sysGroupTable-toolbar',
+                url: ctx + 'system/sysGroup/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'groupCode', title: '分组编码',sort: true, minWidth: 100},
+                        {field: 'groupName', title: '分组名称',sort: true, minWidth: 100},
+                        {field: 'status', title: '状态:',sort: true, templet: function(d){
+                                return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                            }, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#sysGroup-option', width: 230}
+                    ]
+                ],
+                height: $(document).height() - $('#sysGroupTable').offset().top - 30,
+            });
+        }
+
+        function getQueryParams() {
+            return {
+                groupCode: $searchForm.find('input[name="groupCode"]').val().trim(),
+                groupName: $searchForm.find('input[name="groupName"]').val().trim(),
+                status: $searchForm.find('select[name="status"]').val(),
+            };
+        }
+    })
+</script>

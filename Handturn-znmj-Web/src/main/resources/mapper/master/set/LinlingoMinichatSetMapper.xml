@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.set.mapper.MinichatSetMapper">
+
+    <resultMap id="minichatSet" type="com.handturn.bole.master.set.entity.MinichatSet">
+        <id column="id" property="id"/> <!--//id-->
+        <result column="minichatAppId" property="minichatAppId"/>  <!--//微信小程序APPID-->
+        <result column="minichatAppSecret" property="minichatAppSecret"/>  <!--//微信小程序SECRET-->
+        <result column="payCustomerId" property="payCustomerId"/>  <!--//商户ID-->
+        <result column="paySecret" property="paySecret"/>  <!--//支付密钥-->
+        <result column="notifyUrl" property="notifyUrl"/>  <!--//付款回调地址-->
+        <result column="refundNotifyUrl" property="refundNotifyUrl"/>  <!--//退款回调地址-->
+        <result column="certFilePath" property="certFilePath"/><!--//证书存放地址-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithMinichatSetSelectAll">
+        SELECT
+            MinichatSet.id AS id,
+            MinichatSet.minichat_app_id AS minichatAppId,
+            MinichatSet.minichat_app_secret AS minichatAppSecret,
+            MinichatSet.pay_customer_id AS payCustomerId,
+            MinichatSet.pay_secret AS paySecret,
+            MinichatSet.notify_url AS notifyUrl,
+            MinichatSet.refund_notify_url AS refundNotifyUrl,
+            MinichatSet.cert_file_path AS certFilePath,
+            MinichatSet.record_version AS recordVersion,
+            MinichatSet.create_date AS createDate,
+            MinichatSet.create_user_code AS createUserCode,
+            MinichatSet.create_user_name AS createUserName,
+            MinichatSet.last_upd_date AS lastUpdDate,
+            MinichatSet.last_upd_user_code AS lastUpdUserCode,
+            MinichatSet.last_upd_user_name AS lastUpdUserName
+        FROM minichat_set AS MinichatSet
+    </sql>
+
+    <select id="findForPage" parameterType="minichatSet" resultType="minichatSet">
+        <include refid="SqlWithMinichatSetSelectAll"/>
+        WHERE 1=1
+
+            <if test="minichatSet.id != null and minichatSet.id != ''">
+                AND MinichatSet.id =#{minichatSet.id}
+            </if>
+            <if test="minichatSet.minichatAppId != null and minichatSet.minichatAppId != ''">
+                AND MinichatSet.minichat_app_id =#{minichatSet.minichatAppId}
+            </if>
+            <if test="minichatSet.minichatAppSecret != null and minichatSet.minichatAppSecret != ''">
+                AND MinichatSet.minichat_app_secret =#{minichatSet.minichatAppSecret}
+            </if>
+            <if test="minichatSet.payCustomerId != null and minichatSet.payCustomerId != ''">
+                AND MinichatSet.pay_customer_id =#{minichatSet.payCustomerId}
+            </if>
+            <if test="minichatSet.paySecret != null and minichatSet.paySecret != ''">
+                AND MinichatSet.pay_secret =#{minichatSet.paySecret}
+            </if>
+    </select>
+</mapper>

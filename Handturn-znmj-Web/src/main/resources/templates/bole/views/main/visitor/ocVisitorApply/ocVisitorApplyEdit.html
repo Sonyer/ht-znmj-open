@@ -1,0 +1,158 @@
+<style>
+    #ocVisitorApply-edit {
+        padding: 20px 25px 25px 0;
+        height: 500px;
+    }
+    #ocVisitorApply-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocVisitorApply-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">访客信息</li>
+            <li>访客人脸图片</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="ocVisitorApply-edit-form">
+                    <div class="layui-form-item">
+                                <div class="layui-form-item febs-hide">
+                                    <label class="layui-form-label">ID:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="id" data-th-value="${ocVisitorApply.id}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">申请权限区域编码:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="ocAuthAreaCode" readonly
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.ocAuthAreaCode}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">访客类型:</label>
+                                    <div class="layui-input-block">
+                                        <select name="visitorType" id="visitorType" lay-search>
+                                            <option value=""></option>
+                                            <option data-th-each="option:${ocVisitorTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocVisitorApply.visitorType}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">真实姓名:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="idCardName" readonly
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.idCardName}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">身份证号码:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="idCard" readonly
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.idCard}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">用户手机号:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="phoneNumber" readonly
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.phoneNumber}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">摘要信息:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="abstractMsg" readonly
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.abstractMsg}">
+                                    </div>
+                                </div>
+                        <hr>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">有效开始时间:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="effectiveTimeBegin" disabled
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.effectiveTimeBegin}">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">有效结束时间:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="effectiveTimeEnd" disabled
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.effectiveTimeEnd}">
+                                    </div>
+                                </div>
+                        <hr>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label febs-form-item-require">审核状态:</label>
+                                    <div class="layui-input-block">
+                                        <select name="auditStatus" id="auditStatus" lay-verify="required" lay-search>
+                                            <option value=""></option>
+                                            <option data-th-each="option:${ocVisitorAuditStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocVisitorApply.auditStatus}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">审核消息:</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="auditMessage"
+                                               autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.auditMessage}">
+                                    </div>
+                                </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="ocVisitorApply-edit-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <form class="layui-form">
+                        <div class="layui-row">
+                            <div class="layui-form-item" id="visitorImgShow">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#ocVisitorApply-edit'),
+            ocVisitorApply = [[${ocVisitorApply}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        //查询获取图片
+        if(ocVisitorApply.faceImgRequest != null && ocVisitorApply.faceImgRequest != ""){
+            var htmlText = ' <div class=\"layui-inline\"><div style=\"width: 400px;height: 400px;align-items: center;text-align: center;display: flex;background:#9F9F9F;padding: 10px\">'
+                + '<img src=\"'+ ocVisitorApply.faceImgRequest +'\" style=\"width:400px;max-height: 100%;\">'
+                + '</div></div> ';
+            $view.find('#visitorImgShow').append(htmlText);
+        }
+
+        form.on('submit(ocVisitorApply-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/visitor/ocVisitorApply/auditSave', data.field, function () {
+                layer.closeAll();
+                $('#febs-ocVisitorApply').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

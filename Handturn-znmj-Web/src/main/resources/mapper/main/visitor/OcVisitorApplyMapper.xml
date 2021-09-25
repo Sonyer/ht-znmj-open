@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.visitor.mapper.OcVisitorApplyMapper">
+
+    <resultMap id="ocVisitorApply" type="com.handturn.bole.main.visitor.entity.OcVisitorApply">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="memberId" property="memberId"/>  <!--//用户ID-->
+        <result column="memberAccountCode" property="memberAccountCode"/>  <!--//用户账号-->
+        <result column="memberVisitorId" property="memberVisitorId"/>
+        <result column="ocVisitorId" property="ocVisitorId"/>
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="ocAuthAreaCode" property="ocAuthAreaCode"/>  <!--//申请权限区域编码-->
+        <result column="visitorType" property="visitorType"/>  <!--//访客类型:INNER_USER-内部员工,OUTER_USER-外来人员-->
+        <result column="idCardName" property="idCardName"/>  <!--//真实姓名-->
+        <result column="idCard" property="idCard"/>  <!--//身份证号码-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="depName" property="depName"/>
+        <result column="positionName" property="positionName"/>
+        <result column="faceImgAttchment" property="faceImgAttchment"/>  <!--//人脸附件-存根地址-->
+        <result column="faceImgRequest" property="faceImgRequest"/>  <!--//人脸图片-请求地址-->
+        <result column="abstractMsg" property="abstractMsg"/>  <!--//摘要信息，其他信息系统填充位置-->
+        <result column="auditStatus" property="auditStatus"/>  <!--//审核状态:UNAUDIT-未审核,AUDITING-审核中,AUDITED-已审核,AUDITED_FAIL-审核失败-->
+        <result column="auditMessage" property="auditMessage"/>  <!--//审核消息-->
+        <result column="effectiveTimeBegin" property="effectiveTimeBegin"/>  <!--//有效开始时间-->
+        <result column="effectiveTimeEnd" property="effectiveTimeEnd"/>  <!--//有效结束时间-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="ocAuthAreaName" property="ocAuthAreaName"/>
+    </resultMap>
+
+    <sql id="SqlWithOcVisitorApplySelectAll">
+        SELECT
+            OcVisitorApply.id AS id,
+            OcVisitorApply.member_id AS memberId,
+            OcVisitorApply.member_account_code AS memberAccountCode,
+            OcVisitorApply.member_visitor_id AS memberVisitorId,
+            OcVisitorApply.oc_visitor_id AS ocVisitorId,
+            OcVisitorApply.oc_code AS ocCode,
+            OcVisitorApply.org_code AS orgCode,
+            OcVisitorApply.oc_name AS ocName,
+            OcVisitorApply.org_name AS orgName,
+            OcVisitorApply.oc_auth_area_code AS ocAuthAreaCode,
+            OcVisitorApply.visitor_type AS visitorType,
+            OcVisitorApply.id_card_name AS idCardName,
+            OcVisitorApply.id_card AS idCard,
+            OcVisitorApply.phone_number AS phoneNumber,
+            OcVisitorApply.dep_name AS depName,
+            OcVisitorApply.position_name AS positionName,
+            OcVisitorApply.face_img_attchment AS faceImgAttchment,
+            OcVisitorApply.face_img_request AS faceImgRequest,
+            OcVisitorApply.abstract_msg AS abstractMsg,
+            OcVisitorApply.audit_status AS auditStatus,
+            OcVisitorApply.audit_message AS auditMessage,
+            OcVisitorApply.effective_time_begin AS effectiveTimeBegin,
+            OcVisitorApply.effective_time_end AS effectiveTimeEnd,
+            OcVisitorApply.record_version AS recordVersion,
+            OcVisitorApply.create_date AS createDate,
+            OcVisitorApply.create_user_code AS createUserCode,
+            OcVisitorApply.create_user_name AS createUserName,
+            OcVisitorApply.last_upd_date AS lastUpdDate,
+            OcVisitorApply.last_upd_user_code AS lastUpdUserCode,
+            OcVisitorApply.last_upd_user_name AS lastUpdUserName,
+
+            OcAuthArea.area_name AS ocAuthAreaName
+        FROM oc_visitor_apply AS OcVisitorApply
+        LEFT JOIN oc_auth_area AS OcAuthArea ON OcVisitorApply.oc_auth_area_code = OcAuthArea.area_code
+        AND OcVisitorApply.oc_code = OcAuthArea.oc_code AND OcVisitorApply.org_code = OcAuthArea.org_code
+    </sql>
+
+    <select id="findForPage" parameterType="ocVisitorApply" resultType="ocVisitorApply">
+        <include refid="SqlWithOcVisitorApplySelectAll"/>
+        WHERE 1=1
+
+            <if test="ocVisitorApply.id != null and ocVisitorApply.id != ''">
+                AND OcVisitorApply.id =#{ocVisitorApply.id}
+            </if>
+            <if test="ocVisitorApply.memberId != null and ocVisitorApply.memberId != ''">
+                AND OcVisitorApply.member_id =#{ocVisitorApply.memberId}
+            </if>
+            <if test="ocVisitorApply.memberAccountCode != null and ocVisitorApply.memberAccountCode != ''">
+                AND OcVisitorApply.member_account_code =#{ocVisitorApply.memberAccountCode}
+            </if>
+            <if test="ocVisitorApply.memberVisitorId != null and ocVisitorApply.memberVisitorId != ''">
+                AND OcVisitorApply.member_visitor_id =#{ocVisitorApply.memberVisitorId}
+            </if>
+            <if test="ocVisitorApply.ocVisitorId != null and ocVisitorApply.ocVisitorId != ''">
+                AND OcVisitorApply.oc_visitor_id =#{ocVisitorApply.ocVisitorId}
+            </if>
+            <if test="ocVisitorApply.ocCode != null and ocVisitorApply.ocCode != ''">
+                AND OcVisitorApply.oc_code =#{ocVisitorApply.ocCode}
+            </if>
+            <if test="ocVisitorApply.orgCode != null and ocVisitorApply.orgCode != ''">
+                AND OcVisitorApply.org_code =#{ocVisitorApply.orgCode}
+            </if>
+            <if test="ocVisitorApply.ocName != null and ocVisitorApply.ocName != ''">
+                AND OcVisitorApply.oc_name =#{ocVisitorApply.ocName}
+            </if>
+            <if test="ocVisitorApply.orgName != null and ocVisitorApply.orgName != ''">
+                AND OcVisitorApply.org_name =#{ocVisitorApply.orgName}
+            </if>
+            <if test="ocVisitorApply.ocAuthAreaCode != null and ocVisitorApply.ocAuthAreaCode != ''">
+                AND OcVisitorApply.oc_auth_area_code =#{ocVisitorApply.ocAuthAreaCode}
+            </if>
+            <if test="ocVisitorApply.visitorType != null and ocVisitorApply.visitorType != ''">
+                AND OcVisitorApply.visitor_type =#{ocVisitorApply.visitorType}
+            </if>
+            <if test="ocVisitorApply.idCardName != null and ocVisitorApply.idCardName != ''">
+                AND OcVisitorApply.id_card_name =#{ocVisitorApply.idCardName}
+            </if>
+            <if test="ocVisitorApply.idCard != null and ocVisitorApply.idCard != ''">
+                AND OcVisitorApply.id_card =#{ocVisitorApply.idCard}
+            </if>
+            <if test="ocVisitorApply.phoneNumber != null and ocVisitorApply.phoneNumber != ''">
+                AND OcVisitorApply.phone_number =#{ocVisitorApply.phoneNumber}
+            </if>
+        <if test="ocVisitorApply.depName != null and ocVisitorApply.depName != ''">
+            AND OcVisitorApply.dep_name =#{ocVisitorApply.depName}
+        </if>
+        <if test="ocVisitorApply.positionName != null and ocVisitorApply.positionName != ''">
+            AND OcVisitorApply.position_name =#{ocVisitorApply.positionName}
+        </if>
+            <if test="ocVisitorApply.faceImgAttchment != null and ocVisitorApply.faceImgAttchment != ''">
+                AND OcVisitorApply.face_img_attchment =#{ocVisitorApply.faceImgAttchment}
+            </if>
+            <if test="ocVisitorApply.faceImgRequest != null and ocVisitorApply.faceImgRequest != ''">
+                AND OcVisitorApply.face_img_request =#{ocVisitorApply.faceImgRequest}
+            </if>
+            <if test="ocVisitorApply.abstractMsg != null and ocVisitorApply.abstractMsg != ''">
+                AND OcVisitorApply.abstract_msg =#{ocVisitorApply.abstractMsg}
+            </if>
+            <if test="ocVisitorApply.auditStatus != null and ocVisitorApply.auditStatus != ''">
+                AND OcVisitorApply.audit_status =#{ocVisitorApply.auditStatus}
+            </if>
+            <if test="ocVisitorApply.auditMessage != null and ocVisitorApply.auditMessage != ''">
+                AND OcVisitorApply.audit_message =#{ocVisitorApply.auditMessage}
+            </if>
+            <if test="ocVisitorApply.effectiveTimeBegin != null and ocVisitorApply.effectiveTimeBegin != ''">
+                AND OcVisitorApply.effective_time_begin =#{ocVisitorApply.effectiveTimeBegin}
+            </if>
+            <if test="ocVisitorApply.effectiveTimeEnd != null and ocVisitorApply.effectiveTimeEnd != ''">
+                AND OcVisitorApply.effective_time_end =#{ocVisitorApply.effectiveTimeEnd}
+            </if>
+
+        <if test="ocVisitorApply.ocAuthAreaName != null and ocVisitorApply.ocAuthAreaName != ''">
+            AND (OcAuthArea.area_name LIKE CONCAT('%',#{ocVisitorApply.ocAuthAreaName},'%')
+            OR OcAuthArea.area_code LIKE CONCAT('%',#{ocVisitorApply.ocAuthAreaName},'%'))
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysGroupResourceMapper">
+
+    <resultMap id="sysGroupResource" type="com.handturn.bole.system.entity.SysGroupResource">
+        <id column="id" property="id"/> <!--//-->
+        <result column="groupId" property="groupId"/>  <!--//组id-->
+        <result column="resourceId" property="resourceId"/>  <!--//资源id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysGroupResourceSelectAll">
+        SELECT
+            SysGroupResource.id AS id,
+            SysGroupResource.group_id AS groupId,
+            SysGroupResource.resource_id AS resourceId,
+            SysGroupResource.record_version AS recordVersion,
+            SysGroupResource.create_date AS createDate,
+            SysGroupResource.create_user_code AS createUserCode,
+            SysGroupResource.create_user_name AS createUserName,
+            SysGroupResource.last_upd_date AS lastUpdDate,
+            SysGroupResource.last_upd_user_code AS lastUpdUserCode,
+            SysGroupResource.last_upd_user_name AS lastUpdUserName
+        FROM sys_group_resource AS SysGroupResource
+    </sql>
+
+    <select id="findForPage" parameterType="sysGroupResource" resultType="sysGroupResource">
+        <include refid="SqlWithSysGroupResourceSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysGroupResource.id != null and sysGroupResource.id != ''">
+                AND SysGroupResource.id =#{sysGroupResource.id}
+            </if>
+            <if test="sysGroupResource.groupId != null and sysGroupResource.groupId != ''">
+                AND SysGroupResource.group_id =#{sysGroupResource.groupId}
+            </if>
+            <if test="sysGroupResource.resourceId != null and sysGroupResource.resourceId != ''">
+                AND SysGroupResource.resource_id =#{sysGroupResource.resourceId}
+            </if>
+            <if test="sysGroupResource.recordVersion != null and sysGroupResource.recordVersion != ''">
+                AND SysGroupResource.record_version =#{sysGroupResource.recordVersion}
+            </if>
+            <if test="sysGroupResource.createDate != null and sysGroupResource.createDate != ''">
+                AND SysGroupResource.create_date =#{sysGroupResource.createDate}
+            </if>
+            <if test="sysGroupResource.createUserCode != null and sysGroupResource.createUserCode != ''">
+                AND SysGroupResource.create_user_code =#{sysGroupResource.createUserCode}
+            </if>
+            <if test="sysGroupResource.createUserName != null and sysGroupResource.createUserName != ''">
+                AND SysGroupResource.create_user_name =#{sysGroupResource.createUserName}
+            </if>
+            <if test="sysGroupResource.lastUpdDate != null and sysGroupResource.lastUpdDate != ''">
+                AND SysGroupResource.last_upd_date =#{sysGroupResource.lastUpdDate}
+            </if>
+            <if test="sysGroupResource.lastUpdUserCode != null and sysGroupResource.lastUpdUserCode != ''">
+                AND SysGroupResource.last_upd_user_code =#{sysGroupResource.lastUpdUserCode}
+            </if>
+            <if test="sysGroupResource.lastUpdUserName != null and sysGroupResource.lastUpdUserName != ''">
+                AND SysGroupResource.last_upd_user_name =#{sysGroupResource.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

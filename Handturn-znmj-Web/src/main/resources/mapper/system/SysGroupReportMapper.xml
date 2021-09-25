@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysGroupReportMapper">
+
+    <resultMap id="sysGroupReport" type="com.handturn.bole.system.entity.SysGroupReport">
+        <id column="id" property="id"/> <!--//-->
+        <result column="groupId" property="groupId"/>  <!--//组id-->
+        <result column="reportId" property="reportId"/>  <!--//报表id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysGroupReportSelectAll">
+        SELECT
+            SysGroupReport.id AS id,
+            SysGroupReport.group_id AS groupId,
+            SysGroupReport.report_id AS reportId,
+            SysGroupReport.record_version AS recordVersion,
+            SysGroupReport.create_date AS createDate,
+            SysGroupReport.create_user_code AS createUserCode,
+            SysGroupReport.create_user_name AS createUserName,
+            SysGroupReport.last_upd_date AS lastUpdDate,
+            SysGroupReport.last_upd_user_code AS lastUpdUserCode,
+            SysGroupReport.last_upd_user_name AS lastUpdUserName
+        FROM sys_group_report AS SysGroupReport
+    </sql>
+
+    <select id="findForPage" parameterType="sysGroupReport" resultType="sysGroupReport">
+        <include refid="SqlWithSysGroupReportSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysGroupReport.id != null and sysGroupReport.id != ''">
+                AND SysGroupReport.id =#{sysGroupReport.id}
+            </if>
+            <if test="sysGroupReport.groupId != null and sysGroupReport.groupId != ''">
+                AND SysGroupReport.group_id =#{sysGroupReport.groupId}
+            </if>
+            <if test="sysGroupReport.reportId != null and sysGroupReport.reportId != ''">
+                AND SysGroupReport.report_id =#{sysGroupReport.reportId}
+            </if>
+    </select>
+</mapper>

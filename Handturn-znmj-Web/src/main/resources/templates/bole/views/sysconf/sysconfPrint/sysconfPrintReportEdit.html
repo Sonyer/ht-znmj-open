@@ -1,0 +1,161 @@
+<style>
+    #sysconfPrintReport-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysconfPrintReport-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysconfPrintReport-edit">
+    <form class="layui-form" action="" lay-filter="sysconfPrintReport-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysconfPrintReport.id}">
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">文件名:</label>
+            <div class="layui-input-block">
+                <input type="text" name="fileName" id="edit-fileName" data-th-value="${sysconfPrintReport.fileName}">
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">文件路径:</label>
+            <div class="layui-input-block">
+                <input type="text" name="filePath" id="edit-filePath" data-th-value="${sysconfPrintReport.filePath}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width:120px;">上传模板</label>
+                <input type='text' name='upfile' id='upfile' class="layui-input" style="width: 300px;" disabled="disabled"/>
+                <input type="file" name="fileField" id="fileField" class="file" size="28" onchange="document.getElementById('upfile').value=this.value" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">模板文件名:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="templetFileName" id="edit-templetFileName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfPrintReport.templetFileName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">组织:</label>
+                <div class="layui-input-block">
+                    <select name="orgCode" id="edit-orgCode" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${orgsOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfPrintReport.orgCode}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">仓库:</label>
+                <div class="layui-input-block">
+                    <select name="warehouseCode" id="edit-warehouseCode" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${warehousesOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfPrintReport.warehouseCode}"/>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">客户:</label>
+                <div class="layui-input-block">
+                    <select name="clientCode" id="edit-clientCode" lay-search>
+                        <option value=""></option>
+                        <option data-th-each="option:${clientsOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfPrintReport.clientCode}"/>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">字典类型:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="printCode"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfPrintReport.printCode}" readonly="true">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysconfPrintReport.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysconfPrintReport-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect', "upload"], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            upload = layui.upload,
+            $view = $('#sysconfPrintReport-edit'),
+            sysconfPrintReport = [[${sysconfPrintReport}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        upload.render({
+            elem: '#fileField',
+            url: ctx + 'sysconf/sysconfPrint/importUpload',
+            accept: 'file',
+            exts: 'jasper', // 只能上传 .jasper格式
+            size: 5 * 1024,
+            auto: true,
+            before: function () {
+                febs.view.loadBar.start();
+            },
+            done: function(res){
+                febs.view.loadBar.finish();
+                if (res.code === 200) {
+                    if(res.data.success == true){
+                        $('#edit-fileName').val(res.data.fileName);
+                        $('#edit-templetFileName').val(res.data.fileName);
+                        $('#edit-filePath').val(res.data.filePath);
+                    }else{
+                        febs.alert.warn(res.data.returnInfo);
+                    }
+                }else{
+                    febs.alert.error('导入失败，请重新导入!');
+                }
+            },
+            error: function (res) {
+                //请求异常回调
+                febs.alert.error('导入失败，请重新导入!');
+            }
+        });
+
+        form.on('submit(sysconfPrintReport-edit-form-submit)', function (data) {
+            if(!data.field.fileName){
+                febs.alert.error('导入模板失败，请重新导入!');
+                return false;
+            }
+            if(!data.field.filePath){
+                febs.alert.error('导入模板失败，请重新导入!');
+                return false;
+            }
+
+            febs.post(ctx + 'sysconf/sysconfPrintReport/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysconfPrint').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

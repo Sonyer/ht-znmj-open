@@ -1,0 +1,149 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		//-----------tabBar-------------
+		{
+			"path": "pages/tabBar/home/home",
+			"style": {
+				"navigationBarTitleText": "PCards",
+				/* "navigationStyle": "custom", */
+				"app-plus": { // 取消默认的状态来
+					"titleNView": false,
+					"bounce": "none"
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+				
+			}
+		},
+		{
+			"path": "pages/tabBar/user/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+			
+		},
+		{
+			"path": "pages/visitorApply/visitorApply",
+			"style": {
+				"navigationBarTitleText": "访客申请",
+				"app-plus": { 
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+		},
+		{
+			"path": "pages/user/userNotice",
+			"style": {
+				"navigationBarTitleText": "我的通知",
+				"app-plus": { 
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+		},
+		{
+			"path": "pages/user/userCommand",
+			"style": {
+				"navigationBarTitleText": "管理口令",
+				"app-plus": { 
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+		},
+		{
+			"path": "pages/user/userVisitorAudit",
+			"style": {
+				"navigationBarTitleText": "访客审核",
+				"app-plus": { 
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+		},
+		{
+			"path": "pages/user/userNoticeSet",
+			"style": {
+				"navigationBarTitleText": "微信订阅",
+				"app-plus": { 
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				},
+				// App 和 小程序都开启下拉刷新
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
+			}
+		},
+		//-----------授权页-------------
+		{
+			"path": "pages/auth/login",
+			"style": {
+				"navigationBarTitleText": "授权登录",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							}
+						]
+					}
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "大智门禁",
+		"navigationBarBackgroundColor": "#ff9900",
+		"backgroundColor": "#ff9900"
+	},
+	"tabBar": {
+		"color": "#ffffff",
+		"selectedColor": "#1afa29",
+		"borderStyle": "black",
+		"backgroundColor": "#ff9900",
+		"list": [{
+				"pagePath": "pages/tabBar/home/home",
+				"iconPath": "static/img/tabBar/home.png",
+				"selectedIconPath": "static/img/tabBar/home-on.png",
+				"text": "PCards"
+			},
+			{
+				"pagePath": "pages/tabBar/user/user",
+				"iconPath": "static/img/tabBar/user.png",
+				"selectedIconPath": "static/img/tabBar/user-on.png",
+				"text": "我的"
+			}
+		]
+	}
+}

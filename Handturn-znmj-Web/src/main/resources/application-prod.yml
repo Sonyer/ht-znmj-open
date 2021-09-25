@@ -1,0 +1,86 @@
+spring:
+  datasource:
+    dynamic:
+      # 是否开启 SQL日志输出，生产环境建议关闭，有性能损耗
+      p6spy: false
+      hikari:
+        connection-timeout: 30000
+        max-lifetime: 1800000
+        max-pool-size: 500
+        min-idle: 30
+        connection-test-query: select 1
+        pool-name: FebsHikariCP
+      # 配置默认数据源
+      primary: base
+      datasource:
+        # 数据源-1，名称为 base
+        base:
+          username: ht_znmj
+          password: KLS8ksTnJyaLDLGa
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/ht_znmj?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8&zeroDateTimeBehavior=convertToNull
+        # 数据源-2，名称为 quartz
+        quartz:
+          username: ht_znmj
+          password: KLS8ksTnJyaLDLGa
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/ht_znmj?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8&zeroDateTimeBehavior=convertToNull
+
+  redis:
+    # Redis数据库索引（默认为 0）
+    database: 7
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis 密码
+    password:
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 8
+        # 连接池中的最大空闲连接
+        max-idle: 500
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+    # 连接超时时间（毫秒）
+    timeout: 0
+
+  servlet:
+    multipart:
+      #单个文件的大小
+      max-file-size: 10MB
+      #是设置单次请求的文件的总大小
+      max-request-size: 100MB
+
+#七牛存储的配置
+qiniu:
+  accessKey: xxxxxxxxxxx
+  secretKey: xxxxxxxxxxx
+  bucketName: xxxxxxxxxxx
+  fileDomain: https://q87ajzfoj.bkt.clouddn.com
+
+#本地存储的配置
+localStore:
+  physicalPath: /data/app/fileupload
+  requestDomain: https://xx.xx.xx.xx:8089/sitapi/imgShow
+  requestFileDomain: https://xx.xx.xx.xx:8089/sitapi/fileShow
+
+#后端入口路径
+backEnd:
+  domain: https://xx.xx.xx.xx:8089
+  #跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
+  miniprogramState: formal
+
+#websocket入口路径
+webSocket:
+  domain: ws://xx.xx.xx.xx:8089/websocket
+
+#短信配置
+sms:
+  domain: dysmsapi.aliyuncs.com
+  accessKeyId: xxxxxxxx
+  accessKeySecret: xxxxxxxxxxxxxxx
+  signName: 智能门禁

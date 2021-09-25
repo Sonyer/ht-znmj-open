@@ -1,0 +1,370 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-equipmentInfo" lay-title="设备管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="equipmentInfo-table-form" id="equipmentInfo-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">系统编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">出厂编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentMdCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备型号</label>
+                                            <div class="layui-input-inline">
+                                                <select name="equipmentModelCode" id="equipmentModelCode" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentModelsOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">组织信息</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">网点信息</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">进出标识</label>
+                                            <div class="layui-input-inline">
+                                                <select name="inOutFlag" id="inOutFlag" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInOutOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">安装状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="erectStatus" id="erectStatus" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInfoErectStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">在线状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="onlineStatus" id="onlineStatus" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInfoOnlineStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="equipmentInfoTable" lay-filter="equipmentInfoTable" lay-data="{id: 'equipmentInfoTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="equipmentInfoTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:equipment:equipmentInfo:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:equipment:equipmentInfo:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:equipment:equipmentInfo:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+    <button lay-event="authCode" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:equipment:equipmentInfo:authCode">
+        <i class="layui-icon">&#xe7dc;</i> 获取授权码
+    </button>
+</script>
+<script type="text/html" id="equipmentInfo-option">
+    <span shiro:lacksPermission="master:equipment:equipmentInfo:view,master:equipment:equipmentInfo:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="update" shiro:hasPermission="master:equipment:equipmentInfo:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="view" shiro:hasPermission="master:equipment:equipmentInfo:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-equipmentInfo'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#equipmentInfo-table-form'),
+            equipmentInfoErectStatusOption = [[${equipmentInfoErectStatusOption}]],
+            equipmentInfoErectStatusOptionMap = {},
+            equipmentInfoOnlineStatusOption = [[${equipmentInfoOnlineStatusOption}]],
+            equipmentInfoOnlineStatusOptionMap = {},
+            equipmentModelsOption = [[${equipmentModelsOption}]],
+            equipmentModelsOptionMap = {},
+            equipmentInOutOption = [[${equipmentInOutOption}]],
+            equipmentInOutOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(equipmentInfoTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('equipmentInfoTable');
+            if (layEvent === 'add') {
+                febs.modal.open('新增设备', 'master/equipment/equipmentInfo/add', {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                    yes: function (index, layero) {
+                        $('#equipmentInfo-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#equipmentInfo-edit').find('#reset').trigger('click');
+                        return false;
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的设备');
+                } else {
+                    var equipmentInfoIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        equipmentInfoIds.push(item.id)
+                    });
+                    febs.post(ctx + 'master/equipment/equipmentInfo/enable/' + equipmentInfoIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的设备');
+                } else {
+                    var equipmentInfoIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        equipmentInfoIds.push(item.id)
+                    });
+                    febs.post(ctx + 'master/equipment/equipmentInfo/disable/' + equipmentInfoIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+
+            if (layEvent === 'authCode') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择设备!');
+                } else {
+                    var equipmentInfoIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        equipmentInfoIds.push(item.id)
+                    });
+                    febs.modal.open('授权码获取', 'master/equipment/equipmentInfo/authCodeShow/' + equipmentInfoIds.join(','), {
+                        area: $(window).width() <= 750 ? '90%' : '60%',
+                        offset: '100px',
+                    });
+                }
+            }
+
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('tool(equipmentInfoTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('设备信息', 'master/equipment/equipmentInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改设备', 'master/equipment/equipmentInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#equipmentInfo-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('sort(equipmentInfoTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            equipmentInfoErectStatusOptionMap = {};
+            for(var index in equipmentInfoErectStatusOption){
+                equipmentInfoErectStatusOptionMap[equipmentInfoErectStatusOption[index].value] = equipmentInfoErectStatusOption[index].text;
+            }
+
+            equipmentInfoOnlineStatusOptionMap = {};
+            for(var index in equipmentInfoOnlineStatusOption){
+                equipmentInfoOnlineStatusOptionMap[equipmentInfoOnlineStatusOption[index].value] = equipmentInfoOnlineStatusOption[index].text;
+            }
+
+            equipmentModelsOptionMap = {};
+            for(var index in equipmentModelsOption){
+                equipmentModelsOptionMap[equipmentModelsOption[index].value] = equipmentModelsOption[index].text;
+            }
+
+            equipmentInOutOptionMap = {};
+            for(var index in equipmentInOutOption){
+                equipmentInOutOptionMap[equipmentInOutOption[index].value] = equipmentInOutOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'equipmentInfoTable',
+                toolbar: '#equipmentInfoTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'master/equipment/equipmentInfo/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'equipmentCode', title: '设备系统编码',sort: true, minWidth: 100},
+                            {field: 'equipmentMdCode', title: '设备出厂编码',sort: true, minWidth: 100},
+                            {field: 'equipmentModelCode', title: '设备型号',dataMap:equipmentModelsOptionMap,templet: function(d){
+                                    return equipmentModelsOptionMap[d.equipmentModelCode] == null? d.equipmentModelCode:equipmentModelsOptionMap[d.equipmentModelCode];
+                                }, minWidth: 200},
+                            {field: 'orgCode', title: '组织编码',sort: true, minWidth: 100},
+                            {field: 'orgName', title: '组织名称',sort: true, minWidth: 100},
+                            {field: 'ocCode', title: '网点编码',sort: true, minWidth: 100},
+                            {field: 'ocName', title: '网点名称',sort: true, minWidth: 100},
+                            {field: 'erectStatus', title: '安装状态',sort: true,dataMap:equipmentInfoErectStatusOptionMap,templet: function(d){
+                                    return equipmentInfoErectStatusOptionMap[d.erectStatus] == null? d.erectStatus:equipmentInfoErectStatusOptionMap[d.erectStatus];
+                                }, minWidth: 100},
+                            {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                            {field: 'seqNum', title: '设备序号',sort: true, minWidth: 100},
+                            {field: 'inOutFlag', title: '进出标识',dataMap:equipmentInOutOptionMap,templet: function(d){
+                                    return equipmentInOutOptionMap[d.inOutFlag] == null? d.inOutFlag:equipmentInOutOptionMap[d.inOutFlag];
+                                }, minWidth: 200},
+                            {field: 'areaClientCode', title: '区域定制编码',sort: true, minWidth: 100},
+                            {field: 'areaName', title: '区域名称',sort: true, minWidth: 100},
+                            {field: 'onlineStatus', title: '在线状态',sort: true,dataMap:equipmentInfoOnlineStatusOptionMap,templet: function(d){
+                                    return equipmentInfoOnlineStatusOptionMap[d.onlineStatus] == null? d.onlineStatus:equipmentInfoOnlineStatusOptionMap[d.onlineStatus];
+                                }, minWidth: 100},
+                            {field: 'onlineTime', title: '上次心跳时间',sort: true, minWidth: 100},
+                            {field: 'createDate', title: '新增时间',sort: true, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#equipmentInfo-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#equipmentInfoTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/equipment/equipmentInfo/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    equipmentCode: $searchForm.find('input[name="equipmentCode"]').val().trim(),
+                    equipmentMdCode: $searchForm.find('input[name="equipmentMdCode"]').val().trim(),
+                    equipmentModelCode: $searchForm.find('select[name="equipmentModelCode"]').val(),
+                    ocName: $searchForm.find('input[name="ocName"]').val().trim(),
+                    orgName: $searchForm.find('input[name="orgName"]').val().trim(),
+                    erectStatus: $searchForm.find('select[name="erectStatus"]').val(),
+                    onlineStatus: $searchForm.find('select[name="onlineStatus"]').val(),
+            };
+        }
+    })
+</script>

@@ -1,0 +1,150 @@
+<style>
+    #equipmentInfo-edit {
+        padding: 20px 25px 25px 0;
+        height: 500px;
+    }
+    #equipmentInfo-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="equipmentInfo-edit">
+    <form class="layui-form" action="" lay-filter="equipmentInfo-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="${equipmentInfo.id}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">系统编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentInfo.equipmentCode}" readonly>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">出厂编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentMdCode" id="equipmentMdCode" lay-verify="required"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentInfo.equipmentMdCode}" data-th-readonly="${equipmentInfo.id != null}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备型号:</label>
+                        <div class="layui-input-block">
+                            <select name="equipmentModelCode" id="equipmentModelCode" lay-verify="required" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${equipmentModelsOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq equipmentInfo.equipmentModelCode}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline" style="width:540px">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="remark"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentInfo.remark}">
+                        </div>
+                    </div>
+            <hr>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">组织名称:</label>
+                        <div class="layui-input-block">
+                            <select name="orgCode" id="orgCode" lay-filter="edit-orgCode" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${sysOrganizationsOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq equipmentInfo.orgCode}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">网点名称:</label>
+                        <div class="layui-input-block">
+                            <select name="ocCode" id="ocCode" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${sysOrganizationOcsOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq equipmentInfo.ocCode}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">设备序号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="seqNum" readonly
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentInfo.seqNum}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">进出标识:</label>
+                        <div class="layui-input-block">
+                            <select name="inOutFlag" id="inOutFlag" lay-search readonly="">
+                                <option value=""></option>
+                                <option data-th-each="option:${equipmentInOutOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq equipmentInfo.inOutFlag}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="layui-inline">
+                        <label class="layui-form-label">所属区域编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="areaCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentInfo.areaCode}">
+                        </div>
+                    </div>-->
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="equipmentInfo-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#equipmentInfo-edit'),
+            equipmentInfo = [[${equipmentInfo}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('select(edit-orgCode)', function (data) {
+            var orgCode= $view.find("#orgCode").val();
+            if(orgCode == ''){
+                $view.find("#ocCode").empty();
+                form.render();
+                return;
+            }
+            var requestData = {orgCode:orgCode};
+            febs.post(ctx + 'master/equipment/equipmentInfo/findOcByOrgCode', requestData, function (res) {
+                var html = '';
+                if (res.code == 200){
+                    if(res.data.length <= 0){
+                        $view.find("#ocCode").empty();
+                    }else{
+                        html += "<option value=''></option>";
+                        for(var index in res.data){
+                            html += "<option value='"+res.data[index].value+"'>"+res.data[index].text+"</option>";
+                        }
+                        $view.find("#ocCode").append(html);
+                    }
+                }
+                form.render();
+            });
+        });
+
+        form.on('submit(equipmentInfo-edit-form-submit)', function (data) {
+            febs.post(ctx + 'master/equipment/equipmentInfo/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-equipmentInfo').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

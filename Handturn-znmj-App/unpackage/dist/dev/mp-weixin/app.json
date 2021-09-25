@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/tabBar/home/home",
+    "pages/tabBar/user/user",
+    "pages/visitorApply/visitorApply",
+    "pages/user/userNotice",
+    "pages/user/userCommand",
+    "pages/user/userVisitorAudit",
+    "pages/user/userNoticeSet",
+    "pages/auth/login"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "大智门禁",
+    "navigationBarBackgroundColor": "#ff9900",
+    "backgroundColor": "#ff9900"
+  },
+  "tabBar": {
+    "color": "#ffffff",
+    "selectedColor": "#1afa29",
+    "borderStyle": "black",
+    "backgroundColor": "#ff9900",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/home/home",
+        "iconPath": "static/img/tabBar/home.png",
+        "selectedIconPath": "static/img/tabBar/home-on.png",
+        "text": "PCards"
+      },
+      {
+        "pagePath": "pages/tabBar/user/user",
+        "iconPath": "static/img/tabBar/user.png",
+        "selectedIconPath": "static/img/tabBar/user-on.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "需要有定位完成数据查询"
+    }
+  },
+  "usingComponents": {
+    "page-status": "/pages/components/pageStatus/pageStatus"
+  }
+}

@@ -1,0 +1,114 @@
+<style>
+    #sitSet-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sitSet-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sitSet-edit" lay-title="站点设置">
+    <div class="layui-row layui-col-space8 febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">站点设置</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="sitSet-edit-form" id="sitSet-edit-form">
+                        <div class="layui-form-item febs-hide">
+                            <label class="layui-form-label">id:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" data-th-value="${sitSet.id}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label febs-form-item-require">关于我们:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="aboutUs"
+                                       autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sitSet.aboutUs}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label febs-form-item-require">版权说明:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="copyright"
+                                       autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sitSet.copyright}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label  febs-form-item-require">说明文档</label>
+                            <div class="layui-input-block">
+                                <input type='text' name='instDocRequest' id='instDocRequest' lay-verify="required" data-th-value="${sitSet.instDocRequest}" class="layui-input" disabled="disabled"/>
+                                <input type="file" name="fileField" id="fileField" class="file" size="28"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="sitSet-edit-form-submit" id="submit">提交</button>
+                                <button type="reset" class="layui-btn" id="reset">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect', "upload"], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            upload = layui.upload,
+            $view = $('#sitSet-edit'),
+            sitSet = [[${sitSet}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        upload.render({
+            elem: '#fileField',
+            url: ctx + 'master/set/sitSet/importUpload',
+            accept: 'file',
+            exts: 'pdf', // 只能上传 .jasper格式
+            size: 100 * 1024,
+            auto: true,
+            before: function () {
+                febs.view.loadBar.start();
+            },
+            done: function(res){
+                febs.view.loadBar.finish();
+                if (res.code === 200) {
+                    if(res.data.success == true){
+                        /*$('#edit-fileName').val(res.data.fileName);
+                        $('#edit-templetFileName').val(res.data.fileName);*/
+                        $('#instDocRequest').val(res.data.fileRequestUrl);
+                    }else{
+                        febs.alert.warn(res.data.returnInfo);
+                    }
+                }else{
+                    febs.alert.error('导入失败，请重新导入!');
+                }
+            },
+            error: function (res) {
+                //请求异常回调
+                febs.alert.error('导入失败，请重新导入!');
+            }
+        });
+
+        form.on('submit(sitSet-edit-form-submit)', function (data) {
+            febs.post(ctx + 'master/set/sitSet/save', data.field, function (res) {
+                sitSet = res.data;
+                form.val('sitSet-edit-form', sitSet);
+                febs.alert.success('操作成功!');
+            });
+            return false;
+        });
+    });
+</script>

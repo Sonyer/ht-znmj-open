@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.member.mapper.MemberWxMpMapper">
+
+    <resultMap id="memberWxMp" type="com.handturn.bole.master.member.entity.MemberWxMp">
+        <id column="id" property="id"/> <!--//-->
+        <result column="openid" property="openid"/>  <!--//小程序openid-->
+        <result column="unionid" property="unionid"/>  <!--//微信用户唯一ID-->
+        <result column="bindMemberId" property="bindMemberId"/>  <!--//绑定平台用户ID-->
+        <result column="avatarRequest" property="avatarRequest"/>  <!--//微信头像-访问地址-->
+        <result column="nickName" property="nickName"/>  <!--//平台会员昵称-->
+        <result column="city" property="city"/>  <!--//城市-->
+        <result column="province" property="province"/>  <!--//省份-->
+        <result column="country" property="country"/>  <!--//国家-->
+        <result column="language" property="language"/>
+        <result column="gender" property="gender"/>
+        <result column="phoneNumber" property="phoneNumber"/>
+        <result column="purPhoneNumber" property="purPhoneNumber"/>
+        <result column="countryCode" property="countryCode"/>
+        <result column="createTime" property="createTime"/>  <!--//新增时间-->
+        <result column="isAuthe" property="isAuthe"/>
+        <result column="status" property="status"/>  <!--//用户状态:NOMAL-正常,FREEZE-冻结-->
+        <result column="loginCount" property="loginCount"/>  <!--//登陆次数-->
+        <result column="lastLoginIp" property="lastLoginIp"/>  <!--//最后登陆IP-->
+        <result column="lastIpRegion" property="lastIpRegion"/>  <!--//最后登陆IP区域-->
+        <result column="firstLoginTime" property="firstLoginTime"/>  <!--//第一次登陆时间-->
+        <result column="lastLoginTime" property="lastLoginTime"/>  <!--//最后登陆时间-->
+
+        <result column="lastLongitude" property="lastLongitude"/>
+        <result column="lastLatitude" property="lastLatitude"/>
+    </resultMap>
+
+    <sql id="SqlWithMemberWxMpSelectAll">
+        SELECT
+            MemberWxMp.id AS id,
+            MemberWxMp.openid AS openid,
+            MemberWxMp.unionid AS unionid,
+            MemberWxMp.bind_member_id AS bindMemberId,
+            MemberWxMp.avatar_request AS avatarRequest,
+            MemberWxMp.nick_name AS nickName,
+            MemberWxMp.city AS city,
+            MemberWxMp.province AS province,
+            MemberWxMp.country AS country,
+            MemberWxMp.language AS language,
+            MemberWxMp.gender AS gender,
+
+            MemberWxMp.phone_number AS phoneNumber,
+            MemberWxMp.pur_phone_number AS purPhoneNumber,
+            MemberWxMp.country_code AS countryCode,
+
+            MemberWxMp.create_time AS createTime,
+            MemberWxMp.is_auth AS isAuth,
+            MemberWxMp.status AS status,
+            MemberWxMp.login_count AS loginCount,
+            MemberWxMp.last_login_ip AS lastLoginIp,
+            MemberWxMp.last_ip_region AS lastIpRegion,
+            MemberWxMp.first_login_time AS firstLoginTime,
+            MemberWxMp.last_login_time AS lastLoginTime,
+
+            MemberWxMp.last_longitude AS lastLongitude,
+            MemberWxMp.last_latitude AS lastLatitude
+        FROM member_wx_mp AS MemberWxMp
+    </sql>
+
+    <select id="findForPage" parameterType="memberWxMp" resultType="memberWxMp">
+        <include refid="SqlWithMemberWxMpSelectAll"/>
+        WHERE 1=1
+
+            <if test="memberWxMp.id != null and memberWxMp.id != ''">
+                AND MemberWxMp.id =#{memberWxMp.id}
+            </if>
+            <if test="memberWxMp.openid != null and memberWxMp.openid != ''">
+                AND MemberWxMp.openid =#{memberWxMp.openid}
+            </if>
+            <if test="memberWxMp.unionid != null and memberWxMp.unionid != ''">
+                AND MemberWxMp.unionid =#{memberWxMp.unionid}
+            </if>
+            <if test="memberWxMp.bindMemberId != null and memberWxMp.bindMemberId != ''">
+                AND MemberWxMp.bind_member_id =#{memberWxMp.bindMemberId}
+            </if>
+            <if test="memberWxMp.avatarRequest != null and memberWxMp.avatarRequest != ''">
+                AND MemberWxMp.avatar_request =#{memberWxMp.avatarRequest}
+            </if>
+            <if test="memberWxMp.nickName != null and memberWxMp.nickName != ''">
+                AND MemberWxMp.nick_name =#{memberWxMp.nickName}
+            </if>
+            <if test="memberWxMp.city != null and memberWxMp.city != ''">
+                AND MemberWxMp.city =#{memberWxMp.city}
+            </if>
+            <if test="memberWxMp.province != null and memberWxMp.province != ''">
+                AND MemberWxMp.province =#{memberWxMp.province}
+            </if>
+            <if test="memberWxMp.country != null and memberWxMp.country != ''">
+                AND MemberWxMp.country =#{memberWxMp.country}
+            </if>
+        <if test="memberWxMp.language != null and memberWxMp.language != ''">
+            AND MemberWxMp.language =#{memberWxMp.language}
+        </if>
+        <if test="memberWxMp.gender != null and memberWxMp.gender != ''">
+            AND memberWxMp.gender =#{memberWxMp.gender}
+        </if>
+
+        <if test="memberWxMp.phoneNumber != null and memberWxMp.phoneNumber != ''">
+            AND memberWxMp.phone_number =#{memberWxMp.phoneNumber}
+        </if>
+        <if test="memberWxMp.purPhoneNumber != null and memberWxMp.purPhoneNumber != ''">
+            AND memberWxMp.pur_phone_number =#{memberWxMp.purPhoneNumber}
+        </if>
+        <if test="memberWxMp.countryCode != null and memberWxMp.countryCode != ''">
+            AND memberWxMp.country_code =#{memberWxMp.countryCode}
+        </if>
+
+        <if test="memberWxMp.createTime != null and memberWxMp.createTime != ''">
+            AND MemberWxMp.create_time =#{memberWxMp.createTime}
+        </if>
+        <if test="memberWxMp.isAuth != null and memberWxMp.isAuth != ''">
+            AND MemberWxMp.is_auth =#{memberWxMp.isAuth}
+        </if>
+            <if test="memberWxMp.status != null and memberWxMp.status != ''">
+                AND MemberWxMp.status =#{memberWxMp.status}
+            </if>
+            <if test="memberWxMp.loginCount != null and memberWxMp.loginCount != ''">
+                AND MemberWxMp.login_count =#{memberWxMp.loginCount}
+            </if>
+            <if test="memberWxMp.lastLoginIp != null and memberWxMp.lastLoginIp != ''">
+                AND MemberWxMp.last_login_ip =#{memberWxMp.lastLoginIp}
+            </if>
+            <if test="memberWxMp.lastIpRegion != null and memberWxMp.lastIpRegion != ''">
+                AND MemberWxMp.last_ip_region =#{memberWxMp.lastIpRegion}
+            </if>
+            <if test="memberWxMp.firstLoginTime != null and memberWxMp.firstLoginTime != ''">
+                AND MemberWxMp.first_login_time =#{memberWxMp.firstLoginTime}
+            </if>
+            <if test="memberWxMp.lastLoginTime != null and memberWxMp.lastLoginTime != ''">
+                AND MemberWxMp.last_login_time =#{memberWxMp.lastLoginTime}
+            </if>
+    </select>
+</mapper>

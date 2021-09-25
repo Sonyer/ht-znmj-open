@@ -1,0 +1,368 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-memberVisitorInfo" lay-title="MemberVisitorInfo管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="memberVisitorInfo-table-form" id="memberVisitorInfo-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">ID</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="id" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户ID</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="memberId" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户账号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="memberAccountCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">真实姓名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCardName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">身份证号码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCard" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户手机号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="phoneNumber" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">人脸附件-存根地址</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="faceImgAttchment" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">人脸图片-请求地址</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="faceImgRequest" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">审核状态:INIT-草稿,UPLOAD-已认证</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="status" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">版本编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="recordVersion" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createDate" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增用户编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createUserCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">新增用户名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="createUserName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdDate" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改用户编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdUserCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">最后修改用户名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="lastUpdUserName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="memberVisitorInfoTable" lay-filter="memberVisitorInfoTable" lay-data="{id: 'memberVisitorInfoTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="memberVisitorInfoTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="memberVisitorInfo:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="memberVisitorInfo:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="memberVisitorInfo:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+</script>
+<script type="text/html" id="memberVisitorInfo-option">
+    <span shiro:lacksPermission="memberVisitorInfo:view,memberVisitorInfo:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="update" shiro:hasPermission="memberVisitorInfo:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+    <a lay-event="view" shiro:hasPermission="memberVisitorInfo:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-memberVisitorInfo'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#memberVisitorInfo-table-form'),
+            baseStatusOption = [[----{baseStatusOption}]],
+            baseStatusOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(memberVisitorInfoTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('memberVisitorInfoTable');
+            if (layEvent === 'add') {
+                febs.modal.open('新增MemberVisitorInfo', 'memberVisitorInfo/memberVisitorInfo/add', {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                    yes: function (index, layero) {
+                        $('#memberVisitorInfo-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#memberVisitorInfo-edit').find('#reset').trigger('click');
+                        return false;
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的MemberVisitorInfo');
+                } else {
+                    var memberVisitorInfoIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        memberVisitorInfoIds.push(item.id)
+                    });
+                    febs.post(ctx + 'memberVisitorInfo/memberVisitorInfo/enable/' + memberVisitorInfoIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的MemberVisitorInfo');
+                } else {
+                    var memberVisitorInfoIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        memberVisitorInfoIds.push(item.id)
+                    });
+                    febs.post(ctx + 'memberVisitorInfo/memberVisitorInfo/disable/' + memberVisitorInfoIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('tool(memberVisitorInfoTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('MemberVisitorInfo信息', 'memberVisitorInfo/memberVisitorInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改MemberVisitorInfo', 'memberVisitorInfo/memberVisitorInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#memberVisitorInfo-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('sort(memberVisitorInfoTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'memberVisitorInfoTable',
+                toolbar: '#memberVisitorInfoTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'memberVisitorInfo/memberVisitorInfo/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'id', title: 'ID',sort: true, minWidth: 100},
+                            {field: 'memberId', title: '用户ID',sort: true, minWidth: 100},
+                            {field: 'memberAccountCode', title: '用户账号',sort: true, minWidth: 100},
+                            {field: 'idCardName', title: '真实姓名',sort: true, minWidth: 100},
+                            {field: 'idCard', title: '身份证号码',sort: true, minWidth: 100},
+                            {field: 'phoneNumber', title: '用户手机号',sort: true, minWidth: 100},
+                            {field: 'faceImgAttchment', title: '人脸附件-存根地址',sort: true, minWidth: 100},
+                            {field: 'faceImgRequest', title: '人脸图片-请求地址',sort: true, minWidth: 100},
+                            {field: 'status', title: '审核状态:INIT-草稿,UPLOAD-已认证',sort: true,dataMap:baseStatusOptionMap,templet: function(d){
+                                    return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                                }, minWidth: 100},
+                            {field: 'recordVersion', title: '版本编码',sort: true, minWidth: 100},
+                            {field: 'createDate', title: '新增时间',sort: true, minWidth: 100},
+                            {field: 'createUserCode', title: '新增用户编码',sort: true, minWidth: 100},
+                            {field: 'createUserName', title: '新增用户名',sort: true, minWidth: 100},
+                            {field: 'lastUpdDate', title: '最后修改时间',sort: true, minWidth: 100},
+                            {field: 'lastUpdUserCode', title: '最后修改用户编码',sort: true, minWidth: 100},
+                            {field: 'lastUpdUserName', title: '最后修改用户名',sort: true, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#memberVisitorInfo-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#memberVisitorInfoTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'memberVisitorInfo/memberVisitorInfo/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    id: $searchForm.find('input[name="id"]').val().trim(),
+                    memberId: $searchForm.find('input[name="memberId"]').val().trim(),
+                    memberAccountCode: $searchForm.find('input[name="memberAccountCode"]').val().trim(),
+                    idCardName: $searchForm.find('input[name="idCardName"]').val().trim(),
+                    idCard: $searchForm.find('input[name="idCard"]').val().trim(),
+                    phoneNumber: $searchForm.find('input[name="phoneNumber"]').val().trim(),
+                    faceImgAttchment: $searchForm.find('input[name="faceImgAttchment"]').val().trim(),
+                    faceImgRequest: $searchForm.find('input[name="faceImgRequest"]').val().trim(),
+                    status: $searchForm.find('input[name="status"]').val().trim(),
+                    recordVersion: $searchForm.find('input[name="recordVersion"]').val().trim(),
+                    createDate: $searchForm.find('input[name="createDate"]').val().trim(),
+                    createUserCode: $searchForm.find('input[name="createUserCode"]').val().trim(),
+                    createUserName: $searchForm.find('input[name="createUserName"]').val().trim(),
+                    lastUpdDate: $searchForm.find('input[name="lastUpdDate"]').val().trim(),
+                    lastUpdUserCode: $searchForm.find('input[name="lastUpdUserCode"]').val().trim(),
+                    lastUpdUserName: $searchForm.find('input[name="lastUpdUserName"]').val().trim(),
+            };
+        }
+    })
+</script>

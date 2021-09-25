@@ -1,0 +1,73 @@
+<style>
+    #sysconfDictType-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysconfDictType-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysconfDictType-edit">
+    <form class="layui-form" action="" lay-filter="sysconfDictType-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysconfDictType.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">类型编码:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="typeCode"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictType.typeCode}" data-th-readonly="${sysconfDictType.id != null}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">类型名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="typeName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictType.typeName}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysconfDictType.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysconfDictType-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysconfDictType-edit'),
+            sysconfDictType = [[${sysconfDictType}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysconfDictType-edit-form-submit)', function (data) {
+            febs.post(ctx + 'sysconf/sysconfDictType/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysconfDict').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

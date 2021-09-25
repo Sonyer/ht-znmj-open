@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.set.mapper.NotifySetMapper">
+
+    <resultMap id="notifySet" type="com.handturn.bole.master.set.entity.NotifySet">
+        <id column="id" property="id"/> <!--//-->
+        <result column="notifyType" property="notifyType"/>  <!--//通知类型-->
+        <result column="isOnInner" property="isOnInner"/>  <!--//开启平台通知-->
+        <result column="isOnWx" property="isOnWx"/>  <!--//开启微信通知-->
+        <result column="isOnSms" property="isOnSms"/>  <!--//开启SMS通知-->
+
+        <result column="ownerType" property="ownerType"/>  <!--//使用人群-->
+        <result column="notifyDec" property="notifyDec"/>  <!--//消息描述-->
+
+        <result column="innerNotifyMessage" property="innerNotifyMessage"/>  <!--//内部通知消息-->
+        <result column="innerNotifyToPage" property="innerNotifyToPage"/>  <!--//内部通知消息-->
+        <result column="wxNotifyTemplateId" property="wxNotifyTemplateId"/>  <!--//WX通知模板ID-->
+        <result column="wxNotifyDataJson" property="wxNotifyDataJson"/>  <!--//WX通知JSON串-->
+        <result column="wxNotifyToPage" property="wxNotifyToPage"/>  <!--//微信通知跳转页面-->
+        <result column="smsNotifyTemplateCode" property="smsNotifyTemplateCode"/>  <!--//短信通知模板编码-->
+        <result column="smsPhoneNumber" property="smsPhoneNumber"/>
+        <result column="smsNotifyDataJson" property="smsNotifyDataJson"/>  <!--//短信通知JSON串-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithNotifySetSelectAll">
+        SELECT
+            NotifySet.id AS id,
+            NotifySet.notify_type AS notifyType,
+            NotifySet.is_on_inner AS isOnInner,
+            NotifySet.is_on_wx AS isOnWx,
+            NotifySet.is_on_sms AS isOnSms,
+
+            NotifySet.owner_type AS ownerType,
+            NotifySet.notify_dec AS notifyDec,
+
+            NotifySet.inner_notify_message AS innerNotifyMessage,
+            NotifySet.inner_notify_to_page AS innerNotifyToPage,
+            NotifySet.wx_notify_template_id AS wxNotifyTemplateId,
+            NotifySet.wx_notify_data_json AS wxNotifyDataJson,
+            NotifySet.wx_notify_to_page AS wxNotifyToPage,
+            NotifySet.sms_notify_template_code AS smsNotifyTemplateCode,
+            NotifySet.sms_phone_number AS smsPhoneNumber,
+            NotifySet.sms_notify_data_json AS smsNotifyDataJson,
+            NotifySet.status AS status,
+            NotifySet.record_version AS recordVersion,
+            NotifySet.create_date AS createDate,
+            NotifySet.create_user_code AS createUserCode,
+            NotifySet.create_user_name AS createUserName,
+            NotifySet.last_upd_date AS lastUpdDate,
+            NotifySet.last_upd_user_code AS lastUpdUserCode,
+            NotifySet.last_upd_user_name AS lastUpdUserName
+        FROM notify_set AS NotifySet
+    </sql>
+
+    <select id="findForPage" parameterType="notifySet" resultType="notifySet">
+        <include refid="SqlWithNotifySetSelectAll"/>
+        WHERE 1=1
+
+            <if test="notifySet.id != null and notifySet.id != ''">
+                AND NotifySet.id =#{notifySet.id}
+            </if>
+            <if test="notifySet.notifyType != null and notifySet.notifyType != ''">
+                AND NotifySet.notify_type =#{notifySet.notifyType}
+            </if>
+            <if test="notifySet.isOnInner != null and notifySet.isOnInner != ''">
+                AND NotifySet.is_on_inner =#{notifySet.isOnInner}
+            </if>
+            <if test="notifySet.isOnWx != null and notifySet.isOnWx != ''">
+                AND NotifySet.is_on_wx =#{notifySet.isOnWx}
+            </if>
+            <if test="notifySet.isOnSms != null and notifySet.isOnSms != ''">
+                AND NotifySet.is_on_sms =#{notifySet.isOnSms}
+            </if>
+            <if test="notifySet.innerNotifyMessage != null and notifySet.innerNotifyMessage != ''">
+                AND NotifySet.inner_notify_message =#{notifySet.innerNotifyMessage}
+            </if>
+            <if test="notifySet.innerNotifyToPage != null and notifySet.innerNotifyToPage != ''">
+                AND NotifySet.inner_notify_to_page =#{notifySet.innerNotifyToPage}
+            </if>
+            <if test="notifySet.wxNotifyTemplateId != null and notifySet.wxNotifyTemplateId != ''">
+                AND NotifySet.wx_notify_template_id =#{notifySet.wxNotifyTemplateId}
+            </if>
+            <if test="notifySet.wxNotifyDataJson != null and notifySet.wxNotifyDataJson != ''">
+                AND NotifySet.wx_notify_data_json =#{notifySet.wxNotifyDataJson}
+            </if>
+            <if test="notifySet.wxNotifyToPage != null and notifySet.wxNotifyToPage != ''">
+                AND NotifySet.wx_notify_to_page =#{notifySet.wxNotifyToPage}
+            </if>
+            <if test="notifySet.smsNotifyTemplateCode != null and notifySet.smsNotifyTemplateCode != ''">
+                AND NotifySet.sms_notify_template_code =#{notifySet.smsNotifyTemplateCode}
+            </if>
+            <if test="notifySet.smsNotifyDataJson != null and notifySet.smsNotifyDataJson != ''">
+                AND NotifySet.sms_notify_data_json =#{notifySet.smsNotifyDataJson}
+            </if>
+            <if test="notifySet.status != null and notifySet.status != ''">
+                AND NotifySet.status =#{notifySet.status}
+            </if>
+    </select>
+</mapper>

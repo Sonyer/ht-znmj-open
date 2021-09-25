@@ -1,0 +1,267 @@
+<style>
+    #ocAuthArea-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #ocAuthArea-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocAuthArea-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">权限区域信息</li>
+            <li>负责人列表</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="ocAuthArea-edit-form">
+                    <div class="layui-form-item">
+                        <div class="layui-form-item febs-hide">
+                            <label class="layui-form-label">ID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" id="id" data-th-value="${ocAuthArea.id}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">区域编码:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="areaCode" readonly
+                                       autocomplete="off" class="layui-input" data-th-value="${ocAuthArea.areaCode}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">区域名称:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="areaName" lay-verify="required"
+                                       autocomplete="off" class="layui-input" data-th-value="${ocAuthArea.areaName}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">自动审核</label>
+                            <div class="layui-input-block">
+                                <select name="isAutoAudit" id="isAutoAudit" lay-verify="required" lay-search>
+                                    <option value=""></option>
+                                    <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocAuthArea.isAutoAudit}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-block">
+                                <textarea name="remark" maxlength="100"
+                                          class="layui-textarea" data-th-text="${ocAuthArea.remark}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="ocAuthArea-edit-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body febs-table-full">
+                                <form class="layui-form layui-table-form" lay-filter="ocAuthAreaResponsible-table-form" id="ocAuthAreaResponsible-table-form">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md10">
+                                            <div class="layui-form-item">
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">负责人信息</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="userName" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">部门名称</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="depName" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="responsibleQuery">
+                                                <i class="layui-icon">&#xe848;</i>
+                                            </div>
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="responsibleReset">
+                                                <i class="layui-icon">&#xe79b;</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <table id="ocAuthAreaResponsibleTable" lay-filter="ocAuthAreaResponsibleTable" lay-data="{id: 'ocAuthAreaResponsibleTable'}" ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="ocAuthAreaResponsibleTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="main:authArea:ocAuthArea:add,main:authArea:ocAuthArea:update">
+        <i class="layui-icon">&#xe7aa;</i> 添加
+    </button>
+    <button lay-event="delete" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="main:authArea:ocAuthArea:add,main:authArea:ocAuthArea:update">
+        <i class="layui-icon">&#xe7f9;</i> 移除
+    </button>
+</script>
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects','table', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            table = layui.table,
+            $view = $('#ocAuthArea-edit'),
+            ocAuthArea = [[#{ocAuthArea}]],
+            validate = layui.validate,
+            $searchForm = $view.find('#ocAuthAreaResponsible-table-form'),
+            $responsibleQuery = $view.find('#responsibleQuery'),
+            $responsibleReset = $view.find('#responsibleReset'),
+            tableIns;
+
+        form.verify(validate);
+        form.render();
+
+        initTable();
+
+        $responsibleQuery.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: null, order: null});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $responsibleReset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+        });
+
+        //监听事件
+        table.on('toolbar(ocAuthAreaResponsibleTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('ocAuthAreaResponsibleTable');
+            if (layEvent === 'add') {
+                var authAreaId = $view.find('input[name="id"]').val().trim();
+                if(authAreaId == null || authAreaId == 0){
+                    febs.alert.error('权限区域未提交保存，请提交后再新增责任人!');
+                    return;
+                }
+                febs.modal.open('添加责任人', 'main/authArea/ocAuthArea/addResponsible/'+authAreaId, {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                    yes: function (index, layero) {
+                        $('#ocAuthAreaResponsible-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#ocAuthAreaResponsible-edit').find('#reset').trigger('click');
+                        return false;
+                    }
+                });
+            }
+
+            if (layEvent === 'delete') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要删除的责任人!');
+                } else {
+                    var responsibleIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        responsibleIds.push(item.id)
+                    });
+                    febs.post(ctx + 'main/authArea/ocAuthArea/deleteResponsible/' + responsibleIds.join(','), null, function () {
+                        tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('#ocAuthAreaResponsibleTable'),
+                id: 'ocAuthAreaResponsibleTable',
+                toolbar: '#ocAuthAreaResponsibleTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                where:getQueryParams(),
+                url: ctx + 'main/authArea/ocAuthArea/responsibleList',
+                cols: [
+                    [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'userCode', title: '责任人编码',sort: true, minWidth: 110},
+                        {field: 'userName', title: '责任人名称',sort: true, minWidth: 110},
+                        {field: 'depName', title: '责任人部门',sort: true, minWidth: 110},
+                    ]
+                ],
+                height: $(document).height() - $('#ocAuthArea-edit').offset().top - 140,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'main/authArea/ocAuthArea/responsibleExport/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                authAreaId: $view.find('input[name="id"]').val().trim(),
+                userName: $searchForm.find('input[name="userName"]').val().trim(),
+                depName: $searchForm.find('input[name="depName"]').val().trim(),
+            };
+        }
+
+        form.on('submit(ocAuthArea-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/authArea/ocAuthArea/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-ocAuthArea').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.equipment.mapper.EquipmentStatusLogMapper">
+
+    <resultMap id="equipmentStatusLog" type="com.handturn.bole.main.equipment.entity.EquipmentStatusLog">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="equipmentCode" property="equipmentCode"/>  <!--//设备系统编码-->
+        <result column="equipmentMdCode" property="equipmentMdCode"/>  <!--//设备出厂编码-->
+        <result column="equipmentModelCode" property="equipmentModelCode"/>  <!--//设备型号编号-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="seqNum" property="seqNum"/>  <!--//设备序号-->
+        <result column="areaCode" property="areaCode"/>  <!--//所属区域编码-->
+        <result column="logDate" property="logDate"/>  <!--//日志日期-->
+        <result column="offlineCount" property="offlineCount"/>  <!--//离线次数-->
+        <result column="onlineCount" property="onlineCount"/>  <!--//在线次数-->
+        <result column="onlineTime" property="onlineTime"/>  <!--//上次心跳时间-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithEquipmentStatusLogSelectAll">
+        SELECT
+            EquipmentStatusLog.id AS id,
+            EquipmentStatusLog.equipment_code AS equipmentCode,
+            EquipmentStatusLog.equipment_md_code AS equipmentMdCode,
+            EquipmentStatusLog.equipment_model_code AS equipmentModelCode,
+            EquipmentStatusLog.oc_code AS ocCode,
+            EquipmentStatusLog.org_code AS orgCode,
+            EquipmentStatusLog.oc_name AS ocName,
+            EquipmentStatusLog.org_name AS orgName,
+            EquipmentStatusLog.remark AS remark,
+            EquipmentStatusLog.seq_num AS seqNum,
+            EquipmentStatusLog.area_code AS areaCode,
+            EquipmentStatusLog.log_date AS logDate,
+            EquipmentStatusLog.offline_count AS offlineCount,
+            EquipmentStatusLog.online_count AS onlineCount,
+            EquipmentStatusLog.online_time AS onlineTime,
+            EquipmentStatusLog.record_version AS recordVersion,
+            EquipmentStatusLog.create_date AS createDate,
+            EquipmentStatusLog.create_user_code AS createUserCode,
+            EquipmentStatusLog.create_user_name AS createUserName,
+            EquipmentStatusLog.last_upd_date AS lastUpdDate,
+            EquipmentStatusLog.last_upd_user_code AS lastUpdUserCode,
+            EquipmentStatusLog.last_upd_user_name AS lastUpdUserName
+        FROM equipment_status_log AS EquipmentStatusLog
+    </sql>
+
+    <select id="findForPage" parameterType="equipmentStatusLog" resultType="equipmentStatusLog">
+        <include refid="SqlWithEquipmentStatusLogSelectAll"/>
+        WHERE 1=1
+
+            <if test="equipmentStatusLog.id != null and equipmentStatusLog.id != ''">
+                AND EquipmentStatusLog.id =#{equipmentStatusLog.id}
+            </if>
+            <if test="equipmentStatusLog.equipmentCode != null and equipmentStatusLog.equipmentCode != ''">
+                AND EquipmentStatusLog.equipment_code =#{equipmentStatusLog.equipmentCode}
+            </if>
+            <if test="equipmentStatusLog.equipmentMdCode != null and equipmentStatusLog.equipmentMdCode != ''">
+                AND EquipmentStatusLog.equipment_md_code =#{equipmentStatusLog.equipmentMdCode}
+            </if>
+            <if test="equipmentStatusLog.equipmentModelCode != null and equipmentStatusLog.equipmentModelCode != ''">
+                AND EquipmentStatusLog.equipment_model_code =#{equipmentStatusLog.equipmentModelCode}
+            </if>
+            <if test="equipmentStatusLog.ocCode != null and equipmentStatusLog.ocCode != ''">
+                AND EquipmentStatusLog.oc_code =#{equipmentStatusLog.ocCode}
+            </if>
+            <if test="equipmentStatusLog.orgCode != null and equipmentStatusLog.orgCode != ''">
+                AND EquipmentStatusLog.org_code =#{equipmentStatusLog.orgCode}
+            </if>
+            <if test="equipmentStatusLog.ocName != null and equipmentStatusLog.ocName != ''">
+                AND EquipmentStatusLog.oc_name =#{equipmentStatusLog.ocName}
+            </if>
+            <if test="equipmentStatusLog.orgName != null and equipmentStatusLog.orgName != ''">
+                AND EquipmentStatusLog.org_name =#{equipmentStatusLog.orgName}
+            </if>
+            <if test="equipmentStatusLog.remark != null and equipmentStatusLog.remark != ''">
+                AND EquipmentStatusLog.remark =#{equipmentStatusLog.remark}
+            </if>
+            <if test="equipmentStatusLog.seqNum != null and equipmentStatusLog.seqNum != ''">
+                AND EquipmentStatusLog.seq_num =#{equipmentStatusLog.seqNum}
+            </if>
+            <if test="equipmentStatusLog.areaCode != null and equipmentStatusLog.areaCode != ''">
+                AND EquipmentStatusLog.area_code =#{equipmentStatusLog.areaCode}
+            </if>
+            <if test="equipmentStatusLog.logDate != null and equipmentStatusLog.logDate != ''">
+                AND EquipmentStatusLog.log_date =#{equipmentStatusLog.logDate}
+            </if>
+            <if test="equipmentStatusLog.offlineCount != null and equipmentStatusLog.offlineCount != ''">
+                AND EquipmentStatusLog.offline_count =#{equipmentStatusLog.offlineCount}
+            </if>
+            <if test="equipmentStatusLog.onlineCount != null and equipmentStatusLog.onlineCount != ''">
+                AND EquipmentStatusLog.online_count =#{equipmentStatusLog.onlineCount}
+            </if>
+            <if test="equipmentStatusLog.onlineTime != null and equipmentStatusLog.onlineTime != ''">
+                AND EquipmentStatusLog.online_time =#{equipmentStatusLog.onlineTime}
+            </if>
+    </select>
+</mapper>

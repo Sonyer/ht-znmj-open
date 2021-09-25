@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysRoleMapper">
+
+    <resultMap id="sysRole" type="com.handturn.bole.system.entity.SysRole">
+        <id column="id" property="id"/>
+        <result column="roleCode" property="roleCode"/>
+        <result column="roleName" property="roleName"/>
+        <result column="orgId" property="orgId"/>
+        <result column="ocId" property="ocId"/>
+        <result column="status" property="status"/>
+        <result column="isSysCreate" property="isSysCreate"/>
+        <result column="recordVersion" property="recordVersion"/>
+        <result column="createDate" property="createDate"/>
+        <result column="createUserCode" property="createUserCode"/>
+        <result column="createUserName" property="createUserName"/>
+        <result column="lastUpdDate" property="lastUpdDate"/>
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>
+        <result column="lastUpdUserName" property="lastUpdUserName"/>
+    </resultMap>
+
+    <sql id="SqlWithSysRoleSelectAll">
+        SELECT
+            SysRole.id AS id,
+            SysRole.role_code AS roleCode,
+            SysRole.role_name AS roleName,
+            SysRole.org_id AS orgId,
+            SysRole.oc_id AS ocId,
+            SysRole.status AS status,
+            SysRole.is_sys_create AS isSysCreate,
+            SysRole.record_version AS recordVersion,
+            SysRole.create_date AS createDate,
+            SysRole.create_user_code AS createUserCode,
+            SysRole.create_user_name AS createUserName,
+            SysRole.last_upd_date AS lastUpdDate,
+            SysRole.last_upd_user_code AS lastUpdUserCode,
+            SysRole.last_upd_user_name AS lastUpdUserName
+        FROM sys_role AS SysRole
+    </sql>
+
+    <select id="findUserRole" resultMap="sysRole">
+        <include refid="SqlWithSysRoleSelectAll"/>
+        LEFT JOIN sys_role_user ru ON (SysRole.id = ru.role_id)
+        LEFT JOIN sys_user u ON (u.id = ru.user_id)
+        WHERE
+            u.user_code = #{userCode}
+    </select>
+
+    <select id="findForPage" parameterType="sysRole" resultType="sysRole">
+        <include refid="SqlWithSysRoleSelectAll"/>
+        WHERE 1=1
+        <if test="sysRole.ocId != null and sysRole.ocId != ''">
+            AND SysRole.oc_id = #{sysRole.ocId}
+        </if>
+        <if test="sysRole.roleCode != null and sysRole.roleCode != ''">
+            AND SysRole.role_code LIKE CONCAT('%',#{sysRole.roleCode},'%')
+        </if>
+        <if test="sysRole.roleName != null and sysRole.roleName != ''">
+            AND SysRole.role_name LIKE CONCAT('%',#{sysRole.roleName},'%')
+        </if>
+        <if test="sysRole.status != null and sysRole.status != ''">
+            AND SysRole.status = #{sysRole.status}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,243 @@
+<style>
+    #sysOrganization-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysOrganization-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysOrganization-edit">
+    <form class="layui-form" action="" lay-filter="sysOrganization-edit-form">
+        <div class="layui-form-item">
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" data-th-value="${sysOrganization.id}">
+                </div>
+            </div>
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">Logo文件名:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="logoFileName" id="edit-logoFileName" data-th-value="${sysOrganization.logoFileName}">
+                </div>
+            </div>
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">Logo文件路径:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="logoFilePath" id="edit-logoFilePath" data-th-value="${sysOrganization.logoFilePath}">
+                </div>
+            </div>
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">Logo文件请求路径:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="logoRequestUrl" id="edit-logoRequestUrl" data-th-value="${sysOrganization.logoRequestUrl}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">组织编号:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="orgCode"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.orgCode}" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">组织名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="orgName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysOrganization.orgName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">组织简称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="orgShortName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysOrganization.orgShortName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">地址:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.address}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">区域:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="region"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.region}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">城市:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="city"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.city}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">省份:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="province"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.province}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">国家:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="country"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.country}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮编:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="postCode"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.postCode}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">电话:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tel"
+                           autocomplete="off" class="layui-input" lay-verify="phone" data-th-value="${sysOrganization.tel}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">手机:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cell"
+                           autocomplete="off" class="layui-input" lay-verify="phone" data-th-value="${sysOrganization.cell}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">传真:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="fax"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.fax}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email"
+                           autocomplete="off" class="layui-input" lay-verify="email" data-th-value="${sysOrganization.email}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系人:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="attentionTo"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganization.attentionTo}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-xs3">
+                    <label class="layui-form-label">Logo上传:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-upload-list">
+                            <img style="width: 80px;
+                                height: 80px;
+                                margin: 0 10px 10px 0;"
+                                 id="orgLogoUploadShow">
+                            <p id="orgLogoUploadError"></p>
+                        </div>
+                        <button type="button" class="layui-btn" id="orgLogoUpload">上传Logo</button>
+                    </div>
+                </div>
+                <div class="layui-col-xs9">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" maxlength="100"
+                                      class="layui-textarea" data-th-text="${sysOrganization.remark}"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysOrganization-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect','upload'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            upload = layui.upload,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysOrganization-edit'),
+            sysOrganization = [[${sysOrganization}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        if (sysOrganization.logoRequestUrl) {
+            $view.find('#orgLogoUploadShow').attr('src', sysOrganization.logoRequestUrl); //图片链接（base64）
+        }
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#orgLogoUpload',
+            accept: 'file',
+            exts: 'jpg|png|gif', // 只能上传 .jpg格式
+            size: 5 * 1024,
+            url: ctx + 'system/sysOrganization/importUpload', //改成您自己的上传接口
+            before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    if(result){
+                        $view.find('#orgLogoUploadShow').attr('src', result); //图片链接（base64）
+                    }else {
+                        if (sysOrganization.logoRequestUrl) {
+                            $view.find('#orgLogoUploadShow').attr('src', sysOrganization.logoRequestUrl); //图片链接（base64）
+                        }
+                    }
+
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if (res.code === 200) {
+                    if(res.data.success == true){
+                        $view.find('#edit-logoFileName').val(res.data.fileName);
+                        $view.find('#edit-logoRequestUrl').val(res.data.fileRequestUrl);
+                        $view.find('#edit-logoFilePath').val(res.data.filePath);
+                    }else{
+                        febs.alert.warn(res.data.returnInfo);
+                    }
+                }else{
+                    febs.alert.error('上传失败，请重新上传!');
+                }
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var orgLogoUploadError = $('#orgLogoUploadError');
+                orgLogoUploadError.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                orgLogoUploadError.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        form.on('submit(sysOrganization-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysOrganization/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysOrganization').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

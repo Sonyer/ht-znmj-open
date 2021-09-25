@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.job.mapper.ScheduleJobMapper">
+
+    <resultMap id="scheduleJob" type="com.handturn.bole.job.entity.ScheduleJob">
+        <id column="id" property="id"/> <!--//任务id-->
+        <result column="beanName" property="beanName"/>  <!--//spring bean名称-->
+        <result column="methodName" property="methodName"/>  <!--//方法名-->
+        <result column="params" property="params"/>  <!--//参数-->
+        <result column="cronExpression" property="cronExpression"/>  <!--//cron表达式-->
+        <result column="status" property="status"/>  <!--//任务状态  NORMAL:正常  PAUSE:暂停-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithScheduleJobSelectAll">
+        SELECT
+            ScheduleJob.id AS id,
+            ScheduleJob.bean_name AS beanName,
+            ScheduleJob.method_name AS methodName,
+            ScheduleJob.params AS params,
+            ScheduleJob.cron_expression AS cronExpression,
+            ScheduleJob.status AS status,
+            ScheduleJob.remark AS remark,
+            ScheduleJob.record_version AS recordVersion,
+            ScheduleJob.create_date AS createDate,
+            ScheduleJob.create_user_code AS createUserCode,
+            ScheduleJob.create_user_name AS createUserName,
+            ScheduleJob.last_upd_date AS lastUpdDate,
+            ScheduleJob.last_upd_user_code AS lastUpdUserCode,
+            ScheduleJob.last_upd_user_name AS lastUpdUserName
+        FROM schedule_job AS ScheduleJob
+    </sql>
+
+    <select id="findForPage" parameterType="scheduleJob" resultType="scheduleJob">
+        <include refid="SqlWithScheduleJobSelectAll"/>
+        WHERE 1=1
+
+            <if test="scheduleJob.id != null and scheduleJob.id != ''">
+                AND ScheduleJob.id = #{scheduleJob.id}
+            </if>
+            <if test="scheduleJob.beanName != null and scheduleJob.beanName != ''">
+                AND ScheduleJob.bean_name = #{scheduleJob.beanName}
+            </if>
+            <if test="scheduleJob.methodName != null and scheduleJob.methodName != ''">
+                AND ScheduleJob.method_name = #{scheduleJob.methodName}
+            </if>
+            <if test="scheduleJob.params != null and scheduleJob.params != ''">
+                AND ScheduleJob.params = #{scheduleJob.params}
+            </if>
+            <if test="scheduleJob.cronExpression != null and scheduleJob.cronExpression != ''">
+                AND ScheduleJob.cron_expression = #{scheduleJob.cronExpression}
+            </if>
+            <if test="scheduleJob.status != null and scheduleJob.status != ''">
+                AND ScheduleJob.status = #{scheduleJob.status}
+            </if>
+            <if test="scheduleJob.remark != null and scheduleJob.remark != ''">
+                AND ScheduleJob.remark = #{scheduleJob.remark}
+            </if>
+            <if test="scheduleJob.recordVersion != null and scheduleJob.recordVersion != ''">
+                AND ScheduleJob.record_version = #{scheduleJob.recordVersion}
+            </if>
+            <if test="scheduleJob.createDate != null and scheduleJob.createDate != ''">
+                AND ScheduleJob.create_date = #{scheduleJob.createDate}
+            </if>
+            <if test="scheduleJob.createUserCode != null and scheduleJob.createUserCode != ''">
+                AND ScheduleJob.create_user_code = #{scheduleJob.createUserCode}
+            </if>
+            <if test="scheduleJob.createUserName != null and scheduleJob.createUserName != ''">
+                AND ScheduleJob.create_user_name = #{scheduleJob.createUserName}
+            </if>
+            <if test="scheduleJob.lastUpdDate != null and scheduleJob.lastUpdDate != ''">
+                AND ScheduleJob.last_upd_date = #{scheduleJob.lastUpdDate}
+            </if>
+            <if test="scheduleJob.lastUpdUserCode != null and scheduleJob.lastUpdUserCode != ''">
+                AND ScheduleJob.last_upd_user_code = #{scheduleJob.lastUpdUserCode}
+            </if>
+            <if test="scheduleJob.lastUpdUserName != null and scheduleJob.lastUpdUserName != ''">
+                AND ScheduleJob.last_upd_user_name = #{scheduleJob.lastUpdUserName}
+            </if>
+    </select>
+
+    <select id="queryList" resultType="scheduleJob">
+        <include refid="SqlWithScheduleJobSelectAll"/>
+        ORDER BY
+        ScheduleJob.id
+    </select>
+</mapper>

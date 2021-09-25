@@ -1,0 +1,78 @@
+<style>
+    #ocVisitorApply-audits {
+        padding: 20px 25px 25px 0;
+        height: 500px;
+    }
+    #ocVisitorApply-audits .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocVisitorApply-audits">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">审核信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="ocVisitorApply-audits-form">
+                    <div class="layui-form-item">
+                            <div class="layui-form-item febs-hide">
+                                <label class="layui-form-label">IDs:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="ids" data-th-value="${ocVisitorApply.ids}">
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label febs-form-item-require">审核状态:</label>
+                                <div class="layui-input-block">
+                                    <select name="auditStatus" id="auditStatus" lay-verify="required" lay-search>
+                                        <option value=""></option>
+                                        <option data-th-each="option:${ocVisitorAuditStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocVisitorApply.auditStatus}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">审核消息:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="auditMessage"
+                                           autocomplete="off" class="layui-input" data-th-value="${ocVisitorApply.auditMessage}">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="ocVisitorApply-audits-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#ocVisitorApply-audits'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(ocVisitorApply-audits-form-submit)', function (data) {
+            febs.post(ctx + 'main/visitor/ocVisitorApply/auditsSave', data.field, function () {
+                layer.closeAll();
+                $('#febs-ocVisitorApply').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ht.znmj.mapper.EquipmentInfoMapper">
+    <resultMap id="equipmentInfo" type="com.ht.znmj.entity.EquipmentInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="sn" property="sn"/>  <!--//设备编号-->
+        <result column="version" property="version"/>  <!--//设备版本号-->
+        <result column="ip" property="ip"/>  <!--//设备IP-->
+        <result column="areaName" property="areaName"/>  <!--//安装区域名称-->
+        <result column="seqNum" property="seqNum"/>  <!--//设备序号-->
+        <result column="inOut" property="inOut"/> <!--//设备出入  1-入口  2-出口-->
+        <result column="connStatus" property="connStatus"/>
+        <result column="status" property="status"/><!--//设备连接状态  1-有效   0-无效-->
+        <result column="cloudFlag" property="cloudFlag"/>  <!--//云端同步  1-已同步  0-未同步-->
+        <result column="license" property="license"/>
+        <result column="heartbeatTime" property="heartbeatTime"/>
+        <result column="cloudId" property="cloudId"/>
+        <result column="createTime" property="createTime"/>  <!--新增时间-->
+        <result column="updateTime" property="updateTime"/>  <!--修改时间-->
+    </resultMap>
+
+    <sql id="SqlWithEquipmentInfoSelectAll">
+        SELECT
+            EquipmentInfo.id AS id,
+            EquipmentInfo.sn AS sn,
+            EquipmentInfo.version AS version,
+            EquipmentInfo.ip AS ip,
+            EquipmentInfo.areaName AS areaName,
+            EquipmentInfo.seqNum AS seqNum,
+            EquipmentInfo.inOut AS inOut,
+            EquipmentInfo.connStatus AS connStatus,
+            EquipmentInfo.status AS status,
+            EquipmentInfo.cloudFlag AS cloudFlag,
+            EquipmentInfo.license AS license,
+            EquipmentInfo.heartbeatTime AS heartbeatTime,
+            EquipmentInfo.cloudId AS cloudId,
+            EquipmentInfo.createTime AS createTime,
+            EquipmentInfo.updateTime AS updateTime
+        FROM EquipmentInfo AS EquipmentInfo
+    </sql>
+
+    <select id="findForPage" parameterType="equipmentInfo" resultType="equipmentInfo">
+        <include refid="SqlWithEquipmentInfoSelectAll"/>
+        WHERE 1=1
+            <if test="equipmentInfo.id != null and equipmentInfo.id != ''">
+                AND EquipmentInfo.id = #{equipmentInfo.id}
+            </if>
+            <if test="equipmentInfo.sn != null and equipmentInfo.sn != ''">
+                AND EquipmentInfo.sn = #{equipmentInfo.sn}
+            </if>
+        <if test="equipmentInfo.cloudId != null and equipmentInfo.cloudId != ''">
+            AND EquipmentInfo.cloudId = #{equipmentInfo.cloudId}
+        </if>
+            <if test="equipmentInfo.status != null and equipmentInfo.status != ''">
+                AND EquipmentInfo.status = #{equipmentInfo.status}
+            </if>
+            <if test="equipmentInfo.connStatus != null and equipmentInfo.connStatus != ''">
+                AND EquipmentInfo.connStatus = #{equipmentInfo.connStatus}
+            </if>
+    </select>
+</mapper>

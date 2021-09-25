@@ -1,0 +1,97 @@
+<style>
+    #minichatSet-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #minichatSet-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="minichatSet-edit" lay-title="微信小程序设置">
+    <div class="layui-row layui-col-space8 febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">微信小程序设置</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="minichatSet-edit-form" id="minichatSet-edit-form">
+                        <div class="layui-form-item febs-hide">
+                            <label class="layui-form-label">id:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" data-th-value="${minichatSet.id}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label febs-form-item-require">微信小程序APPID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="minichatAppId"
+                                       autocomplete="off" class="layui-input" lay-verify="required"  data-th-value="${minichatSet.minichatAppId}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label febs-form-item-require">微信小程序SECRET:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="minichatAppSecret"
+                                       autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${minichatSet.minichatAppSecret}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">商户ID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="payCustomerId"
+                                       autocomplete="off" class="layui-input" data-th-value="${minichatSet.payCustomerId}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">支付密钥:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="paySecret"
+                                       autocomplete="off" class="layui-input" data-th-value="${minichatSet.paySecret}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">付款回调地址:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="notifyUrl"
+                                       autocomplete="off" class="layui-input" data-th-value="${minichatSet.notifyUrl}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="minichatSet-edit-form-submit" id="submit">提交</button>
+                                <button type="reset" class="layui-btn" id="reset">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#minichatSet-edit'),
+            minichatSet = [[${minichatSet}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(minichatSet-edit-form-submit)', function (data) {
+            febs.post(ctx + 'master/set/minichatSet/save', data.field, function (res) {
+                minichatSet = res.data;
+                form.val('minichatSet-edit-form', minichatSet);
+                febs.alert.success('操作成功!');
+            });
+            return false;
+        });
+    });
+</script>

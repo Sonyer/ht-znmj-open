@@ -1,0 +1,220 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-areaInfo" lay-title="区域管理管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="areaInfo-table-form" id="areaInfo-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">区域信息</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="areaName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">所属区域信息</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="parentAreaName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">网点名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">组织名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="status" id="status" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${baseStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="areaInfoTable" lay-filter="areaInfoTable" lay-data="{id: 'areaInfoTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="areaInfoTable-toolbar">
+
+</script>
+<script type="text/html" id="areaInfo-option">
+    <span shiro:lacksPermission="master:area:areaInfo:view">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="view" shiro:hasPermission="master:area:areaInfo:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-areaInfo'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#areaInfo-table-form'),
+            baseStatusOption = [[${baseStatusOption}]],
+            baseStatusOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(areaInfoTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('areaInfoTable');
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('tool(areaInfoTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('区域信息管理', 'master/area/areaInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+        });
+
+        table.on('sort(areaInfoTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'areaInfoTable',
+                toolbar: '#areaInfoTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'master/area/areaInfo/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'areaCode', title: '系统编码',sort: true, minWidth: 100},
+                            {field: 'areaClientCode', title: '定制编码',sort: true, minWidth: 100},
+                            {field: 'areaName', title: '区域名称',sort: true, minWidth: 100},
+                            {field: 'parentAreaName', title: '所属区域',sort: true, minWidth: 100},
+                            {field: 'ocCode', title: '网点编码',sort: true, minWidth: 100},
+                            {field: 'ocName', title: '网点名称',sort: true, minWidth: 100},
+                            {field: 'orgCode', title: '组织编码',sort: true, minWidth: 100},
+                            {field: 'orgName', title: '组织名称',sort: true, minWidth: 100},
+                            {field: 'status', title: '状态',sort: true,dataMap:baseStatusOptionMap,templet: function(d){
+                                    return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                                }, minWidth: 100},
+                            {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#areaInfo-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#areaInfoTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/area/areaInfo/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    areaName: $searchForm.find('input[name="areaName"]').val().trim(),
+                    parentAreaName: $searchForm.find('input[name="parentAreaName"]').val().trim(),
+                    ocName: $searchForm.find('input[name="ocName"]').val().trim(),
+                    orgName: $searchForm.find('input[name="orgName"]').val().trim(),
+                    status: $searchForm.find('select[name="status"]').val().trim(),
+            };
+        }
+    })
+</script>

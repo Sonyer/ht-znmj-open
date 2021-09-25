@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "PCards",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 0,
+  "usingComponents": {
+    "search-header": "/pages/components/searchHeader/searchHeader"
+  }
+}

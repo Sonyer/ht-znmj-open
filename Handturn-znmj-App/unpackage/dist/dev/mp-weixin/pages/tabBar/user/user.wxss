@@ -1,0 +1,423 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.user-info.data-v-3aa0b30a {
+  /* padding-top: var(--status-bar-height); */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+.user-info .user-info-left.data-v-3aa0b30a {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 20rpx;
+    position: relative;
+}
+.user-info .user-info-left .user-info-left-avatar.data-v-3aa0b30a {
+      width: 140rpx;
+      height: 140rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      margin-right: 0.5rem;
+      position: relative;
+}
+.user-info .user-info-left .user-info-left-avatar .icon.data-v-3aa0b30a {
+        width: 40rpx;
+        height: 40rpx;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        right: -1rpx;
+        bottom: -1rpx;
+        font-size: 40rpx;
+        /* color: #ffff00; */
+        z-index: 1;
+        position: absolute;
+}
+.user-info .user-info-left .user-info-left-avatar image.data-v-3aa0b30a {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border: none;
+        border-radius: 15%;
+        position: relative;
+}
+.user-info .user-info-right.data-v-3aa0b30a {
+    padding-top: 20rpx;
+    width: 100%;
+    height: 150rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    /* .user-info-right-right{
+			width: 38%;
+			padding: 20upx;
+			height: 75upx;
+			font-size: 30upx;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-webkit-flex-direction: column;
+			flex-direction: column;
+			color: #ffaa00;
+			
+			.user-info-right-right-row1{
+				padding-top: 10upx;
+				justify-content: space-between;
+				width: 100%;
+				height: 75upx;
+				font-size: 28upx;
+				align-items: center;
+				text-align: center;
+			}
+			
+			.user-info-right-right-red{
+				padding-top: 10upx;
+				justify-content: space-between;
+				width: 100%;
+				height: 75upx;
+				font-size: 28upx;
+				align-items: center;
+				text-align: center;
+				color: #ff0000;
+			}
+			
+			.user-info-right-right-none{
+				padding-top: 10upx;
+				justify-content: space-between;
+				width: 100%;
+				height: 75upx;
+				font-size: 28upx;
+				align-items: center;
+				text-align: center;
+				color: #adadad;
+			}
+			.user-info-right-right-greed{
+				padding-top: 10upx;
+				justify-content: space-between;
+				width: 100%;
+				height: 75upx;
+				font-size: 28upx;
+				align-items: center;
+				text-align: center;
+				color: #55aa00;
+			}
+		} */
+}
+.user-info .user-info-right .user-info-right-left.data-v-3aa0b30a {
+      padding-top: 15rpx;
+      padding-bottom: 20rpx;
+      padding-left: 0rpx;
+      height: 100rpx;
+      font-size: 45rpx;
+      font-weight: 800;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      position: relative;
+      /* .user-info-right-left-row2{
+				margin-top: 20upx;
+				width: 100%;
+				height: 75upx;
+				display: flex;
+				font-size: 28upx;
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: normal;
+				-webkit-flex-direction: row;
+				flex-direction: row;
+				align-items: center;
+				text-align: center;
+				color: #999999;
+				
+				.column1{
+					padding-right: 20upx;
+				}
+			} */
+}
+.user-info .user-info-right .user-info-right-left .user-info-right-left-row1.data-v-3aa0b30a {
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+                justify-content: space-between;
+        width: 100%;
+        height: 100rpx;
+        font-weight: 800;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        font-size: 45rpx;
+}
+.cer-function.data-v-3aa0b30a {
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.cer-function .cer-function-tittle.data-v-3aa0b30a {
+    padding-left: 20rpx;
+    font-size: 30rpx;
+    font-weight: 800;
+    color: #707070;
+}
+.cer-function .cer-function-area.data-v-3aa0b30a {
+    padding: 10rpx;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+    width: auto;
+    height: 80rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+}
+.cer-function .cer-function-area .cer-function-box.data-v-3aa0b30a {
+      margin-left: 40rpx;
+      margin-right: 40rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      font-size: 40rpx;
+      font-weight: 400;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+              justify-content: flex-end;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+              align-items: center;
+      text-align: center;
+}
+.cer-function .cer-function-area .cer-function-box .icon.data-v-3aa0b30a {
+        padding-top: 0rpx;
+        padding-bottom: 0rpx;
+        padding-left: 0rpx;
+        width: 40rpx;
+        height: 40rpx;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+                justify-content: flex-end;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        font-size: 40rpx;
+        color: #C0C0C0;
+}
+.cer-function .cer-function-area .cer-function-box .user-info-right-right-row1.data-v-3aa0b30a {
+        padding-left: 10rpx;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+                justify-content: space-between;
+        font-size: 30rpx;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        text-align: center;
+}
+.cer-function .cer-function-area .cer-function-box .user-info-right-right-red.data-v-3aa0b30a {
+        padding-left: 10rpx;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+                justify-content: space-between;
+        font-size: 30rpx;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        text-align: center;
+        color: #ff0000;
+}
+.cer-function .cer-function-area .cer-function-box .user-info-right-right-none.data-v-3aa0b30a {
+        padding-left: 10rpx;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+                justify-content: space-between;
+        font-size: 30rpx;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        text-align: center;
+        color: #adadad;
+}
+.cer-function .cer-function-area .cer-function-box .user-info-right-right-greed.data-v-3aa0b30a {
+        padding-left: 10rpx;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+                justify-content: space-between;
+        font-size: 30rpx;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        text-align: center;
+        color: #55aa00;
+}
+.often-function.data-v-3aa0b30a {
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.often-function .often-function-tittle.data-v-3aa0b30a {
+    padding-left: 20rpx;
+    font-size: 30rpx;
+    font-weight: 800;
+    color: #707070;
+}
+.often-function .often-function-area.data-v-3aa0b30a {
+    height: 100%;
+    padding: 10rpx;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+    width: auto;
+    height: 120rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    cursor: pointer;
+    position: relative;
+}
+.often-function .often-function-area .often-function-area-single.data-v-3aa0b30a {
+      padding: 10rpx;
+      width: 150rpx;
+      height: 150rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+              align-items: center;
+      text-align: center;
+      position: relative;
+      /* image{
+				width: 150upx;
+				height: 150upx;
+				display: block;
+				border: none;
+				border-radius: 100%;
+				position: relative;
+			} */
+}
+.often-function .often-function-area .often-function-area-single .often-function-area-single-dot.data-v-3aa0b30a {
+        position: absolute;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        background-color: #ff5500;
+        color: #ff5500;
+        font-size: 20rpx;
+        /* background-color: red; */
+        /*height: 24px;改前*/
+        min-height: 10px;
+        /*改后新增的代码*/
+        min-width: 10px;
+        /*改后新增的代码*/
+        line-height: 24px;
+        right: 12px;
+        top: 0px;
+        text-align: center;
+        border-radius: 24px;
+}
+.often-function .often-function-area .often-function-area-single .icon.data-v-3aa0b30a {
+        width: 80rpx;
+        height: 80rpx;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+                justify-content: flex-end;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        font-size: 80rpx;
+        color: #707070;
+}
+.often-function .often-function-area .often-function-area-single .sigle-text.data-v-3aa0b30a {
+        text-align: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+                align-items: center;
+        font-size: 25rpx;
+        color: #707070;
+}
+

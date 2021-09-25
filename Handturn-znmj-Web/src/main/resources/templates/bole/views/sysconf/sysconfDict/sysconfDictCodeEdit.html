@@ -1,0 +1,94 @@
+<style>
+    #sysconfDictCode-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysconfDictCode-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysconfDictCode-edit">
+    <form class="layui-form" action="" lay-filter="sysconfDictCode-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysconfDictCode.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">字典值:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="codeValue"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictCode.codeValue}" data-th-readonly="${sysconfDictCode.id != null}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">中文展现:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="displayValueCn"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictCode.displayValueCn}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">英文展现:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="displayValueEn"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictCode.displayValueEn}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">排序:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="orderNum"
+                           autocomplete="off" class="layui-input" lay-verify="required|integer|positiveNumber" data-th-value="${sysconfDictCode.orderNum}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">字典类型:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="typeCode"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfDictCode.typeCode}" readonly="true">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysconfDictCode.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysconfDictCode-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysconfDictCode-edit'),
+            sysconfDictCode = [[${sysconfDictCode}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysconfDictCode-edit-form-submit)', function (data) {
+            febs.post(ctx + 'sysconf/sysconfDictCode/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysconfDict').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

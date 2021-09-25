@@ -1,0 +1,164 @@
+<style>
+    #sysOrganizationOc-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysOrganizationOc-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysOrganizationOc-edit">
+    <form class="layui-form" action="" lay-filter="sysOrganizationOc-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysOrganizationOc.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">网点编号:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ocCode"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.ocCode}" readonly>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">网点名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ocName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysOrganizationOc.ocName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">网点简称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ocShortName"
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysOrganizationOc.ocShortName}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label febs-form-item-require">类型:</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="ocType" lay-filter="ocTypeFilter" data-th-each="option:${ocTypeOption}" data-th-value="${option.value}"  data-th-title="${option.text}"
+                           data-th-checked="${option.value eq sysOrganizationOc.ocType}"/>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">地址:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.address}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">区域:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="region"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.region}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">城市:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="city"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.city}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">省份:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="province"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.province}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">国家:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="country"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.country}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮编:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="postCode"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.postCode}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">电话:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tel"
+                           autocomplete="off" class="layui-input" lay-verify="phone" data-th-value="${sysOrganizationOc.tel}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">手机:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cell"
+                           autocomplete="off" class="layui-input" lay-verify="phone" data-th-value="${sysOrganizationOc.cell}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">传真:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="fax"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.fax}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email"
+                           autocomplete="off" class="layui-input" lay-verify="email" data-th-value="${sysOrganizationOc.email}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系人:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="attentionTo"
+                           autocomplete="off" class="layui-input" data-th-value="${sysOrganizationOc.attentionTo}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysOrganizationOc.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysOrganizationOc-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysOrganizationOc-edit'),
+            sysOrganizationOc = [[${sysOrganizationOc}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysOrganizationOc-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysOrganizationOc/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysOrganizationOc').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

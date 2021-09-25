@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysGroupMapper">
+
+    <resultMap id="sysGroup" type="com.handturn.bole.system.entity.SysGroup">
+        <id column="id" property="id"/> <!--//-->
+        <result column="groupCode" property="groupCode"/>  <!--//组编号-->
+        <result column="groupName" property="groupName"/>  <!--//组名称-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysGroupSelectAll">
+        SELECT
+            SysGroup.id AS id,
+            SysGroup.group_code AS groupCode,
+            SysGroup.group_name AS groupName,
+            SysGroup.remark AS remark,
+            SysGroup.status AS status,
+            SysGroup.record_version AS recordVersion,
+            SysGroup.create_date AS createDate,
+            SysGroup.create_user_code AS createUserCode,
+            SysGroup.create_user_name AS createUserName,
+            SysGroup.last_upd_date AS lastUpdDate,
+            SysGroup.last_upd_user_code AS lastUpdUserCode,
+            SysGroup.last_upd_user_name AS lastUpdUserName
+        FROM sys_group AS SysGroup
+    </sql>
+
+    <select id="findForPage" parameterType="sysGroup" resultType="sysGroup">
+        <include refid="SqlWithSysGroupSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysGroup.id != null and sysGroup.id != ''">
+                AND SysGroup.id =#{sysGroup.id}
+            </if>
+            <if test="sysGroup.groupCode != null and sysGroup.groupCode != ''">
+                AND SysGroup.group_code =#{sysGroup.groupCode}
+            </if>
+            <if test="sysGroup.groupName != null and sysGroup.groupName != ''">
+                AND SysGroup.group_name =#{sysGroup.groupName}
+            </if>
+            <if test="sysGroup.remark != null and sysGroup.remark != ''">
+                AND SysGroup.remark =#{sysGroup.remark}
+            </if>
+            <if test="sysGroup.status != null and sysGroup.status != ''">
+                AND SysGroup.status =#{sysGroup.status}
+            </if>
+    </select>
+</mapper>

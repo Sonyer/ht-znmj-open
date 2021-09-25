@@ -1,0 +1,238 @@
+<style>
+    #notifySet-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #notifySet-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="notifySet-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">通知设置信息</li>
+            <li>平台通知设置</li>
+            <li>微信通知设置</li>
+            <li>SMS通知设置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="notifySet-edit-form">
+                    <div class="layui-form-item">
+                        <div class="layui-form-item febs-hide">
+                            <label class="layui-form-label">:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" data-th-value="${notifySet.id}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">通知类型:</label>
+                            <div class="layui-input-block">
+                                <select name="notifyType" id="notifyType" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option data-th-each="option:${memberNotifyTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                            data-th-selected="${option.value eq notifySet.notifyType}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">使用人群:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="ownerType" lay-verify="required"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.ownerType}">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="width:540px">
+                            <label class="layui-form-label febs-form-item-require">消息描述:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="notifyDec" lay-verify="required"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.notifyDec}">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">开启平台通知:</label>
+                            <div class="layui-input-block">
+                                <select name="isOnInner" id="isOnInner" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                            data-th-selected="${option.value eq notifySet.isOnInner}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">开启微信通知:</label>
+                            <div class="layui-input-block">
+                                <select name="isOnWx" id="isOnWx" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                            data-th-selected="${option.value eq notifySet.isOnWx}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label febs-form-item-require">开启SMS通知:</label>
+                            <div class="layui-input-block">
+                                <select name="isOnSms" id="isOnSms" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                            data-th-selected="${option.value eq notifySet.isOnSms}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="notifySet-edit-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">跳转页面:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="innerNotifyToPage" id="innerNotifyToPage"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.innerNotifyToPage}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内部通知消息:</label>
+                            <div class="layui-input-block">
+                                <textarea name="innerNotifyMessage" id="innerNotifyMessage" class="layui-textarea"
+                                          data-th-text="${notifySet.innerNotifyMessage}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">WX通知模板ID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="wxNotifyTemplateId" id="wxNotifyTemplateId"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.wxNotifyTemplateId}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">WX通知跳转页面:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="wxNotifyToPage" id="wxNotifyToPage"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.wxNotifyToPage}">
+
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">WX通知JSON串:</label>
+                            <div class="layui-input-block">
+                                <textarea name="wxNotifyDataJson" id="wxNotifyDataJson" class="layui-textarea"
+                                          data-th-text="${notifySet.wxNotifyDataJson}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">短信通知模板编码:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="smsNotifyTemplateCode" id="smsNotifyTemplateCode"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.smsNotifyTemplateCode}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">短信通知电话:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="smsPhoneNumber" id="smsPhoneNumber"
+                                       autocomplete="off" class="layui-input" data-th-value="${notifySet.smsPhoneNumber}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">短信通知JSON串:</label>
+                            <div class="layui-input-block">
+                                <textarea name="smsNotifyDataJson" id="smsNotifyDataJson" class="layui-textarea"
+                                          data-th-text="${notifySet.smsNotifyDataJson}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#notifySet-edit'),
+            notifySet = [[${notifySet}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(notifySet-edit-form-submit)', function (data) {
+            if(data.field.isOnInner == "1"){
+                var innerNotifyToPage = $('#innerNotifyToPage').val();
+                var innerNotifyMessage = $('#innerNotifyMessage').val();
+                if(innerNotifyToPage == "" || typeof (innerNotifyToPage) == 'undefined'
+                    || innerNotifyMessage == "" || typeof (innerNotifyMessage) == 'undefined'){
+                    febs.alert.error('请填写内部消息通知设置!');
+                    return false;
+                }else{
+                    data.field.innerNotifyToPage = innerNotifyToPage;
+                    data.field.innerNotifyMessage = innerNotifyMessage;
+                }
+            }
+            if(data.field.isOnWx == "1"){
+                var wxNotifyTemplateId = $('#wxNotifyTemplateId').val();
+                var wxNotifyToPage = $('#wxNotifyToPage').val();
+                var wxNotifyDataJson = $('#wxNotifyDataJson').val();
+                if(wxNotifyTemplateId == "" || typeof (wxNotifyTemplateId) == 'undefined'
+                    || wxNotifyToPage == "" || typeof (wxNotifyToPage) == 'undefined'
+                    || wxNotifyDataJson == "" || typeof (wxNotifyDataJson) == 'undefined'){
+                    febs.alert.error('请填写微信消息通知设置!');
+                    return false;
+                }else{
+                    data.field.wxNotifyTemplateId = wxNotifyTemplateId;
+                    data.field.wxNotifyToPage = wxNotifyToPage;
+                    data.field.wxNotifyDataJson = wxNotifyDataJson;
+                }
+            }
+            if(data.field.isOnSms == "1"){
+                var smsNotifyTemplateCode = $('#smsNotifyTemplateCode').val();
+                var smsPhoneNumber = $('#smsPhoneNumber').val();
+                var smsNotifyDataJson = $('#smsNotifyDataJson').val();
+                if(smsNotifyTemplateCode == "" || typeof (smsNotifyTemplateCode) == 'undefined'
+                    || smsPhoneNumber == "" || typeof (smsPhoneNumber) == 'undefined'
+                    || smsNotifyDataJson == "" || typeof (smsNotifyDataJson) == 'undefined'){
+                    febs.alert.error('请填写SMS消息通知设置!');
+                    return false;
+                }else{
+                    data.field.smsNotifyTemplateCode = smsNotifyTemplateCode;
+                    data.field.smsPhoneNumber = smsPhoneNumber;
+                    data.field.smsNotifyDataJson = smsNotifyDataJson;
+                }
+            }
+            febs.post(ctx + 'master/set/notifySet/save', data.field, function (res) {
+                notifySet = res.data;
+                form.val('notifySet-edit-form', notifySet);
+                $('#febs-notifySet').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

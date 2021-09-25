@@ -1,0 +1,87 @@
+<style>
+    #sysconfCodeRule-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysconfCodeRule-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysconfCodeRule-edit">
+    <form class="layui-form" action="" lay-filter="sysconfCodeRule-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysconfCodeRule.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">规则编号:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ruleCode" 
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfCodeRule.ruleCode}" data-th-readonly="${sysconfCodeRule.id != null}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">规则名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ruleName" 
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfCodeRule.ruleName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">规则串:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ruleCodeStr" 
+                           autocomplete="off" class="layui-input" lay-verify="required" data-th-value="${sysconfCodeRule.ruleCodeStr}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">初始值:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ruleSeqInit" 
+                           autocomplete="off" class="layui-input" lay-verify="required|integer|positiveNumber" data-th-value="${sysconfCodeRule.ruleSeqInit}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysconfCodeRule.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysconfCodeRule-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysconfCodeRule-edit'),
+            sysconfCodeRule = [[${sysconfCodeRule}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysconfCodeRule-edit-form-submit)', function (data) {
+            febs.post(ctx + 'sysconf/sysconfCodeRule/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysconfCodeRule').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

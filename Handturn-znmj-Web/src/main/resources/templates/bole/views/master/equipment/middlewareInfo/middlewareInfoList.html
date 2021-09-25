@@ -1,0 +1,239 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-middlewareInfo" lay-title="中间件管理管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="middlewareInfo-table-form" id="middlewareInfo-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">客户组织</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">客户网点</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">MAC地址</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="macId" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">桌面应用版本</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="appVersion" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">操作系统名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="systemName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">操作系统版本</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="systemVersion" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备MAC地址</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentMacId" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">区域名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="areaName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">出入口</label>
+                                            <div class="layui-input-inline">
+                                                <select name="inOutFlag" id="inOutFlag" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInOutOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">连接状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="onlineStatus" id="onlineStatus" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInfoOnlineStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="middlewareInfoTable" lay-filter="middlewareInfoTable" lay-data="{id: 'middlewareInfoTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-middlewareInfo'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#middlewareInfo-table-form'),
+            equipmentInOutOption = [[${equipmentInOutOption}]],
+            equipmentInOutOptionMap = {},
+            equipmentInfoOnlineStatusOption = [[${equipmentInfoOnlineStatusOption}]],
+            equipmentInfoOnlineStatusOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        table.on('sort(middlewareInfoTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            equipmentInOutOptionMap = {};
+            for(var index in equipmentInOutOption){
+                equipmentInOutOptionMap[equipmentInOutOption[index].value] = equipmentInOutOption[index].text;
+            }
+
+            equipmentInfoOnlineStatusOptionMap = {};
+            for(var index in equipmentInfoOnlineStatusOption){
+                equipmentInfoOnlineStatusOptionMap[equipmentInfoOnlineStatusOption[index].value] = equipmentInfoOnlineStatusOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'middlewareInfoTable',
+                toolbar: '#middlewareInfoTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'master/equipment/middlewareInfo/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'orgName', title: '客户组织',sort: true, minWidth: 100},
+                            {field: 'ocName', title: '客户网点',sort: true, minWidth: 100},
+                            {field: 'macId', title: 'MAC地址',sort: true, minWidth: 100},
+                            {field: 'appVersion', title: '桌面应用版本',sort: true, minWidth: 100},
+                            {field: 'systemName', title: '操作系统名称',sort: true, minWidth: 100},
+                            {field: 'systemVersion', title: '操作系统版本',sort: true, minWidth: 100},
+                            {field: 'lanIp', title: '局域网IP',sort: true, minWidth: 100},
+                            {field: 'equipmentMacId', title: '设备MAC地址',sort: true, minWidth: 100},
+                            {field: 'areaName', title: '区域名称',sort: true, minWidth: 100},
+                            {field: 'seqNum', title: '设备序号',sort: true, minWidth: 100},
+                            {field: 'inOutFlag', title: '出入口',sort: true,dataMap:equipmentInOutOptionMap,templet: function(d){
+                                    return equipmentInOutOptionMap[d.inOutFlag] == null? d.inOutFlag:equipmentInOutOptionMap[d.inOutFlag];
+                                }, minWidth: 100},
+                            {field: 'onlineTime', title: '上次心跳时间',sort: true, minWidth: 100},
+                            {field: 'onlineStatus', title: '连接状态',sort: true,dataMap:equipmentInfoOnlineStatusOptionMap,templet: function(d){
+                                    return equipmentInfoOnlineStatusOptionMap[d.onlineStatus] == null? d.onlineStatus:equipmentInfoOnlineStatusOptionMap[d.onlineStatus];
+                                }, minWidth: 100},
+                            {field: 'createDate', title: '新增时间',sort: true, minWidth: 100},
+                            {field: 'lastUpdDate', title: '最后修改时间',sort: true, minWidth: 100},
+                    ]
+                ],
+                height: $(document).height() - $('#middlewareInfoTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/equipment/middlewareInfo/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    orgName: $searchForm.find('input[name="orgName"]').val().trim(),
+                    ocName: $searchForm.find('input[name="ocName"]').val().trim(),
+                    macId: $searchForm.find('input[name="macId"]').val().trim(),
+                    appVersion: $searchForm.find('input[name="appVersion"]').val().trim(),
+                    systemName: $searchForm.find('input[name="systemName"]').val().trim(),
+                    systemVersion: $searchForm.find('input[name="systemVersion"]').val().trim(),
+                    equipmentMacId: $searchForm.find('input[name="equipmentMacId"]').val().trim(),
+                    areaName: $searchForm.find('input[name="areaName"]').val().trim(),
+                    inOutFlag: $searchForm.find('select[name="inOutFlag"]').val(),
+                    onlineStatus: $searchForm.find('select[name="onlineStatus"]').val()
+            };
+        }
+    })
+</script>

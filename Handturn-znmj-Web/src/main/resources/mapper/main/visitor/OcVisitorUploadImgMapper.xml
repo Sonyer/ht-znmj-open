@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.visitor.mapper.OcVisitorUploadImgMapper">
+
+    <resultMap id="ocVisitorUploadImg" type="com.handturn.bole.main.visitor.entity.OcVisitorUploadImg">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="visitorType" property="visitorType"/>  <!--//访客类型:INNER_USER-内部员工,OUTER_USER-外来人员-->
+        <result column="idCardName" property="idCardName"/>  <!--//真实姓名-->
+        <result column="idCard" property="idCard"/>  <!--//身份证号码-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="depName" property="depName"/>
+        <result column="positionName" property="positionName"/>
+        <result column="wegan" property="wegan"/>
+        <result column="faceImgAttchment" property="faceImgAttchment"/>  <!--//人脸附件-存根地址-->
+        <result column="faceImgRequest" property="faceImgRequest"/>  <!--//人脸图片-请求地址-->
+        <result column="status" property="status"/>  <!--//状态:INIT-初始状态,BINDED-已绑定-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithOcVisitorUploadImgSelectAll">
+        SELECT
+            OcVisitorUploadImg.id AS id,
+            OcVisitorUploadImg.oc_code AS ocCode,
+            OcVisitorUploadImg.org_code AS orgCode,
+            OcVisitorUploadImg.oc_name AS ocName,
+            OcVisitorUploadImg.org_name AS orgName,
+            OcVisitorUploadImg.visitor_type AS visitorType,
+            OcVisitorUploadImg.id_card_name AS idCardName,
+            OcVisitorUploadImg.id_card AS idCard,
+            OcVisitorUploadImg.phone_number AS phoneNumber,
+            OcVisitorUploadImg.dep_name AS depName,
+            OcVisitorUploadImg.position_name AS positionName,
+            OcVisitorUploadImg.wegan AS wegan,
+            OcVisitorUploadImg.face_img_attchment AS faceImgAttchment,
+            OcVisitorUploadImg.face_img_request AS faceImgRequest,
+            OcVisitorUploadImg.status AS status,
+            OcVisitorUploadImg.record_version AS recordVersion,
+            OcVisitorUploadImg.create_date AS createDate,
+            OcVisitorUploadImg.create_user_code AS createUserCode,
+            OcVisitorUploadImg.create_user_name AS createUserName,
+            OcVisitorUploadImg.last_upd_date AS lastUpdDate,
+            OcVisitorUploadImg.last_upd_user_code AS lastUpdUserCode,
+            OcVisitorUploadImg.last_upd_user_name AS lastUpdUserName
+        FROM oc_visitor_upload_img AS OcVisitorUploadImg
+    </sql>
+
+    <select id="findForPage" parameterType="ocVisitorUploadImg" resultType="ocVisitorUploadImg">
+        <include refid="SqlWithOcVisitorUploadImgSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocVisitorUploadImg.id != null and ocVisitorUploadImg.id != ''">
+                AND OcVisitorUploadImg.id =#{ocVisitorUploadImg.id}
+            </if>
+            <if test="ocVisitorUploadImg.ocCode != null and ocVisitorUploadImg.ocCode != ''">
+                AND OcVisitorUploadImg.oc_code =#{ocVisitorUploadImg.ocCode}
+            </if>
+            <if test="ocVisitorUploadImg.orgCode != null and ocVisitorUploadImg.orgCode != ''">
+                AND OcVisitorUploadImg.org_code =#{ocVisitorUploadImg.orgCode}
+            </if>
+            <if test="ocVisitorUploadImg.ocName != null and ocVisitorUploadImg.ocName != ''">
+                AND OcVisitorUploadImg.oc_name =#{ocVisitorUploadImg.ocName}
+            </if>
+            <if test="ocVisitorUploadImg.orgName != null and ocVisitorUploadImg.orgName != ''">
+                AND OcVisitorUploadImg.org_name =#{ocVisitorUploadImg.orgName}
+            </if>
+            <if test="ocVisitorUploadImg.visitorType != null and ocVisitorUploadImg.visitorType != ''">
+                AND OcVisitorUploadImg.visitor_type =#{ocVisitorUploadImg.visitorType}
+            </if>
+            <if test="ocVisitorUploadImg.idCardName != null and ocVisitorUploadImg.idCardName != ''">
+                AND OcVisitorUploadImg.id_card_name =#{ocVisitorUploadImg.idCardName}
+            </if>
+            <if test="ocVisitorUploadImg.idCard != null and ocVisitorUploadImg.idCard != ''">
+                AND OcVisitorUploadImg.id_card =#{ocVisitorUploadImg.idCard}
+            </if>
+            <if test="ocVisitorUploadImg.phoneNumber != null and ocVisitorUploadImg.phoneNumber != ''">
+                AND OcVisitorUploadImg.phone_number =#{ocVisitorUploadImg.phoneNumber}
+            </if>
+            <if test="ocVisitorUploadImg.depName != null and ocVisitorUploadImg.depName != ''">
+                AND OcVisitorUploadImg.dep_name =#{ocVisitorUploadImg.depName}
+            </if>
+            <if test="ocVisitorUploadImg.positionName != null and ocVisitorUploadImg.positionName != ''">
+                AND OcVisitorUploadImg.position_name =#{ocVisitorUploadImg.positionName}
+            </if>
+            <if test="ocVisitorUploadImg.wegan != null and ocVisitorUploadImg.wegan != ''">
+                AND OcVisitorUploadImg.wegan =#{ocVisitorUploadImg.wegan}
+            </if>
+            <if test="ocVisitorUploadImg.faceImgAttchment != null and ocVisitorUploadImg.faceImgAttchment != ''">
+                AND OcVisitorUploadImg.face_img_attchment =#{ocVisitorUploadImg.faceImgAttchment}
+            </if>
+            <if test="ocVisitorUploadImg.faceImgRequest != null and ocVisitorUploadImg.faceImgRequest != ''">
+                AND OcVisitorUploadImg.face_img_request =#{ocVisitorUploadImg.faceImgRequest}
+            </if>
+            <if test="ocVisitorUploadImg.status != null and ocVisitorUploadImg.status != ''">
+                AND OcVisitorUploadImg.status =#{ocVisitorUploadImg.status}
+            </if>
+    </select>
+</mapper>

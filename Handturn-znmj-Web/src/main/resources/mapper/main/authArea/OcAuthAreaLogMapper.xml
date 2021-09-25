@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.authArea.mapper.OcAuthAreaLogMapper">
+
+    <resultMap id="ocAuthAreaLog" type="com.handturn.bole.main.authArea.entity.OcAuthAreaLog">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="equipmentId" property="equipmentId"/>  <!--//设备ID-->
+        <result column="equipmentMac" property="equipmentMac"/>  <!--//设备MAC-->
+        <result column="ocVisitorId" property="ocVisitorId"/>  <!--//网点访客ID-->
+        <result column="authType" property="authType"/>  <!--//授权类型:0-取消授权;1-授权;-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithOcAuthAreaLogSelectAll">
+        SELECT
+            OcAuthAreaLog.id AS id,
+            OcAuthAreaLog.equipment_id AS equipmentId,
+            OcAuthAreaLog.equipment_mac AS equipmentMac,
+            OcAuthAreaLog.oc_visitor_id AS ocVisitorId,
+            OcAuthAreaLog.auth_type AS authType,
+            OcAuthAreaLog.oc_code AS ocCode,
+            OcAuthAreaLog.org_code AS orgCode,
+            OcAuthAreaLog.oc_name AS ocName,
+            OcAuthAreaLog.org_name AS orgName,
+            OcAuthAreaLog.record_version AS recordVersion,
+            OcAuthAreaLog.create_date AS createDate,
+            OcAuthAreaLog.create_user_code AS createUserCode,
+            OcAuthAreaLog.create_user_name AS createUserName,
+            OcAuthAreaLog.last_upd_date AS lastUpdDate,
+            OcAuthAreaLog.last_upd_user_code AS lastUpdUserCode,
+            OcAuthAreaLog.last_upd_user_name AS lastUpdUserName
+        FROM oc_auth_area_log AS OcAuthAreaLog
+    </sql>
+
+    <select id="findForPage" parameterType="ocAuthAreaLog" resultType="ocAuthAreaLog">
+        <include refid="SqlWithOcAuthAreaLogSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocAuthAreaLog.id != null and ocAuthAreaLog.id != ''">
+                AND OcAuthAreaLog.id =#{ocAuthAreaLog.id}
+            </if>
+            <if test="ocAuthAreaLog.equipmentId != null and ocAuthAreaLog.equipmentId != ''">
+                AND OcAuthAreaLog.equipment_id =#{ocAuthAreaLog.equipmentId}
+            </if>
+            <if test="ocAuthAreaLog.equipmentMac != null and ocAuthAreaLog.equipmentMac != ''">
+                AND OcAuthAreaLog.equipment_mac =#{ocAuthAreaLog.equipmentMac}
+            </if>
+            <if test="ocAuthAreaLog.ocVisitorId != null and ocAuthAreaLog.ocVisitorId != ''">
+                AND OcAuthAreaLog.oc_visitor_id =#{ocAuthAreaLog.ocVisitorId}
+            </if>
+            <if test="ocAuthAreaLog.authType != null and ocAuthAreaLog.authType != ''">
+                AND OcAuthAreaLog.auth_type =#{ocAuthAreaLog.authType}
+            </if>
+            <if test="ocAuthAreaLog.ocCode != null and ocAuthAreaLog.ocCode != ''">
+                AND OcAuthAreaLog.oc_code =#{ocAuthAreaLog.ocCode}
+            </if>
+            <if test="ocAuthAreaLog.orgCode != null and ocAuthAreaLog.orgCode != ''">
+                AND OcAuthAreaLog.org_code =#{ocAuthAreaLog.orgCode}
+            </if>
+            <if test="ocAuthAreaLog.ocName != null and ocAuthAreaLog.ocName != ''">
+                AND OcAuthAreaLog.oc_name =#{ocAuthAreaLog.ocName}
+            </if>
+            <if test="ocAuthAreaLog.orgName != null and ocAuthAreaLog.orgName != ''">
+                AND OcAuthAreaLog.org_name =#{ocAuthAreaLog.orgName}
+            </if>
+    </select>
+</mapper>

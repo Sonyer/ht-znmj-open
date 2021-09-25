@@ -1,0 +1,310 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-ocVisiteLog" lay-title="访问记录管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="ocVisiteLog-table-form" id="ocVisiteLog-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备系统编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备出厂编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="equipmentMdCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">设备序号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="seqNum" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">出入标记</label>
+                                            <div class="layui-input-inline">
+                                                <select name="inOutFlag" id="inOutFlag" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${equipmentInOutOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">真实姓名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCardName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">身份证号码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCard" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户手机号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="phoneNumber" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">部门名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="depName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">抓拍时间</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" id="openTime" name="openTime" placeholder=" - " autocomplete="off" class="layui-input">
+                                                <input type="hidden" id="openTime_start" name="openTime_start" autocomplete="off" class="layui-input">
+                                                <input type="hidden" id="openTime_end" name="openTime_end" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">抓拍状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="openStatus" id="openStatus" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${ocVisiteLogOpenStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">在线来源</label>
+                                            <div class="layui-input-inline">
+                                                <select name="logFlag" id="logFlag" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${ocVisiteLogFlagOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">组织信息</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">网点信息</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="ocVisiteLogTable" lay-filter="ocVisiteLogTable" lay-data="{id: 'ocVisiteLogTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="ocVisiteLogTable-toolbar">
+
+</script>
+<script type="text/html" id="ocVisiteLog-option">
+
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-ocVisiteLog'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#ocVisiteLog-table-form'),
+            equipmentInOutOption = [[${equipmentInOutOption}]],
+            equipmentInOutOptionMap = {},
+            ocVisiteLogFlagOption = [[${ocVisiteLogFlagOption}]],
+            ocVisiteLogFlagOptionMap = {},
+            ocVisiteLogOpenStatusOption = [[${ocVisiteLogOpenStatusOption}]],
+            ocVisiteLogOpenStatusOptionMap = {},
+            tableIns;
+
+        //日期选择
+        laydate.render({
+            elem: '#openTime',
+            range: true,
+            done: function(value, date, endDate) {
+                var arrDate=value.split(' - ');
+                var startDate=arrDate[0] =='' || typeof arrDate[0] =='undefined'?null:arrDate[0]+' 00:00:00';
+                var endDate=arrDate[1] =='' || typeof arrDate[1] =='undefined'?null:arrDate[1]+' 00:00:00';
+
+                $('#openTime_start').val(startDate);
+                $('#openTime_end').val(endDate);
+            }
+        });
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(ocVisiteLogTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('ocVisiteLogTable');
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('sort(ocVisiteLogTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            equipmentInOutOptionMap = {};
+            for(var index in equipmentInOutOption){
+                equipmentInOutOptionMap[equipmentInOutOption[index].value] = equipmentInOutOption[index].text;
+            }
+
+            ocVisiteLogFlagOptionMap = {};
+            for(var index in ocVisiteLogFlagOption){
+                ocVisiteLogFlagOptionMap[ocVisiteLogFlagOption[index].value] = ocVisiteLogFlagOption[index].text;
+            }
+
+            ocVisiteLogOpenStatusOptionMap = {};
+            for(var index in ocVisiteLogOpenStatusOption){
+                ocVisiteLogOpenStatusOptionMap[ocVisiteLogOpenStatusOption[index].value] = ocVisiteLogOpenStatusOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'ocVisiteLogTable',
+                toolbar: '#ocVisiteLogTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'master/visitor/ocVisiteLog/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'equipmentCode', title: '设备系统编码',sort: true, minWidth: 100},
+                            {field: 'equipmentMdCode', title: '设备出厂编码',sort: true, minWidth: 100},
+                            {field: 'seqNum', title: '设备序号',sort: true, minWidth: 100},
+                            {field: 'areaName', title: '区域名称',sort: true, minWidth: 100},
+                            {field: 'inOutFlag', title: '出入标记',sort: true,dataMap:equipmentInOutOptionMap,templet: function(d){
+                                    return equipmentInOutOptionMap[d.inOutFlag] == null? d.inOutFlag:equipmentInOutOptionMap[d.inOutFlag];
+                                }, minWidth: 100},
+                            {field: 'idCardName', title: '真实姓名',sort: true, minWidth: 100},
+                            {field: 'idCard', title: '身份证号码',sort: true, minWidth: 100},
+                            {field: 'phoneNumber', title: '用户手机号',sort: true, minWidth: 100},
+                            {field: 'depName', title: '部门名称',sort: true, minWidth: 100},
+                            {field: 'positionName', title: '职位名称',sort: true, minWidth: 100},
+                            {field: 'wegin', title: '韦根号',sort: true, minWidth: 100},
+                            {field: 'openTime', title: '抓拍时间',sort: true, minWidth: 100},
+                            {field: 'openStatus', title: '抓拍状态',sort: true,dataMap:ocVisiteLogOpenStatusOptionMap,templet: function(d){
+                                    return ocVisiteLogOpenStatusOptionMap[d.openStatus] == null? d.openStatus:ocVisiteLogOpenStatusOptionMap[d.openStatus];
+                                }, minWidth: 100},
+                            {field: 'createDate', title: '新增时间',sort: true, minWidth: 100},
+                            {field: 'logFlag', title: '数据来源',sort: true,dataMap:ocVisiteLogFlagOptionMap,templet: function(d){
+                                    return ocVisiteLogFlagOptionMap[d.logFlag] == null? d.logFlag:ocVisiteLogFlagOptionMap[d.logFlag];
+                                }, minWidth: 100},
+                            {field: 'orgCode', title: '组织编码',sort: true, minWidth: 100},
+                            {field: 'orgName', title: '组织名称',sort: true, minWidth: 100},
+                            {field: 'ocCode', title: '网点编码',sort: true, minWidth: 100},
+                            {field: 'ocName', title: '网点名称',sort: true, minWidth: 100},
+                    ]
+                ],
+                height: $(document).height() - $('#ocVisiteLogTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/visitor/ocVisiteLog/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    equipmentCode: $searchForm.find('input[name="equipmentCode"]').val().trim(),
+                    equipmentMdCode: $searchForm.find('input[name="equipmentMdCode"]').val().trim(),
+                    seqNum: $searchForm.find('input[name="seqNum"]').val().trim(),
+                    inOutFlag: $searchForm.find('select[name="inOutFlag"]').val(),
+                    idCardName: $searchForm.find('input[name="idCardName"]').val().trim(),
+                    idCard: $searchForm.find('input[name="idCard"]').val().trim(),
+                    phoneNumber: $searchForm.find('input[name="phoneNumber"]').val().trim(),
+                    depName: $searchForm.find('input[name="depName"]').val().trim(),
+                    openTime_start: $searchForm.find('input[name="openTime_start"]').val().trim(),
+                    openTime_end: $searchForm.find('input[name="openTime_end"]').val().trim(),
+                    openStatus: $searchForm.find('select[name="openStatus"]').val(),
+                    logFlag: $searchForm.find('select[name="logFlag"]').val(),
+                    orgName: $searchForm.find('input[name="orgName"]').val().trim(),
+                    ocName: $searchForm.find('input[name="ocName"]').val().trim(),
+            };
+        }
+    })
+</script>

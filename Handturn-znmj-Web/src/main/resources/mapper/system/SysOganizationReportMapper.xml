@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOganizationReportMapper">
+
+    <resultMap id="sysOganizationReport" type="com.handturn.bole.system.entity.SysOganizationReport">
+        <id column="id" property="id"/> <!--//-->
+        <result column="orgId" property="orgId"/>  <!--//组织id-->
+        <result column="reportId" property="reportId"/>  <!--//报表id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOganizationReportSelectAll">
+        SELECT
+            SysOganizationReport.id AS id,
+            SysOganizationReport.org_id AS orgId,
+            SysOganizationReport.report_id AS reportId,
+            SysOganizationReport.record_version AS recordVersion,
+            SysOganizationReport.create_date AS createDate,
+            SysOganizationReport.create_user_code AS createUserCode,
+            SysOganizationReport.create_user_name AS createUserName,
+            SysOganizationReport.last_upd_date AS lastUpdDate,
+            SysOganizationReport.last_upd_user_code AS lastUpdUserCode,
+            SysOganizationReport.last_upd_user_name AS lastUpdUserName
+        FROM sys_oganization_report AS SysOganizationReport
+    </sql>
+
+    <select id="findForPage" parameterType="sysOganizationReport" resultType="sysOganizationReport">
+        <include refid="SqlWithSysOganizationReportSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysOganizationReport.id != null and sysOganizationReport.id != ''">
+                AND SysOganizationReport.id =#{sysOganizationReport.id}
+            </if>
+            <if test="sysOganizationReport.orgId != null and sysOganizationReport.orgId != ''">
+                AND SysOganizationReport.org_id =#{sysOganizationReport.orgId}
+            </if>
+            <if test="sysOganizationReport.reportId != null and sysOganizationReport.reportId != ''">
+                AND SysOganizationReport.report_id =#{sysOganizationReport.reportId}
+            </if>
+    </select>
+</mapper>

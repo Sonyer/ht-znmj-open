@@ -1,0 +1,353 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.swiper.data-v-03cada5a {
+  width: 100%;
+  margin-top: 10rpx;
+  /* padding-top: var(--status-bar-height); */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.swiper .swiper-box.data-v-03cada5a {
+    width: 95%;
+    overflow: hidden;
+    border-radius: 15rpx;
+    box-shadow: 0rpx 8rpx 25rpx rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+.swiper .swiper-box swiper.data-v-03cada5a {
+      width: 100%;
+      height: 250rpx;
+}
+.swiper .swiper-box swiper swiper-item image.data-v-03cada5a {
+        width: 100%;
+}
+.swiper .swiper-box .indicator.data-v-03cada5a {
+      position: absolute;
+      bottom: 20rpx;
+      left: 20rpx;
+      background-color: rgba(255, 255, 255, 0.4);
+      width: 150rpx;
+      height: 5rpx;
+      border-radius: 3rpx;
+      overflow: hidden;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+}
+.swiper .swiper-box .indicator .dots.data-v-03cada5a {
+        width: 0rpx;
+        background-color: white;
+        -webkit-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+}
+.swiper .swiper-box .indicator .dots.on.data-v-03cada5a {
+          width: 33.33333%;
+}
+.swiper .visitor-info-box.data-v-03cada5a {
+    width: 100%;
+    height: 240rpx;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+.swiper .visitor-info-box .visitor-info-img.data-v-03cada5a {
+      width: 200rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      position: relative;
+}
+.swiper .visitor-info-box .visitor-info-img image.data-v-03cada5a {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border: none;
+        border-radius: 5%;
+        position: relative;
+}
+.swiper .visitor-info-box .visitor-info-content.data-v-03cada5a {
+      width: 75%;
+      margin-right: 10rpx;
+      margin-left: 10rpx;
+      border-radius: 5%;
+      background-color: #c6d1ff;
+      font-size: 35rpx;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-row.data-v-03cada5a {
+        margin: 15rpx;
+        width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        color: #00aa00;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-row .visitor-info-content-row-label.data-v-03cada5a {
+          width: 28%;
+          font-size: 30rpx;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-row .visitor-info-content-row-text.data-v-03cada5a {
+          -webkit-box-align: start;
+          -webkit-align-items: flex-start;
+                  align-items: flex-start;
+          font-size: 30rpx;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-auth.data-v-03cada5a {
+        margin: 15rpx;
+        width: 100%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        color: #00aa00;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-auth .visitor-info-content-auth-label.data-v-03cada5a {
+          width: 28%;
+          font-size: 30rpx;
+}
+.swiper .visitor-info-box .visitor-info-content .visitor-info-content-auth .visitor-info-content-auth-text.data-v-03cada5a {
+          -webkit-box-align: start;
+          -webkit-align-items: flex-start;
+                  align-items: flex-start;
+          font-size: 30rpx;
+}
+.swiper .visitor-info-box-none.data-v-03cada5a {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* translate()函数是css3的新特性.在不知道自身宽高的情况下，可以利用它来进行水平垂直居中 */
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    color: #C0C0C0;
+    font-size: 50rpx;
+}
+.swiper .visitor-info-check.data-v-03cada5a {
+    width: 40rpx;
+    height: 40rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    right: 15rpx;
+    bottom: 15rpx;
+    font-size: 28rpx;
+    /* color: #ffff00; */
+    z-index: 1;
+    position: absolute;
+}
+.edit-content.data-v-03cada5a {
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.edit-content input.data-v-03cada5a {
+    margin-top: 0rpx;
+    margin-right: 20rpx;
+    margin-left: 20rpx;
+    margin-bottom: 20rpx;
+    border-color: #878787;
+    border-style: solid;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+}
+.edit-content .edit-content-tittle.data-v-03cada5a {
+    padding-left: 20rpx;
+    font-size: 35rpx;
+    font-weight: 800;
+    color: #707070;
+}
+.edit-content .edit-content-area.data-v-03cada5a {
+    height: 100%;
+}
+.edit-content .edit-content-area .edit-content-area-info.data-v-03cada5a {
+      margin-top: 10rpx;
+      /* margin-right: 40upx; */
+      margin-bottom: 10rpx;
+      /* width: 100%; */
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+              justify-content: center;
+      position: relative;
+      display: flex;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-horizontal.data-v-03cada5a {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-uploadImg.data-v-03cada5a {
+        margin-top: 10rpx;
+        margin-right: 40rpx;
+        margin-bottom: 10rpx;
+        margin-left: 40rpx;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+                justify-content: center;
+        position: relative;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-uploadImg .edit-content-area-info-img.data-v-03cada5a {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          position: relative;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-uploadImg .edit-content-area-info-img image.data-v-03cada5a {
+            margin-top: 10rpx;
+            margin-right: 10rpx;
+            margin-bottom: 10rpx;
+            margin-left: 10rpx;
+            height: 180rpx;
+            width: 180rpx;
+            border: 0.5rpx solid #ffaa00;
+            position: relative;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-uploadImg .edit-content-area-info-img .icon.data-v-03cada5a {
+            width: 50rpx;
+            height: 50rpx;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            top: -10rpx;
+            right: -25rpx;
+            font-size: 30rpx;
+            color: #ffaa00;
+            z-index: 1;
+            position: absolute;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-lable.data-v-03cada5a {
+        color: #ffaa00;
+        font-size: 30rpx;
+}
+.edit-content .edit-content-area .edit-content-area-info input.data-v-03cada5a {
+        font-size: 30rpx;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-text.data-v-03cada5a {
+        font-size: 30rpx;
+        height: 50rpx;
+        margin-top: 0rpx;
+        margin-right: 20rpx;
+        margin-left: 20rpx;
+        margin-bottom: 20rpx;
+        border-color: #878787;
+        border-style: solid;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-left-width: 0px;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-input-horizontal.data-v-03cada5a {
+        width: 75%;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+                justify-content: center;
+        position: relative;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-input-horizontal .edit-content-area-info-input-text.data-v-03cada5a {
+          border-color: #878787;
+          border-style: solid;
+          border-top-width: 0px;
+          border-right-width: 0px;
+          border-bottom-width: 1px;
+          border-left-width: 0px;
+          font-size: 30rpx;
+          margin: 10rpx;
+          border-top-width: 0px;
+          border-right-width: 0px;
+          border-left-width: 0px;
+}
+.edit-content .edit-content-area .edit-content-area-info .edit-content-area-info-input-horizontal button.data-v-03cada5a {
+          font-size: 30rpx;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 28px;
+          color: #fff;
+          background-color: #ffaa00;
+}
+.edit-content .edit-content-area .edit-content-area-info-option.data-v-03cada5a {
+      width: 100%;
+      height: 100rpx;
+      position: fixed;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+              align-items: center;
+      font-size: 35rpx;
+      background-color: #ffffff;
+}
+.edit-content .edit-content-area .edit-content-area-info-option button.data-v-03cada5a {
+        font-size: 35rpx;
+}
+

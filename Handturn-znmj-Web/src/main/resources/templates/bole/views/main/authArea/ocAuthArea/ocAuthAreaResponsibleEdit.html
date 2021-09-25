@@ -1,0 +1,66 @@
+<style>
+    #ocAuthAreaResponsible-edit {
+        padding: 20px 25px 25px 0;
+        height: 300px;
+    }
+    #ocAuthAreaResponsible-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocAuthAreaResponsible-edit">
+    <form class="layui-form" action="" lay-filter="ocAuthAreaResponsible-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="authAreaId" id="authAreaId" data-th-value="${ocAuthAreaResponsible.authAreaId}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">添加负责人:</label>
+                        <div class="layui-input-block">
+                            <select name="userCode" id="userCode" lay-verify="required" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${usersOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq ocAuthAreaResponsible.userCode}"/>
+                            </select>
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="ocAuthAreaResponsible-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#ocAuthAreaResponsible-edit'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(ocAuthAreaResponsible-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/authArea/ocAuthArea/responsibleSave', data.field, function () {
+                resetFormNew();
+                $('#ocAuthArea-edit').find('#responsibleQuery').click();
+            });
+            return false;
+        });
+
+        function resetFormNew(){
+            $view.find("#userCode").val("");
+            form.render();
+        }
+    });
+</script>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.authArea.mapper.OcAuthAreaEquipmentMapper">
+
+    <resultMap id="ocAuthAreaEquipment" type="com.handturn.bole.main.authArea.entity.OcAuthAreaEquipment">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="authAreaId" property="authAreaId"/>  <!--//权限区域-->
+        <result column="equipmentId" property="equipmentId"/>  <!--//设备ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithOcAuthAreaEquipmentSelectAll">
+        SELECT
+            OcAuthAreaEquipment.id AS id,
+            OcAuthAreaEquipment.auth_area_id AS authAreaId,
+            OcAuthAreaEquipment.equipment_id AS equipmentId,
+            OcAuthAreaEquipment.oc_code AS ocCode,
+            OcAuthAreaEquipment.org_code AS orgCode,
+            OcAuthAreaEquipment.oc_name AS ocName,
+            OcAuthAreaEquipment.org_name AS orgName,
+            OcAuthAreaEquipment.record_version AS recordVersion,
+            OcAuthAreaEquipment.create_date AS createDate,
+            OcAuthAreaEquipment.create_user_code AS createUserCode,
+            OcAuthAreaEquipment.create_user_name AS createUserName,
+            OcAuthAreaEquipment.last_upd_date AS lastUpdDate,
+            OcAuthAreaEquipment.last_upd_user_code AS lastUpdUserCode,
+            OcAuthAreaEquipment.last_upd_user_name AS lastUpdUserName
+        FROM oc_auth_area_equipment AS OcAuthAreaEquipment
+    </sql>
+
+    <select id="findForPage" parameterType="ocAuthAreaEquipment" resultType="ocAuthAreaEquipment">
+        <include refid="SqlWithOcAuthAreaEquipmentSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocAuthAreaEquipment.id != null and ocAuthAreaEquipment.id != ''">
+                AND OcAuthAreaEquipment.id =#{ocAuthAreaEquipment.id}
+            </if>
+            <if test="ocAuthAreaEquipment.authAreaId != null and ocAuthAreaEquipment.authAreaId != ''">
+                AND OcAuthAreaEquipment.auth_area_id =#{ocAuthAreaEquipment.authAreaId}
+            </if>
+            <if test="ocAuthAreaEquipment.equipmentId != null and ocAuthAreaEquipment.equipmentId != ''">
+                AND OcAuthAreaEquipment.equipment_id =#{ocAuthAreaEquipment.equipmentId}
+            </if>
+            <if test="ocAuthAreaEquipment.ocCode != null and ocAuthAreaEquipment.ocCode != ''">
+                AND OcAuthAreaEquipment.oc_code =#{ocAuthAreaEquipment.ocCode}
+            </if>
+            <if test="ocAuthAreaEquipment.orgCode != null and ocAuthAreaEquipment.orgCode != ''">
+                AND OcAuthAreaEquipment.org_code =#{ocAuthAreaEquipment.orgCode}
+            </if>
+            <if test="ocAuthAreaEquipment.ocName != null and ocAuthAreaEquipment.ocName != ''">
+                AND OcAuthAreaEquipment.oc_name =#{ocAuthAreaEquipment.ocName}
+            </if>
+            <if test="ocAuthAreaEquipment.orgName != null and ocAuthAreaEquipment.orgName != ''">
+                AND OcAuthAreaEquipment.org_name =#{ocAuthAreaEquipment.orgName}
+            </if>
+    </select>
+</mapper>

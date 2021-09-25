@@ -1,0 +1,89 @@
+<style>
+    #equipmentModel-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #equipmentModel-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="equipmentModel-edit">
+    <form class="layui-form" action="" lay-filter="equipmentModel-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="${equipmentModel.id}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备型号编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentModelCode" lay-verify="required"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentModel.equipmentModelCode}" data-th-readonly="${equipmentModel.id != null}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备型号名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentModelName" lay-verify="required"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentModel.equipmentModelName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备类型</label>
+                        <div class="layui-input-block">
+                            <select name="equipmentType" id="equipmentType" lay-verify="required" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${equipmentModelTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq equipmentModel.equipmentType}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">厂商名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="firmName" lay-verify="required"
+                                   autocomplete="off" class="layui-input" data-th-value="${equipmentModel.firmName}">
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注:</label>
+            <div class="layui-input-block">
+                <textarea name="remark" maxlength="100"
+                          class="layui-textarea" data-th-text="${equipmentModel.remark}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="equipmentModel-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#equipmentModel-edit'),
+            equipmentModel = [[${equipmentModel}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(equipmentModel-edit-form-submit)', function (data) {
+            febs.post(ctx + 'master/equipment/equipmentModel/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-equipmentModel').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

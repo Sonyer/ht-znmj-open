@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfQueryReportMapper">
+
+    <resultMap id="sysconfQueryReport" type="com.handturn.bole.sysconf.entity.SysconfQueryReport">
+        <id column="id" property="id"/> <!--//-->
+        <result column="reportCode" property="reportCode"/>  <!--//报表编码-->
+        <result column="reportName" property="reportName"/>  <!--//报表名称-->
+        <result column="reportNameEn" property="reportNameEn"/>  <!--//报表英文名-->
+        <result column="reportNodeType" property="reportNodeType"/>  <!--////报表类型:REPORT_ROOT-根目录;REPORT_MENU-目录;REPORT-报表-->
+        <result column="sortNo" property="sortNo"/>  <!--//排序-->
+        <result column="parentReportId" property="parentReportId"/>  <!--//父节点id-->
+        <result column="rootReportId" property="rootReportId"/>  <!--//根节点id-->
+        <result column="dataSource" property="dataSource"/>  <!--//报表模板数据源-->
+        <result column="sqlScript" property="sqlScript"/>  <!--//sql脚本-->
+        <result column="sqlSortScript" property="sqlSortScript"/>  <!--//排序sql-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="description" property="description"/>  <!--//描述-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysconfQueryReportSelectAll">
+        SELECT
+            SysconfQueryReport.id AS id,
+            SysconfQueryReport.report_code AS reportCode,
+            SysconfQueryReport.report_name AS reportName,
+            SysconfQueryReport.report_name_en AS reportNameEn,
+            SysconfQueryReport.report_node_type AS reportNodeType,
+            SysconfQueryReport.sort_no AS sortNo,
+            SysconfQueryReport.parent_report_id AS parentReportId,
+            SysconfQueryReport.root_report_id AS rootReportId,
+            SysconfQueryReport.data_source AS dataSource,
+            SysconfQueryReport.sql_script AS sqlScript,
+            SysconfQueryReport.sql_sort_script AS sqlSortScript,
+            SysconfQueryReport.status AS status,
+            SysconfQueryReport.description AS description,
+            SysconfQueryReport.record_version AS recordVersion,
+            SysconfQueryReport.create_date AS createDate,
+            SysconfQueryReport.create_user_code AS createUserCode,
+            SysconfQueryReport.create_user_name AS createUserName,
+            SysconfQueryReport.last_upd_date AS lastUpdDate,
+            SysconfQueryReport.last_upd_user_code AS lastUpdUserCode,
+            SysconfQueryReport.last_upd_user_name AS lastUpdUserName
+        FROM sysconf_query_report AS SysconfQueryReport
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfQueryReport" resultType="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysconfQueryReport.id != null and sysconfQueryReport.id != ''">
+                AND SysconfQueryReport.id =#{sysconfQueryReport.id}
+            </if>
+            <if test="sysconfQueryReport.reportCode != null and sysconfQueryReport.reportCode != ''">
+                AND SysconfQueryReport.report_code =#{sysconfQueryReport.reportCode}
+            </if>
+            <if test="sysconfQueryReport.reportName != null and sysconfQueryReport.reportName != ''">
+                AND SysconfQueryReport.report_name =#{sysconfQueryReport.reportName}
+            </if>
+            <if test="sysconfQueryReport.reportNameEn != null and sysconfQueryReport.reportNameEn != ''">
+                AND SysconfQueryReport.report_name_en =#{sysconfQueryReport.reportNameEn}
+            </if>
+            <if test="sysconfQueryReport.reportNodeType != null and sysconfQueryReport.reportNodeType != ''">
+                AND SysconfQueryReport.report_node_type =#{sysconfQueryReport.reportNodeType}
+            </if>
+            <if test="sysconfQueryReport.sortNo != null and sysconfQueryReport.sortNo != ''">
+                AND SysconfQueryReport.sort_no =#{sysconfQueryReport.sortNo}
+            </if>
+            <if test="sysconfQueryReport.parentReportId != null and sysconfQueryReport.parentReportId != ''">
+                AND SysconfQueryReport.parent_report_id =#{sysconfQueryReport.parentReportId}
+            </if>
+            <if test="sysconfQueryReport.rootReportId != null and sysconfQueryReport.rootReportId != ''">
+                AND SysconfQueryReport.root_report_id =#{sysconfQueryReport.rootReportId}
+            </if>
+            <if test="sysconfQueryReport.dataSource != null and sysconfQueryReport.dataSource != ''">
+                AND SysconfQueryReport.data_source =#{sysconfQueryReport.dataSource}
+            </if>
+            <if test="sysconfQueryReport.sqlScript != null and sysconfQueryReport.sqlScript != ''">
+                AND SysconfQueryReport.sql_script =#{sysconfQueryReport.sqlScript}
+            </if>
+            <if test="sysconfQueryReport.sqlSortScript != null and sysconfQueryReport.sqlSortScript != ''">
+                AND SysconfQueryReport.sql_sort_script =#{sysconfQueryReport.sqlSortScript}
+            </if>
+            <if test="sysconfQueryReport.status != null and sysconfQueryReport.status != ''">
+                AND SysconfQueryReport.status =#{sysconfQueryReport.status}
+            </if>
+            <if test="sysconfQueryReport.description != null and sysconfQueryReport.description != ''">
+                AND SysconfQueryReport.description =#{sysconfQueryReport.description}
+            </if>
+    </select>
+
+
+    <select id="findAllRootReports" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        SysconfQueryReport.parent_report_id = 0
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+
+    <select id="findAllRootReportsByOrgId" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        SysconfQueryReport.parent_report_id = 0
+        AND SysconfQueryReport.id IN (
+        SELECT DISTINCT
+        sor.report_id
+        FROM
+        sys_oganization_report sor
+        WHERE
+        sor.org_id = #{orgId}
+        )
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+
+    <select id="findAllRootReportsByOcId" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        SysconfQueryReport.parent_report_id = 0
+        AND SysconfQueryReport.id IN (
+        SELECT DISTINCT
+        sor.report_id
+        FROM
+        sys_oc_report sor
+        WHERE
+        sor.oc_id = #{ocId}
+        )
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+
+    <select id="findReportsByRootIdOrgId" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        SysconfQueryReport.root_report_id = #{rootReportId}
+        AND SysconfQueryReport.id IN (
+        SELECT DISTINCT
+        sor.report_id
+        FROM
+        sys_oganization_report sor
+        WHERE
+        sor.org_id = #{orgId}
+        )
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+
+    <select id="findReportsByRootIdOcId" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        SysconfQueryReport.root_report_id = #{rootReportId}
+        AND SysconfQueryReport.id IN (
+        SELECT DISTINCT
+        sor.report_id
+        FROM
+        sys_oc_report sor
+        WHERE
+        sor.oc_id = #{ocId}
+        )
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+
+    <select id="findUserReport" resultMap="sysconfQueryReport">
+        <include refid="SqlWithSysconfQueryReportSelectAll"/>
+        WHERE
+        1=1
+        <if test="rootReportId != null and rootReportId != ''">
+            AND SysconfQueryReport.root_report_id = #{rootReportId}
+        </if>
+        AND SysconfQueryReport.id IN (
+        SELECT DISTINCT
+        rr.report_id
+        FROM
+        sys_role_report rr
+        LEFT JOIN sys_role r ON (rr.role_id = r.id)
+        LEFT JOIN sys_role_user ru ON (ru.role_id = r.id)
+        LEFT JOIN sys_user u ON (u.id = ru.user_id)
+        WHERE
+        u.user_code = #{userCode}
+        )
+        ORDER BY
+        SysconfQueryReport.sort_no
+    </select>
+</mapper>

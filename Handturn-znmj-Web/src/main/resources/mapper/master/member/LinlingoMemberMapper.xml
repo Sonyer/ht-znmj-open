@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.member.mapper.MemberMapper">
+
+    <resultMap id="member" type="com.handturn.bole.master.member.entity.Member">
+        <id column="id" property="id"/> <!--//-->
+        <result column="accountCode" property="accountCode"/>  <!--//平台会员账号-自动生成-->
+        <result column="nickName" property="nickName"/>  <!--//平台会员昵称-->
+        <result column="gender" property="gender"/>  <!--//性别-->
+        <result column="avatarAttchment" property="avatarAttchment"/>  <!--//头像-存根地址-->
+        <result column="avatarRequest" property="avatarRequest"/>  <!--//头像-访问地址-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="email" property="email"/>  <!--//用户邮箱-->
+        <result column="vipLevel" property="vipLevel"/>
+        <result column="certificationType" property="certificationType"/>  <!--//认证类型:NORMAL_USER-普通用户,PERSION_USER-个人认证,CLIENT_USER-商户认证-->
+        <result column="isPersionUser" property="isPersionUser"/>
+        <result column="isClientUser" property="isClientUser"/>
+        <result column="status" property="status"/>  <!--//用户状态:NOMAL-正常,FREEZE-冻结-->
+
+        <result column="specialUser" property="specialUser"/>  <!--//特约会员-->
+        <result column="specialUserTime" property="specialUserTime"/>  <!--//特约时间-->
+
+        <result column="followCount" property="followCount"/>  <!--//关注数-->
+
+        <result column="loginCount" property="loginCount"/>  <!--//登陆次数-->
+        <result column="lastLoginIp" property="lastLoginIp"/>  <!--//最后登陆IP-->
+        <result column="lastIpRegion" property="lastIpRegion"/>  <!--//最后登陆IP区域-->
+        <result column="firstLoginTime" property="firstLoginTime"/>  <!--//第一次登陆时间-->
+        <result column="lastLoginTime" property="lastLoginTime"/>  <!--//最后登陆时间-->
+
+        <result column="lastLongitude" property="lastLongitude"/>
+        <result column="lastLatitude" property="lastLatitude"/>
+
+    </resultMap>
+
+    <sql id="SqlWithMemberSelectAll">
+        SELECT
+            Member.id AS id,
+            Member.account_code AS accountCode,
+            Member.nick_name AS nickName,
+            Member.gender AS gender,
+            Member.avatar_attchment AS avatarAttchment,
+            Member.avatar_request AS avatarRequest,
+            Member.phone_number AS phoneNumber,
+            Member.email AS email,
+            Member.vip_level AS vipLevel,
+            Member.certification_type AS certificationType,
+            Member.is_persion_user AS isPersionUser,
+            Member.is_client_user AS isClientUser,
+            Member.status AS status,
+
+            Member.special_user AS specialUser,
+            Member.special_user_time AS specialUserTime,
+
+            Member.follow_count AS followCount,
+
+            Member.login_count AS loginCount,
+            Member.last_login_ip AS lastLoginIp,
+            Member.last_ip_region AS lastIpRegion,
+            Member.first_login_time AS firstLoginTime,
+            Member.last_login_time AS lastLoginTime,
+
+            Member.last_longitude AS lastLongitude,
+            Member.last_latitude AS lastLatitude
+        FROM member AS Member
+    </sql>
+
+    <select id="findForPage" parameterType="member" resultType="member">
+        <include refid="SqlWithMemberSelectAll"/>
+        WHERE 1=1
+
+            <if test="member.id != null and member.id != ''">
+                AND Member.id =#{member.id}
+            </if>
+            <if test="member.accountCode != null and member.accountCode != ''">
+                AND Member.account_code =#{member.accountCode}
+            </if>
+            <if test="member.nickName != null and member.nickName != ''">
+                AND Member.nick_name =#{member.nickName}
+            </if>
+            <if test="member.gender != null and member.gender != ''">
+                AND Member.gender =#{member.gender}
+            </if>
+            <if test="member.avatarAttchment != null and member.avatarAttchment != ''">
+                AND Member.avatar_attchment =#{member.avatarAttchment}
+            </if>
+            <if test="member.avatarRequest != null and member.avatarRequest != ''">
+                AND Member.avatar_request =#{member.avatarRequest}
+            </if>
+            <if test="member.phoneNumber != null and member.phoneNumber != ''">
+                AND Member.phone_number =#{member.phoneNumber}
+            </if>
+            <if test="member.email != null and member.email != ''">
+                AND Member.email =#{member.email}
+            </if>
+        <if test="member.vipLevel != null and member.vipLevel != ''">
+            AND Member.vip_level =#{member.vipLevel}
+        </if>
+            <if test="member.certificationType != null and member.certificationType != ''">
+                AND Member.certification_type =#{member.certificationType}
+            </if>
+            <if test="member.status != null and member.status != ''">
+                AND Member.status =#{member.status}
+            </if>
+        <if test="member.specialUser != null and member.specialUser != ''">
+            AND Member.special_user =#{member.specialUser}
+        </if>
+            <if test="member.loginCount != null and member.loginCount != ''">
+                AND Member.login_count =#{member.loginCount}
+            </if>
+            <if test="member.lastLoginIp != null and member.lastLoginIp != ''">
+                AND Member.last_login_ip =#{member.lastLoginIp}
+            </if>
+            <if test="member.lastIpRegion != null and member.lastIpRegion != ''">
+                AND Member.last_ip_region =#{member.lastIpRegion}
+            </if>
+            <if test="member.firstLoginTime != null and member.firstLoginTime != ''">
+                AND Member.first_login_time =#{member.firstLoginTime}
+            </if>
+            <if test="member.lastLoginTime != null and member.lastLoginTime != ''">
+                AND Member.last_login_time =#{member.lastLoginTime}
+            </if>
+    </select>
+</mapper>

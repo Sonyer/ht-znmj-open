@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfDictCodeMapper">
+
+    <resultMap id="sysconfDictCode" type="com.handturn.bole.sysconf.entity.SysconfDictCode">
+        <id column="id" property="id"/> <!--//-->
+        <result column="codeValue" property="codeValue"/>  <!--//数据字典值-->
+        <result column="displayValueEn" property="displayValueEn"/>  <!--//英文展现-->
+        <result column="displayValueCn" property="displayValueCn"/>  <!--//中文展现-->
+        <result column="typeCode" property="typeCode"/>  <!--//数据字典类型编码-->
+        <result column="orderNum" property="orderNum"/>  <!--//排序-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: enabled-有效;disabled-无效-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="isSysCreated" property="isSysCreated"/>  <!--//是否系统创建(1:是 0:否)，系统创建的记录不能前台修改和删除-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysconfDictCodeSelectAll">
+        SELECT
+            SysconfDictCode.id AS id,
+            SysconfDictCode.code_value AS codeValue,
+            SysconfDictCode.display_value_en AS displayValueEn,
+            SysconfDictCode.display_value_cn AS displayValueCn,
+            SysconfDictCode.type_code AS typeCode,
+            SysconfDictCode.order_num AS orderNum,
+            SysconfDictCode.remark AS remark,
+            SysconfDictCode.status AS status,
+            SysconfDictCode.record_version AS recordVersion,
+            SysconfDictCode.is_sys_created AS isSysCreated,
+            SysconfDictCode.create_date AS createDate,
+            SysconfDictCode.create_user_code AS createUserCode,
+            SysconfDictCode.create_user_name AS createUserName,
+            SysconfDictCode.last_upd_date AS lastUpdDate,
+            SysconfDictCode.last_upd_user_code AS lastUpdUserCode,
+            SysconfDictCode.last_upd_user_name AS lastUpdUserName
+        FROM sysconf_dict_code AS SysconfDictCode
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfDictCode" resultType="sysconfDictCode">
+        <include refid="SqlWithSysconfDictCodeSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysconfDictCode.codeValue != null and sysconfDictCode.codeValue != ''">
+                AND SysconfDictCode.code_value = #{sysconfDictCode.codeValue}
+            </if>
+            <if test="sysconfDictCode.displayValueEn != null and sysconfDictCode.displayValueEn != ''">
+                AND SysconfDictCode.display_value_en = #{sysconfDictCode.displayValueEn}
+            </if>
+            <if test="sysconfDictCode.displayValueCn != null and sysconfDictCode.displayValueCn != ''">
+                AND SysconfDictCode.display_value_cn = #{sysconfDictCode.displayValueCn}
+            </if>
+            <if test="sysconfDictCode.typeCode != null and sysconfDictCode.typeCode != ''">
+                AND SysconfDictCode.type_code = #{sysconfDictCode.typeCode}
+            </if>
+            <if test="sysconfDictCode.orderNum != null and sysconfDictCode.orderNum != ''">
+                AND SysconfDictCode.order_num = #{sysconfDictCode.orderNum}
+            </if>
+            <if test="sysconfDictCode.status != null and sysconfDictCode.status != ''">
+                AND SysconfDictCode.status = #{sysconfDictCode.status}
+            </if>
+    </select>
+</mapper>

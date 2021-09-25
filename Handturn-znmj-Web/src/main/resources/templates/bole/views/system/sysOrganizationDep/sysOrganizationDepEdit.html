@@ -1,0 +1,114 @@
+<style>
+    #sysOrganizationDep-edit {
+        padding: 20px 25px 25px 0;
+    }
+</style>
+<div class="layui-fluid" id="sysOrganizationDep-edit">
+    <form class="layui-form" action="" lay-filter="sysOrganizationDep-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">部门id:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysOrganizationDep.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">上级部门:</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="parentDepId" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.parentDepId}">
+                <input type="text" name="parentDepName" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.parentDepName}" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门编码:</label>
+            <div class="layui-input-block">
+                <input type="text" name="depCode" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.depCode}" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">部门名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="depName" lay-verify="required" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.depName}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">部门简称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="depShortName" lay-verify="required" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.depShortName}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">国家:</label>
+            <div class="layui-input-block">
+                <input type="text" name="country" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.country}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">省份:</label>
+            <div class="layui-input-block">
+                <input type="text" name="province" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.province}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">城市:</label>
+            <div class="layui-input-block">
+                <input type="text" name="city" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.city}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">区县:</label>
+            <div class="layui-input-block">
+                <input type="text" name="region" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.region}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址:</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.address}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人:</label>
+            <div class="layui-input-block">
+                <input type="text" name="attentionTo" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.attentionTo}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号:</label>
+            <div class="layui-input-block">
+                <input type="text" name="cell" autocomplete="off" class="layui-input" data-th-value="${sysOrganizationDep.cell}">
+            </div>
+        </div>
+
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysOrganizationDep-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $view = $('#sysOrganizationDep-edit'),
+            $icon = $view.find('input[name="icon"]'),
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        formSelects.render();
+
+        form.on('submit(sysOrganizationDep-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysOrganizationDep/save', data.field, function () {
+                layer.closeAll();
+                febs.alert.success('保存成功!');
+                $('#febs-sysOrganizationDep').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

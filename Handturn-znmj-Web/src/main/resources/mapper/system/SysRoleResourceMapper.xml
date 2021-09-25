@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysRoleResourceMapper">
+
+    <resultMap id="sysRoleResource" type="com.handturn.bole.system.entity.SysRoleResource">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="record_version" property="recordVersion"/>
+        <result column="create_date" property="createDate"/>
+        <result column="create_user_code" property="createUserCode"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="last_upd_date" property="lastUpdDate"/>
+        <result column="last_upd_user_code" property="lastUpdUserCode"/>
+        <result column="last_upd_user_name" property="lastUpdUserName"/>
+    </resultMap>
+</mapper>

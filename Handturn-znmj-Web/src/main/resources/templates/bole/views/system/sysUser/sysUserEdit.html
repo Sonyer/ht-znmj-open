@@ -1,0 +1,127 @@
+<style>
+    #sysUser-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysUser-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysUser-edit">
+    <form class="layui-form" action="" lay-filter="sysUser-edit-form">
+        <div class="layui-form-item febs-hide">
+            <label class="layui-form-label">用户Id:</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" data-th-value="${sysUser.id}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">用户编号:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userCode"
+                           autocomplete="off" class="layui-input" data-th-value="${sysUser.userCode}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">用户名:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userName" lay-verify="required"
+                           autocomplete="off" class="layui-input" data-th-value="${sysUser.userName}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">部门:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="depId" id="depId" lay-filter="depId" lay-verify="required"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">地址:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="address" lay-verify="required"
+                           autocomplete="off" class="layui-input" data-th-value="${sysUser.address}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="email" name="email" lay-verify="required|email"
+                           autocomplete="off" class="layui-input" data-th-value="${sysUser.email}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">手机:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="mobile" lay-verify="required|phone"
+                           autocomplete="off" class="layui-input" data-th-value="${sysUser.mobile}">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label febs-form-item-require">性别:</label>
+                <div class="layui-input-block">
+                    <select name="sex" id="sex">
+                        <option value=""></option>
+                        <option data-th-each="option:${baseSexOption}" data-th-value="${option.value}"  data-th-text="${option.text}"
+                                data-th-selected="${option.value eq sysUser.sex}"/>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述:</label>
+            <div class="layui-input-block">
+                <textarea name="description" maxlength="100"
+                          class="layui-textarea" data-th-text="${sysUser.description}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysUser-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysUser-edit'),
+            sysUser = [[${sysUser}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+        treeSelect.render({
+            elem: $view.find('#depId'),
+            type: 'get',
+            data: ctx + 'system/sysOrganizationDep/select/tree',
+            placeholder: '请选择',
+            search: true,
+            // 点击回调
+            click: function(d){
+                console.log(d);
+            },
+            //加载完成后的回调函数
+            success: function (d) {
+                //选中节点，根据id筛选
+                treeSelect.checkNode('depId',sysUser.depId);
+            }
+        });
+
+        form.on('submit(sysUser-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysUser/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysUser').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

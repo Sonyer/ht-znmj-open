@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfPrintMapper">
+
+    <resultMap id="sysconfPrint" type="com.handturn.bole.sysconf.entity.SysconfPrint">
+        <id column="id" property="id"/> <!--//-->
+        <result column="printCode" property="printCode"/>  <!--//打印编码-->
+        <result column="printName" property="printName"/>  <!--//打印名称-->
+        <result column="groupName" property="groupName"/>  <!--//打印分组-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="isSysCreated" property="isSysCreated"/>  <!--//是否系统创建(1:是 0:否)，系统创建的记录不能前台修改和删除-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysconfPrintSelectAll">
+        SELECT
+            SysconfPrint.id AS id,
+            SysconfPrint.print_code AS printCode,
+            SysconfPrint.print_name AS printName,
+            SysconfPrint.group_name AS groupName,
+            SysconfPrint.remark AS remark,
+            SysconfPrint.status AS status,
+            SysconfPrint.is_sys_created AS isSysCreated,
+            SysconfPrint.record_version AS recordVersion,
+            SysconfPrint.create_date AS createDate,
+            SysconfPrint.create_user_code AS createUserCode,
+            SysconfPrint.create_user_name AS createUserName,
+            SysconfPrint.last_upd_date AS lastUpdDate,
+            SysconfPrint.last_upd_user_code AS lastUpdUserCode,
+            SysconfPrint.last_upd_user_name AS lastUpdUserName
+        FROM sysconf_print AS SysconfPrint
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfPrint" resultType="sysconfPrint">
+        <include refid="SqlWithSysconfPrintSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysconfPrint.id != null and sysconfPrint.id != ''">
+                AND SysconfPrint.id =#{sysconfPrint.id}
+            </if>
+            <if test="sysconfPrint.printCode != null and sysconfPrint.printCode != ''">
+                AND SysconfPrint.print_code =#{sysconfPrint.printCode}
+            </if>
+            <if test="sysconfPrint.printName != null and sysconfPrint.printName != ''">
+                AND SysconfPrint.print_name =#{sysconfPrint.printName}
+            </if>
+            <if test="sysconfPrint.groupName != null and sysconfPrint.groupName != ''">
+                AND SysconfPrint.group_name =#{sysconfPrint.groupName}
+            </if>
+            <if test="sysconfPrint.remark != null and sysconfPrint.remark != ''">
+                AND SysconfPrint.remark =#{sysconfPrint.remark}
+            </if>
+            <if test="sysconfPrint.status != null and sysconfPrint.status != ''">
+                AND SysconfPrint.status =#{sysconfPrint.status}
+            </if>
+            <if test="sysconfPrint.isSysCreated != null and sysconfPrint.isSysCreated != ''">
+                AND SysconfPrint.is_sys_created =#{sysconfPrint.isSysCreated}
+            </if>
+    </select>
+</mapper>

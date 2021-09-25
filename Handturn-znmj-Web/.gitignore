@@ -1,0 +1,37 @@
+# 忽略.gitignore(不忽略)
+#.gitignore
+
+# 忽略所有 .o .a 结尾的文件
+*.[oa]
+
+# 忽略所有 ~ 结尾的文件
+*~
+
+# 忽略所有java编译后文件
+*.class
+*.jar
+*/target
+*/target/*
+
+#忽略git冲突备份文件
+*.bak
+
+# 忽略IntelliJ IDEA配置文件
+*.iml
+.idea
+
+# 忽略eclipse配置文件
+.project
+.settings/*
+*/.project
+*/.settings/*
+*/.classpath
+*/target/
+*/.project
+*/.settings/*
+*/.classpath
+.classpath
+
+*/target/
+target/
+log/

@@ -1,0 +1,229 @@
+<style>
+    #ocVisitorInfoAuth-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #ocVisitorInfoAuth-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="ocVisitorInfoAuth-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">访客区域权限</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-row febs-container">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-form-item febs-hide">
+                                <label class="layui-form-label">ID:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="visitorId" name="visitorId" data-th-value="${ocVisitorInfo.id}">
+                                </div>
+                            </div>
+
+                            <div class="layui-card-body febs-table-full" id="ocVisitorInfoAuth-table-all">
+                                <form class="layui-form layui-table-form" lay-filter="ocVisitorInfoAuth-table-form" id="ocVisitorInfoAuth-table-form">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md10">
+                                            <div class="layui-form-item">
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">区域名称</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="areaName" autocomplete="off" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">状态</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="status" id="status" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${baseStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-inline">
+                                                    <label class="layui-form-label">自动审核</label>
+                                                    <div class="layui-input-inline">
+                                                        <select name="isAutoAudit" id="isAutoAudit" lay-search>
+                                                            <option value=""></option>
+                                                            <option data-th-each="option:${baseBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="authArea_query">
+                                                <i class="layui-icon">&#xe848;</i>
+                                            </div>
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="authArea_qeryReset">
+                                                <i class="layui-icon">&#xe79b;</i>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <table id="ocVisitorInfoAuthTable" lay-filter="ocVisitorInfoAuthTable" lay-data="{id: 'ocVisitorInfoAuthTable'}" ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'table', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            table = layui.table,
+            $view = $('#ocVisitorInfoAuth-edit'),
+            $authArea_query = $view.find('#authArea_query'),
+            $authArea_qeryReset = $view.find('#authArea_qeryReset'),
+            $ocVisitorInfoAuth_searchForm = $view.find('#ocVisitorInfoAuth-table-form'),
+            baseStatusOption = [[${baseStatusOption}]],
+            baseStatusOptionMap = {},
+            baseBooleanOption =  [[${baseBooleanOption}]],
+            baseBooleanOptionMap = {},
+            validate = layui.validate,
+            sortObject = {field: 'createDate', type: null},
+            ocVisitorInfoAuthTable_tableIns,
+            ocAuthAreaIds = [];
+
+        form.verify(validate);
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        $authArea_query.on('click', function () {
+            var params = $.extend(ocVisitorInfoAuthTable_getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            ocVisitorInfoAuthTable_tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $authArea_qeryReset.on('click', function () {
+            $ocVisitorInfoAuth_searchForm[0].reset();
+            ocVisitorInfoAuthTable_tableIns.reload({where: ocVisitorInfoAuthTable_getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        //监听事件
+        table.on('toolbar(ocVisitorInfoAuthTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('ocVisitorInfoAuthTable');
+            if (layEvent === 'DEFAULT_EXPORT') {
+                ocVisitorInfoAuthTable_exportTable();
+            }
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+            baseBooleanOptionMap = {};
+            for(var index in baseBooleanOption){
+                baseBooleanOptionMap[baseBooleanOption[index].value] = baseBooleanOption[index].text;
+            }
+        }
+
+        function initTable() {
+            //table = $.extend(table, {config: {checkName: 'layChecked'}});
+            ocVisitorInfoAuthTable_tableIns = febs.table.init({
+                elem: $view.find('#ocVisitorInfoAuthTable'),
+                id: 'ocVisitorInfoAuthTable',
+                toolbar: '#ocVisitorInfoAuthTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                where:ocVisitorInfoAuthTable_getQueryParams(),
+                url: ctx + 'master/visitor/ocVisitorInfo/ocAuthAreaList',
+                cols: [
+                    [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'areaCode', title: '区域编码',sort: true, minWidth: 100},
+                        {field: 'areaName', title: '区域名称',sort: true, minWidth: 100},
+                        {field: 'isAutoAudit', title: '自动审核',sort: true,dataMap:baseBooleanOptionMap,templet: function(d){
+                                return baseBooleanOptionMap[d.isAutoAudit] == null? d.isAutoAudit:baseBooleanOptionMap[d.isAutoAudit];
+                            }, minWidth: 100},
+                        {field: 'status', title: '状态',sort: true,dataMap:baseStatusOptionMap,templet: function(d){
+                                return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                            }, minWidth: 100},
+                        {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                    ]
+                ],
+                height: $(document).height() - $('#ocVisitorInfoAuthTable').offset().top - 120,
+                done: function(res, curr, count){
+                    ocAuthAreaIds = [];
+                    layui.each(res.data, function (key, item) {
+                        ocAuthAreaIds.push(item.id)
+
+                        if(item.layChecked == 'true' || item.layChecked == true){
+                            //这里才是真正实现的有效勾选
+                            item["LAY_CHECKED"] = 'true';
+                            //找到对应数据改变勾选样式，呈现出选中效果
+                            var _index = item['LAY_TABLE_INDEX'];
+                            $view.find('#ocVisitorInfoAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').prop('checked', true);
+                            $view.find('#ocVisitorInfoAuth-table-all').find('tr[data-index=' + _index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    });
+                }
+
+            });
+        }
+
+        //导出函数
+        function ocVisitorInfoAuthTable_exportTable(){
+            var queryData = ocVisitorInfoAuthTable_getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = ocVisitorInfoAuthTable_tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/visitor/ocVisitorInfo/ocAuthAreaExport/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function ocVisitorInfoAuthTable_getQueryParams() {
+            return {
+                visitorId:$view.find("#visitorId").val(),
+                areaName: $ocVisitorInfoAuth_searchForm.find('input[name="areaName"]').val().trim(),
+                status: $ocVisitorInfoAuth_searchForm.find('select[name="status"]').val(),
+                isAutoAudit: $ocVisitorInfoAuth_searchForm.find('select[name="isAutoAudit"]').val(),
+            };
+        }
+    });
+</script>

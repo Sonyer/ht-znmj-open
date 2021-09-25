@@ -1,0 +1,199 @@
+<style>
+    #equipmentStatusLog-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #equipmentStatusLog-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="equipmentStatusLog-edit">
+    <form class="layui-form" action="" lay-filter="equipmentStatusLog-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="----{equipmentStatusLog.id}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备系统编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.equipmentCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备出厂编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentMdCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.equipmentMdCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备型号编号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentModelCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.equipmentModelCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">网点编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ocCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.ocCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">组织编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orgCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.orgCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">网点名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ocName"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.ocName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">组织名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orgName"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.orgName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">备注:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="remark"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.remark}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备序号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="seqNum"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.seqNum}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">所属区域编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="areaCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.areaCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">日志日期:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="logDate"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.logDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">离线次数:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="offlineCount"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.offlineCount}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">在线次数:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="onlineCount"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.onlineCount}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">上次心跳时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="onlineTime"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.onlineTime}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">版本编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="recordVersion"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.recordVersion}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createDate"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.createDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增用户编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createUserCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.createUserCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增用户名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createUserName"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.createUserName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdDate"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.lastUpdDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改用户编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdUserCode"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.lastUpdUserCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改用户名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdUserName"
+                                   autocomplete="off" class="layui-input" data-th-value="----{equipmentStatusLog.lastUpdUserName}">
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="equipmentStatusLog-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#equipmentStatusLog-edit'),
+            equipmentStatusLog = [[----{equipmentStatusLog}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(equipmentStatusLog-edit-form-submit)', function (data) {
+            febs.post(ctx + 'equipmentStatusLog/equipmentStatusLog/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-equipmentStatusLog').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

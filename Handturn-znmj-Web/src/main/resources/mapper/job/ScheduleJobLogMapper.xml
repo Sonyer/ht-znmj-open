@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.job.mapper.ScheduleJobLogMapper">
+
+    <resultMap id="scheduleJobLog" type="com.handturn.bole.job.entity.ScheduleJobLog">
+        <id column="id" property="id"/> <!--//任务日志id-->
+        <result column="jobId" property="jobId"/>  <!--//任务id-->
+        <result column="beanName" property="beanName"/>  <!--//spring bean名称-->
+        <result column="methodName" property="methodName"/>  <!--//方法名-->
+        <result column="params" property="params"/>  <!--//参数-->
+        <result column="status" property="status"/>  <!--//任务状态 SUCCESS:成功    ERROR:失败-->
+        <result column="error" property="error"/>  <!--//失败信息-->
+        <result column="times" property="times"/>  <!--//耗时(单位:毫秒)-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithScheduleJobLogSelectAll">
+        SELECT
+            ScheduleJobLog.id AS id,
+            ScheduleJobLog.job_id AS jobId,
+            ScheduleJobLog.bean_name AS beanName,
+            ScheduleJobLog.method_name AS methodName,
+            ScheduleJobLog.params AS params,
+            ScheduleJobLog.status AS status,
+            ScheduleJobLog.error AS error,
+            ScheduleJobLog.times AS times,
+            ScheduleJobLog.record_version AS recordVersion,
+            ScheduleJobLog.create_date AS createDate,
+            ScheduleJobLog.create_user_code AS createUserCode,
+            ScheduleJobLog.create_user_name AS createUserName,
+            ScheduleJobLog.last_upd_date AS lastUpdDate,
+            ScheduleJobLog.last_upd_user_code AS lastUpdUserCode,
+            ScheduleJobLog.last_upd_user_name AS lastUpdUserName
+        FROM schedule_job_log AS ScheduleJobLog
+    </sql>
+
+    <select id="findForPage" parameterType="scheduleJobLog" resultType="scheduleJobLog">
+        <include refid="SqlWithScheduleJobLogSelectAll"/>
+        WHERE 1=1
+
+            <if test="scheduleJobLog.id != null and scheduleJobLog.id != ''">
+                AND ScheduleJobLog.id = #{scheduleJobLog.id}
+            </if>
+            <if test="scheduleJobLog.jobId != null and scheduleJobLog.jobId != ''">
+                AND ScheduleJobLog.job_id = #{scheduleJobLog.jobId}
+            </if>
+            <if test="scheduleJobLog.beanName != null and scheduleJobLog.beanName != ''">
+                AND ScheduleJobLog.bean_name = #{scheduleJobLog.beanName}
+            </if>
+            <if test="scheduleJobLog.methodName != null and scheduleJobLog.methodName != ''">
+                AND ScheduleJobLog.method_name = #{scheduleJobLog.methodName}
+            </if>
+            <if test="scheduleJobLog.params != null and scheduleJobLog.params != ''">
+                AND ScheduleJobLog.params = #{scheduleJobLog.params}
+            </if>
+            <if test="scheduleJobLog.status != null and scheduleJobLog.status != ''">
+                AND ScheduleJobLog.status = #{scheduleJobLog.status}
+            </if>
+            <if test="scheduleJobLog.error != null and scheduleJobLog.error != ''">
+                AND ScheduleJobLog.error = #{scheduleJobLog.error}
+            </if>
+            <if test="scheduleJobLog.times != null and scheduleJobLog.times != ''">
+                AND ScheduleJobLog.times = #{scheduleJobLog.times}
+            </if>
+            <if test="scheduleJobLog.recordVersion != null and scheduleJobLog.recordVersion != ''">
+                AND ScheduleJobLog.record_version = #{scheduleJobLog.recordVersion}
+            </if>
+            <if test="scheduleJobLog.createDate != null and scheduleJobLog.createDate != ''">
+                AND ScheduleJobLog.create_date = #{scheduleJobLog.createDate}
+            </if>
+            <if test="scheduleJobLog.createUserCode != null and scheduleJobLog.createUserCode != ''">
+                AND ScheduleJobLog.create_user_code = #{scheduleJobLog.createUserCode}
+            </if>
+            <if test="scheduleJobLog.createUserName != null and scheduleJobLog.createUserName != ''">
+                AND ScheduleJobLog.create_user_name = #{scheduleJobLog.createUserName}
+            </if>
+            <if test="scheduleJobLog.lastUpdDate != null and scheduleJobLog.lastUpdDate != ''">
+                AND ScheduleJobLog.last_upd_date = #{scheduleJobLog.lastUpdDate}
+            </if>
+            <if test="scheduleJobLog.lastUpdUserCode != null and scheduleJobLog.lastUpdUserCode != ''">
+                AND ScheduleJobLog.last_upd_user_code = #{scheduleJobLog.lastUpdUserCode}
+            </if>
+            <if test="scheduleJobLog.lastUpdUserName != null and scheduleJobLog.lastUpdUserName != ''">
+                AND ScheduleJobLog.last_upd_user_name = #{scheduleJobLog.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

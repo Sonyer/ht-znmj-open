@@ -1,0 +1,292 @@
+<style>
+    .layui-tab-title li{
+        font-size: 16px;
+    }
+    .layui-tab-title .layui-this {
+        font-weight:bold;
+        color: #85b864;
+    }
+    .layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after {
+        background-color:transparent;
+    }
+</style>
+<div class="layui-layout layui-layout-admin" id="febs-layout">
+    <div class="layui-header layui-anim febs-anim-down" id="app-header">
+        <script type="text/html"
+                template
+                lay-done="layui.element.render('nav','febs-header')">
+            <ul class="layui-nav layui-layout-left" lay-filter="febs-header">
+                <li class="layui-nav-item" lay-unselect>
+                    <a febs-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </a>
+                </li>
+                 <span class="febs-breadcrumb"></span>
+
+                <li class="layui-nav-item layui-user" lay-unselect>
+                    <ul class="layui-tab-title" id="homeSwitchModel">
+                        {{# layui.each(rootResources,function(i, item){ }}
+                            {{# if(item.id == currentRootResource.id){ }}
+                                <li class="layui-this" lay-id="{{item.id}}">{{item.resourceName}}</li>
+                            {{# }else{ }}
+                                <li lay-id="{{item.id}}">{{item.resourceName}}</li>
+                            {{# } }}
+                        {{# }) }}
+                    </ul>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="febs-header">
+                <div class="layui-nav-item">
+                    <div class="layui-input-inline">
+                        <a class="layui-nav-child-href" style="color:#1e51c7" id="downOptionDoc">《智能门禁-主控室操作手册下载》</a>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select id="switchOrg" name="switchOrg" lay-search>
+                            {{# layui.each(orgOptions,function(i, item){ }}
+                                {{# if(item.value == currentOrg.id){ }}
+                                    <option value="{{ item.value }}" selected="true">{{ item.text }}</option>
+                                {{# }else{ }}
+                                    <option value="{{ item.value }}">{{ item.text }}</option>
+                                {{# } }}
+                            {{# }) }}
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select id="switchOc" name="switchOc" lay-search>
+                            {{# layui.each(orgOcOptions,function(i, item){ }}
+                                {{# if(item.value == currentOrgOc.id){ }}
+                                <option value="{{ item.value }}" selected="true">{{ item.text }}</option>
+                                {{# }else{ }}
+                                <option value="{{ item.value }}">{{ item.text }}</option>
+                                {{# } }}
+                            {{# }) }}
+                        </select>
+                    </div>
+                </div>
+                <li class="layui-nav-item layui-user" lay-unselect>
+                    <a>
+                        <img style="width: 1.9rem;margin-right:.5rem;border-radius: 50%"
+                             src="{{= ctx + 'bole/images/avatar/' + currentUser.avatar }}" title="头像">
+                        {{ currentUser.userCode }}
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a class="layui-nav-child-href" id="user-profile">个人中心</a></dd>
+                        <dd><a class="layui-nav-child-href" id="password-update">密码修改</a></dd>
+                        <!--<dd><a class="layui-nav-child-href" target="_blank" href="https://github.com/wuyouzhuguli/FEBS-Shiro">项目地址</a></dd>-->
+                        <hr/>
+                        <dd><a class="layui-nav-child-href" data-th-href="@{logout}">退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </script>
+    </div>
+
+    <div class="febs-tabs-hidden">
+        <script type="text/html" id="TPL-app-tabsmenu" template>
+            {{# if(layui.conf.viewTabs){ }}
+            <div class="febs-tabs-wrap">
+          <span class="febs-tabs-btn febs-tabs-action febs-tabs-prev" data-type="prev">
+              <i class="layui-icon layui-icon-left"></i>
+          </span>
+                <span class="febs-tabs-btn febs-tabs-action febs-tabs-next" data-type="next">
+              <i class="layui-icon layui-icon-right"></i>
+          </span>
+                <span class="febs-tabs-btn febs-tabs-action febs-tabs-down" data-type="down">
+              <i class="layui-icon layui-icon-close"></i>
+          </span>
+                <ul class="febs-tabs-menu">
+                    {{# layui.each(layui.view.tab.data,function(i, item){ }}
+                    <li data-type="page" class="febs-tabs-btn" lay-url="{{item.fileurl}}">
+                        <i class="febs-tabs-ball"></i>{{ item.title }}<b class="layui-icon layui-icon-close febs-tabs-close"></b>
+                    </li>
+                    {{# }) }}
+                </ul>
+            </div>
+            {{# } }}
+        </script>
+    </div>
+
+    <!-- 侧边菜单 -->
+    <div class="layui-side" id="app-sidebar">
+        <div class="layui-side-scroll">
+            <div class="layui-logo" style="cursor: pointer;width: auto">
+                <script type="text/html" id="logo_show" template>
+                    {{# if(currentOrg.logoFileName != null && currentOrg.logoFileName != ''){ }}
+                        <img src="{{=currentOrg.logoRequestUrl}}">
+                    {{# }else{ }}
+                        <img data-th-src="@{bole/images/logo.png}">
+                    {{# } }}
+                    {{# if(currentOrg.orgShortName != null && currentOrg.orgShortName != ''){ }}
+                        <span>{{ currentOrg.orgShortName }}</span>
+                    {{# }else{ }}
+                        <span>瀚屯-Bole</span>
+                    {{# } }}
+                </script>
+            </div>
+            <script
+                    type="text/html"
+                    template
+                    lay-api="getMenus"
+                    lay-done="layui.element.render('nav','febs-sidebar');layui.febs.sidebarFocus()">
+                <ul class="layui-nav layui-nav-tree" lay-filter="febs-sidebar" lay-shrink="all">
+                    {{#
+                    function __createSlidebar(data,index){
+                    if(!data || data.length == 0) return '';
+                    var html = '
+                    <dl class="layui-nav-child">';
+                        layui.each(data,function(i,child){
+                        var left = index == 0 ? 50 : 50 + index * 20;
+                        html += '
+                        <dd><a style="padding-left:' + left + 'px" target="'+(child.target||'')+'"
+                               lay-href="'+ (child.href||'') +'"><i class="layui-icon '+child.icon+'"></i>' + child.title + '</a>';
+                            if(child.childs) html += __createSlidebar(child.childs,index+1);
+                            html += '</dd>';
+                        });
+                        html = html +'</dl>';
+                    return html;
+                    }
+                    layui.each(d.childs, function(i,child){
+                    }}
+                    <li class="layui-nav-item">
+                        <a lay-href="{{child.href||''}}" target="{{child.target||''}}" title="{{child.title}}"><i
+                                class="layui-icon {{child.icon}}"></i>{{child.title}} {{# if(child.notice){ }}<span
+                                class="layui-badge">{{ child.notice }}</span>{{# } }}</a>
+                        {{ __createSlidebar(child.childs,0) }}
+                    </li>
+                    {{# }) }}
+                </ul>
+            </script>
+        </div>
+    </div>
+    <!-- 主体内容 -->
+    <div class="layui-body" id="febs-body"></div>
+    <div style="z-index:9999;position: absolute;width: 100%;text-align: center;padding: 0px;bottom: 0px;font-size: 13px">Copyright © 2019 湖南瀚屯科技有限公司 www.handturn.com</div>
+</div>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.config({
+        version: '1.0.1'
+    }).use(['jquery', 'febs', 'element'], function () {
+        var $ = layui.jquery,
+            $view = $('#febs-layout'),
+
+            febs = layui.febs;
+
+        var element = layui.element;
+
+        //tab切换，表格固定栏无效的问题
+        element.on('tab(tabChangeResize)',function(data){
+            $(document).resize();
+        });
+
+        initTheme();
+
+        $view.find('#user-avatar').attr('src', ctx + "bole/images/avatar/" + currentUser.avatar);
+
+        /*$view.on('click','.layui-tab-title li',function(){
+            var rootResourceId = $(this).attr("lay-id");
+            var data = {rootResourceId:rootResourceId}
+            febs.post(ctx + 'portal/switchModule', data, function () {
+                var number = Math.random();
+                window.location.href = ctx + 'index?t='+number;
+            });
+        });*/
+
+        $view.on('click','#homeSwitchModel li',function(){
+            var rootResourceId = $(this).attr("lay-id");
+            var data = {rootResourceId:rootResourceId}
+            febs.post(ctx + 'portal/switchModule', data, function () {
+                var number = Math.random();
+                window.location.href = ctx + 'index?t='+number;
+            });
+        });
+
+        $view.on('change', '#switchOrg', function () {
+            var orgId = $("#switchOrg").val();
+            var data = {orgId:orgId}
+            febs.post(ctx + 'portal/switchOrg', data, function () {
+                var number = Math.random();
+                window.location.href = ctx + 'index?t='+number;
+            });
+        });
+
+        $view.on('change', '#switchOc', function () {
+            var ocId = $("#switchOc").val();
+            var data = {ocId:ocId}
+            febs.post(ctx + 'portal/switchOc', data, function () {
+                var number = Math.random();
+                window.location.href = ctx + 'index?t='+number;
+            });
+        });
+
+
+        $view.on('click', '.layui-logo', function () {
+            febs.navigate("/index");
+        });
+
+        $view.on('click', '#password-update', function () {
+            febs.modal.open('密码修改', 'password/update', {
+                area: $(window).width() <= 750 ? '90%' : '500px',
+                btn: ['确定'],
+                yes: function () {
+                    $('#user-password-update').find('#submit').trigger('click');
+                }
+            });
+        });
+
+        $view.on('click', '#user-profile', function () {
+            febs.navigate("/portal/profile");
+        });
+
+        $view.on('click', '#downOptionDoc', function () {
+            febs.download(ctx + 'bole/doc/business_option_doc.docx', null, '智能门禁-主控室操作手册_V1.0.docx');
+        });
+
+        function initTheme() {
+            var theme = currentUser.theme;
+            var $sidebar = $('#app-sidebar');
+            if (theme === 'black') {
+                $sidebar.removeClass('febs-theme-white');
+            }
+            if (theme === 'white') {
+                $sidebar.addClass('febs-theme-white');
+            }
+        }
+
+        //table编辑上下左右键开通
+        $(document).on('keydown','.layui-table-edit',function(e){
+            var td = $(this).parent('td')
+                ,tr = td.parent('tr')
+                ,trs = tr.parent().parent().find('tr')
+                ,tr_index = tr.index()
+                ,td_index = td.index()
+                ,td_last_index = tr.find('[data-edit="text"]:last').index()
+                ,td_first_index = tr.find('[data-edit="text"]:first').index();
+            switch(e.keyCode){
+                case 13:
+
+                case 39:
+                    td.nextAll('[data-edit="text"]:first').click();
+                    if(td_index == td_last_index){
+                        tr.next().find('td').eq(td_first_index).click();
+                        if(tr_index == trs.length - 1){
+                            trs.eq(0).find('td').eq(td_first_index).click();
+                        }
+                    }
+                    setTimeout(function(){$('.layui-table-edit').select()},0);
+                    break;
+                case 37:
+                    td.prevAll('[data-edit="text"]:first').click();
+                    setTimeout(function(){$('.layui-table-edit').select()},0);
+                    break;
+                case 38:
+                    tr.prev().find('td').eq(td_index).click();
+                    setTimeout(function(){$('.layui-table-edit').select()},0);
+                    break;
+                case 40:
+                    tr.next().find('td').eq(td_index).click();
+                    setTimeout(function(){$('.layui-table-edit').select()},0);
+                    break;
+            }
+        });
+    });
+</script>

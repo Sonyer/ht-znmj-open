@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysRoleUserMapper">
+
+    <resultMap id="sysRoleUser" type="com.handturn.bole.system.entity.SysRoleUser">
+        <id column="id" property="id"/> <!--//-->
+        <result column="roleId" property="roleId"/>  <!--//角色id-->
+        <result column="userId" property="userId"/>  <!--//用户id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysRoleUserSelectAll">
+        SELECT
+            SysRoleUser.id AS id,
+            SysRoleUser.role_id AS roleId,
+            SysRoleUser.user_id AS userId,
+            SysRoleUser.record_version AS recordVersion,
+            SysRoleUser.create_date AS createDate,
+            SysRoleUser.create_user_code AS createUserCode,
+            SysRoleUser.create_user_name AS createUserName,
+            SysRoleUser.last_upd_date AS lastUpdDate,
+            SysRoleUser.last_upd_user_code AS lastUpdUserCode,
+            SysRoleUser.last_upd_user_name AS lastUpdUserName
+        FROM sys_role_user AS SysRoleUser
+    </sql>
+
+    <select id="findForPage" parameterType="sysRoleUser" resultType="sysRoleUser">
+        <include refid="SqlWithSysRoleUserSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysRoleUser.id != null and sysRoleUser.id != ''">
+                AND SysRoleUser.id = #{sysRoleUser.id}
+            </if>
+            <if test="sysRoleUser.roleId != null and sysRoleUser.roleId != ''">
+                AND SysRoleUser.role_id = #{sysRoleUser.roleId}
+            </if>
+            <if test="sysRoleUser.userId != null and sysRoleUser.userId != ''">
+                AND SysRoleUser.user_id = #{sysRoleUser.userId}
+            </if>
+            <if test="sysRoleUser.recordVersion != null and sysRoleUser.recordVersion != ''">
+                AND SysRoleUser.record_version = #{sysRoleUser.recordVersion}
+            </if>
+            <if test="sysRoleUser.createDate != null and sysRoleUser.createDate != ''">
+                AND SysRoleUser.create_date = #{sysRoleUser.createDate}
+            </if>
+            <if test="sysRoleUser.createUserCode != null and sysRoleUser.createUserCode != ''">
+                AND SysRoleUser.create_user_code = #{sysRoleUser.createUserCode}
+            </if>
+            <if test="sysRoleUser.createUserName != null and sysRoleUser.createUserName != ''">
+                AND SysRoleUser.create_user_name = #{sysRoleUser.createUserName}
+            </if>
+            <if test="sysRoleUser.lastUpdDate != null and sysRoleUser.lastUpdDate != ''">
+                AND SysRoleUser.last_upd_date = #{sysRoleUser.lastUpdDate}
+            </if>
+            <if test="sysRoleUser.lastUpdUserCode != null and sysRoleUser.lastUpdUserCode != ''">
+                AND SysRoleUser.last_upd_user_code = #{sysRoleUser.lastUpdUserCode}
+            </if>
+            <if test="sysRoleUser.lastUpdUserName != null and sysRoleUser.lastUpdUserName != ''">
+                AND SysRoleUser.last_upd_user_name = #{sysRoleUser.lastUpdUserName}
+            </if>
+    </select>
+</mapper>

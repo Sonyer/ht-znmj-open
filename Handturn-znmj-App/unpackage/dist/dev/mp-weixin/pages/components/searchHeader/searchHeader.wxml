@@ -1,0 +1,1 @@
+<view><view class="header"><view class="input-box"><input type="text" placeholder="请输入关键词..." placeholder-style="color:#c0c0c0" data-event-opts="{{[['input',[['onInputSearchValue',['$event']]]],['blur',[['onblurInputSearchValue']]]]}}" value="{{searchValue}}" bindinput="__e" bindblur="__e"/><view class="icon iconfont"></view></view></view><view class="place"></view></view>

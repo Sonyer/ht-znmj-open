@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.equipment.mapper.EquipmentModelMapper">
+
+    <resultMap id="equipmentModel" type="com.handturn.bole.master.equipment.entity.EquipmentModel">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="equipmentModelCode" property="equipmentModelCode"/>  <!--//设备型号编码-->
+        <result column="equipmentModelName" property="equipmentModelName"/>  <!--//设备型号名称-->
+        <result column="equipmentType" property="equipmentType"/>  <!--//设备类型:FACE-人脸识别,FINGER-指纹识别,PASSWORD-密码识别,FP-人脸密码(二合一),FP-指纹密码(二合一)-->
+        <result column="firmName" property="firmName"/>  <!--//厂商名称-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-已启用;DISABLED-已禁用-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithEquipmentModelSelectAll">
+        SELECT
+            EquipmentModel.id AS id,
+            EquipmentModel.equipment_model_code AS equipmentModelCode,
+            EquipmentModel.equipment_model_name AS equipmentModelName,
+            EquipmentModel.equipment_type AS equipmentType,
+            EquipmentModel.firm_name AS firmName,
+            EquipmentModel.status AS status,
+            EquipmentModel.remark AS remark,
+            EquipmentModel.record_version AS recordVersion,
+            EquipmentModel.create_date AS createDate,
+            EquipmentModel.create_user_code AS createUserCode,
+            EquipmentModel.create_user_name AS createUserName,
+            EquipmentModel.last_upd_date AS lastUpdDate,
+            EquipmentModel.last_upd_user_code AS lastUpdUserCode,
+            EquipmentModel.last_upd_user_name AS lastUpdUserName
+        FROM equipment_model AS EquipmentModel
+    </sql>
+
+    <select id="findForPage" parameterType="equipmentModel" resultType="equipmentModel">
+        <include refid="SqlWithEquipmentModelSelectAll"/>
+        WHERE 1=1
+
+            <if test="equipmentModel.id != null and equipmentModel.id != ''">
+                AND EquipmentModel.id =#{equipmentModel.id}
+            </if>
+            <if test="equipmentModel.equipmentModelCode != null and equipmentModel.equipmentModelCode != ''">
+                AND EquipmentModel.equipment_model_code =#{equipmentModel.equipmentModelCode}
+            </if>
+            <if test="equipmentModel.equipmentModelName != null and equipmentModel.equipmentModelName != ''">
+                AND (EquipmentModel.equipment_model_code LIKE CONCAT('%',#{equipmentModel.equipmentModelName},'%')
+                OR EquipmentModel.equipment_model_name LIKE CONCAT('%',#{equipmentModel.equipmentModelName},'%')
+                OR EquipmentModel.firm_name LIKE CONCAT('%',#{equipmentModel.equipmentModelName},'%'))
+            </if>
+            <if test="equipmentModel.equipmentType != null and equipmentModel.equipmentType != ''">
+                AND EquipmentModel.equipment_type =#{equipmentModel.equipmentType}
+            </if>
+            <if test="equipmentModel.firmName != null and equipmentModel.firmName != ''">
+                AND EquipmentModel.firm_name =#{equipmentModel.firmName}
+            </if>
+            <if test="equipmentModel.status != null and equipmentModel.status != ''">
+                AND EquipmentModel.status =#{equipmentModel.status}
+            </if>
+            <if test="equipmentModel.remark != null and equipmentModel.remark != ''">
+                AND EquipmentModel.remark =#{equipmentModel.remark}
+            </if>
+    </select>
+</mapper>

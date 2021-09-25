@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ht.znmj.mapper.VisitorInfoMapper">
+    <resultMap id="VisitorInfo" type="com.ht.znmj.entity.VisitorInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="name" property="name"/>
+        <result column="phoneNumber" property="phoneNumber"/>
+        <result column="idCard" property="idCard"/>
+        <result column="wigan" property="wigan"/>
+        <result column="startTime" property="startTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="department" property="department"/>
+        <result column="positor" property="positor"/>
+        <result column="faceFilePath" property="faceFilePath"/>
+        <result column="remark" property="remark"/>
+        <result column="cloudFlag" property="cloudFlag"/>
+        <result column="cloudId" property="cloudId"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="SqlWithVisitorInfoSelectAll">
+        SELECT
+            VisitorInfo.id AS id,
+            VisitorInfo.name AS name,
+            VisitorInfo.phoneNumber AS phoneNumber,
+            VisitorInfo.idCard AS idCard,
+            VisitorInfo.wigan AS wigan,
+            VisitorInfo.startTime AS startTime,
+            VisitorInfo.endTime AS endTime,
+            VisitorInfo.department AS department,
+            VisitorInfo.positor AS positor,
+            VisitorInfo.faceFilePath AS faceFilePath,
+            VisitorInfo.remark AS remark,
+            VisitorInfo.cloudFlag AS cloudFlag,
+            VisitorInfo.cloudId AS cloudId,
+            VisitorInfo.createTime AS createTime,
+            VisitorInfo.updateTime AS updateTime
+        FROM VisitorInfo AS VisitorInfo
+    </sql>
+
+    <select id="findForPage" parameterType="visitorInfo" resultType="visitorInfo">
+        <include refid="SqlWithVisitorInfoSelectAll"/>
+        WHERE 1=1
+            <if test="visitorInfo.id != null and visitorInfo.id != ''">
+                AND VisitorInfo.id = #{visitorInfo.id}
+            </if>
+        <if test="visitorInfo.equipmentId != null and visitorInfo.equipmentId != ''">
+            AND VisitorInfo.id IN (
+                SELECT VisitorEquipment.visitorId FROM VisitorEquipment VisitorEquipment
+                WHERE VisitorEquipment.equipmentId = #{visitorInfo.equipmentId}
+            )
+        </if>
+        <if test="visitorInfo.notInEquipmentId != null and visitorInfo.notInEquipmentId != ''">
+            AND VisitorInfo.id NOT IN (
+            SELECT VisitorEquipment.visitorId FROM VisitorEquipment VisitorEquipment
+            WHERE VisitorEquipment.equipmentId = #{visitorInfo.notInEquipmentId}
+            )
+        </if>
+            <if test="visitorInfo.name != null and visitorInfo.name != ''">
+                AND VisitorInfo.name LIKE '%${visitorInfo.name}%'
+            </if>
+            <if test="visitorInfo.idCard != null and visitorInfo.idCard != ''">
+                AND VisitorInfo.idCard LIKE '%${visitorInfo.idCard}%'
+            </if>
+            <if test="visitorInfo.wigan != null and visitorInfo.wigan != ''">
+                AND VisitorInfo.wigan LIKE '%${visitorInfo.wigan}%'
+            </if>
+            <if test="visitorInfo.department != null and visitorInfo.department != ''">
+                AND VisitorInfo.department LIKE '%${visitorInfo.department}%'
+            </if>
+            <if test="visitorInfo.positor != null and visitorInfo.positor != ''">
+                AND VisitorInfo.positor LIKE '%${visitorInfo.positor}%'
+            </if>
+            <if test="visitorInfo.cloudFlag != null and visitorInfo.cloudFlag != ''">
+                AND VisitorInfo.cloudFlag = #{visitorInfo.cloudFlag}
+            </if>
+        <if test="visitorInfo.cloudId != null and visitorInfo.cloudId != ''">
+            AND VisitorInfo.cloudId = #{visitorInfo.cloudId}
+        </if>
+        <if test="visitorInfo.startUpdateTime != null">
+            AND VisitorInfo.updateTime &gt;= #{visitorInfo.startUpdateTime}
+        </if>
+        <if test="visitorInfo.endUpdateTime != null">
+            AND VisitorInfo.updateTime &lt;= #{visitorInfo.endUpdateTime}
+        </if>
+            <if test="visitorInfo.isActive != null and visitorInfo.isActive != ''">
+                <if test="visitorInfo.isActive == 1">
+                    AND visitorInfo.startTime &lt; julianday(datetime('now','localtime'))*864000
+                    AND visitorInfo.endTime &gt; julianday(datetime('now','localtime'))*864000
+                </if>
+                <if test="visitorInfo.isActive == 0">
+                    AND visitorInfo.endTime &lt; julianday(datetime('now','localtime'))*864000
+                </if>
+            </if>
+    </select>
+</mapper>

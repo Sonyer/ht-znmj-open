@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysResourceMapper">
+
+    <resultMap id="sysResource" type="com.handturn.bole.system.entity.SysResource">
+        <id column="id" property="id"/> <!--//-->
+        <result column="resourceCode" property="resourceCode"/>  <!--//菜单编码-->
+        <result column="resourceName" property="resourceName"/>  <!--//菜单名称-->
+        <result column="resourceNodeType" property="resourceNodeType"/>  <!--////菜单类型:MENU_ROOT-根目录;MENU_DIR-目录;MENU-菜单;RESOURCE_COMPONENT-按钮,MENU_ACTION-请求-->
+        <result column="sortNo" property="sortNo"/>  <!--//排序-->
+        <result column="parentResourceId" property="parentResourceId"/>  <!--//父节点id-->
+        <result column="rootResourceId" property="rootResourceId"/>  <!--//根节点id-->
+        <result column="url" property="url"/>  <!--//菜单访问路径-->
+        <result column="perms" property="perms"/>  <!--//权限标识-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="icon" property="icon"/>  <!--//图标-->
+        <result column="isOpenWindow" property="isOpenWindow"/>  <!--//是否弹窗(1:是 0:否)，点击菜单时是否新开窗口-->
+        <result column="description" property="description"/>  <!--//描述-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+        <result column="resourceNameEn" property="resourceNameEn"/>  <!--//菜单英文名-->
+    </resultMap>
+
+    <sql id="SqlWithSysResourceSelectAll">
+        SELECT
+            SysResource.id AS id,
+            SysResource.resource_code AS resourceCode,
+            SysResource.resource_name AS resourceName,
+            SysResource.resource_node_type AS resourceNodeType,
+            SysResource.sort_no AS sortNo,
+            SysResource.parent_resource_id AS parentResourceId,
+            SysResource.root_resource_id AS rootResourceId,
+            SysResource.url AS url,
+            SysResource.perms AS perms,
+            SysResource.status AS status,
+            SysResource.icon AS icon,
+            SysResource.is_open_window AS isOpenWindow,
+            SysResource.description AS description,
+            SysResource.record_version AS recordVersion,
+            SysResource.create_date AS createDate,
+            SysResource.create_user_code AS createUserCode,
+            SysResource.create_user_name AS createUserName,
+            SysResource.last_upd_date AS lastUpdDate,
+            SysResource.last_upd_user_code AS lastUpdUserCode,
+            SysResource.last_upd_user_name AS lastUpdUserName,
+            SysResource.resource_name_en AS resourceNameEn
+        FROM sys_resource AS SysResource
+    </sql>
+
+    <select id="findUserPermissions" resultMap="sysResource">
+        SELECT
+            rs.perms
+        FROM
+            sys_role r
+        LEFT JOIN sys_role_user ru ON (r.id = ru.role_id)
+        LEFT JOIN sys_user u ON (u.id = ru.user_id)
+        LEFT JOIN sys_role_resource rrs ON (rrs.role_id = r.id)
+        LEFT JOIN sys_resource rs ON (rs.id = rrs.resource_id)
+        WHERE
+            u.user_code = #{userCode}
+        AND rs.perms is not null
+        AND rs.perms != ''
+    </select>
+
+    <select id="findUserSysResources" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+        SysResource.resource_node_type IN ('MENU_ROOT','MENU_DIR','MENU')
+        <if test="rootResourceId != null and rootResourceId != ''">
+            AND SysResource.root_resource_id = #{rootResourceId}
+        </if>
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                rr.resource_id
+            FROM
+                sys_role_resource rr
+            LEFT JOIN sys_role r ON (rr.role_id = r.id)
+            LEFT JOIN sys_role_user ru ON (ru.role_id = r.id)
+            LEFT JOIN sys_user u ON (u.id = ru.user_id)
+            WHERE
+                u.user_code = #{userCode}
+        )
+        ORDER BY
+        SysResource.sort_no
+    </select>
+
+    <select id="findAllRootSysResources" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+            SysResource.parent_resource_id = 0
+        ORDER BY
+            SysResource.sort_no
+    </select>
+
+    <select id="findAllRootSysResourcesByOrgId" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+        SysResource.parent_resource_id = 0
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                sor.resource_id
+            FROM
+                sys_oganization_resource sor
+            WHERE
+                sor.org_id = #{orgId}
+        )
+        ORDER BY
+        SysResource.sort_no
+    </select>
+
+    <select id="findAllRootSysResourcesByOcId" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+        SysResource.parent_resource_id = 0
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                sor.resource_id
+            FROM
+                sys_oc_resource sor
+            WHERE
+            sor.oc_id = #{ocId}
+        )
+        ORDER BY
+        SysResource.sort_no
+    </select>
+
+
+    <select id="findSysResourcesByRootIdOrgId" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+        SysResource.root_resource_id = #{rootResourceId}
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                sor.resource_id
+            FROM
+                sys_oganization_resource sor
+            WHERE
+                sor.org_id = #{orgId}
+            )
+        ORDER BY
+            SysResource.sort_no
+    </select>
+
+    <select id="findSysResourcesByRootIdOcId" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+        SysResource.root_resource_id = #{rootResourceId}
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                sor.resource_id
+            FROM
+                sys_oc_resource sor
+            WHERE
+                sor.oc_id = #{ocId}
+            )
+        ORDER BY
+            SysResource.sort_no
+    </select>
+
+    <select id="findUserRootSysResources" resultMap="sysResource">
+        <include refid="SqlWithSysResourceSelectAll"/>
+        WHERE
+            SysResource.parent_resource_id = 0
+        AND SysResource.id IN (
+            SELECT DISTINCT
+                rr.resource_id
+            FROM
+                sys_role_resource rr
+            LEFT JOIN sys_role r ON (rr.role_id = r.id)
+            LEFT JOIN sys_role_user ru ON (ru.role_id = r.id)
+            LEFT JOIN sys_user u ON (u.id = ru.user_id)
+            WHERE
+                u.id = #{userId}
+        )
+        ORDER BY
+            SysResource.sort_no
+    </select>
+
+</mapper>

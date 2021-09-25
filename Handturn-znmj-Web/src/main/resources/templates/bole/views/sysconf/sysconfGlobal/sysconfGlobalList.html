@@ -1,0 +1,470 @@
+<style>
+    .layui-table-click{
+        background-color:#b6d7a8 !important;
+    }
+</style>
+<div class="layui-fluid layui-anim febs-anim" id="febs-sysconfGlobal" lay-title="系统配置管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <div class="layui-row">
+                        <form class="layui-form layui-table-form" lay-filter="sysconfGlobal-table-form" id="sysconfGlobal-table-form">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">分组编码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="groupCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">分组名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="groupName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="status" id="status" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${baseStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <table id="sysconfGlobalGroupTable" lay-filter="sysconfGlobalGroupTable" lay-data="{id: 'sysconfGlobalGroupTable'}"></table>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <table id="sysconfGlobalParamTable" lay-filter="sysconfGlobalParamTable" lay-data="{id: 'sysconfGlobalParamTable'}"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="sysconfGlobalGroupTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalGroup:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalGroup:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalGroup:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+</script>
+<script type="text/html" id="sysconfGlobalGroup-option">
+    <span shiro:lacksPermission="sysconfGlobal:view,sysconfGlobalGroup:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    {{# if(d.id==null){ }}
+        <a lay-event="synchro" shiro:hasPermission="sysconfGlobal:view" lay-tips="同步"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe841;</i></a>
+    {{# }else{ }}
+        <a lay-event="update" shiro:hasPermission="sysconfGlobalGroup:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+        <a lay-event="view" shiro:hasPermission="sysconfGlobal:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+    {{# } }}
+</script>
+<script type="text/html" id="sysconfGlobalParamTable-toolbar">
+    <button lay-event="add" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalParam:add">
+        <i class="layui-icon">&#xe7aa;</i> 新增
+    </button>
+    <button lay-event="enable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalParam:enable">
+        <i class="layui-icon">&#xe77d;</i> 启用
+    </button>
+    <button lay-event="disable" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="sysconfGlobalParam:disable">
+        <i class="layui-icon">&#xe781;</i> 禁用
+    </button>
+</script>
+<script type="text/html" id="sysconfGlobalParam-option">
+    <span shiro:lacksPermission="sysconfGlobal:view,sysconfGlobalParam:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    {{# if(d.id==null){ }}
+        <a lay-event="synchro" shiro:hasPermission="sysconfGlobal:view" lay-tips="同步"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe841;</i></a>
+    {{# }else{ }}
+        <a lay-event="update" shiro:hasPermission="sysconfGlobalParam:update" lay-tips="修改"><i
+                class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+        <a lay-event="view" shiro:hasPermission="sysconfGlobal:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+    {{# } }}
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-sysconfGlobal'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#sysconfGlobal-table-form'),
+            baseStatusOption = [[${baseStatusOption}]],
+            baseStatusOptionMap = {},
+            baseBooleanOption = [[${baseBooleanOption}]],
+            baseBooleanOptionMap = {},
+            tableIns_sysconfGlobalGroup,
+            tableIns_sysconfGlobalParam,
+            upClieckRow,
+            selectSysconfGlobalGroupCode;
+
+        form.render();
+
+        initDictData();
+
+        initTable_sysconfGlobalGroup();
+        initTable_sysconfGlobalParam();
+
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('row(sysconfGlobalGroupTable)', function(obj){
+            var data = obj.data;
+            if(upClieckRow){
+                upClieckRow.removeClass('layui-table-click');
+            }
+            obj.tr.addClass('layui-table-click');
+            upClieckRow = obj.tr;
+
+            selectSysconfGlobalGroupCode = data.groupCode;
+            tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+        });
+
+
+        //监听事件
+        table.on('toolbar(sysconfGlobalGroupTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('sysconfGlobalGroupTable');
+            if (layEvent === 'add') {
+                febs.modal.open('新增系统配置', 'sysconf/sysconfGlobalGroup/add', {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    yes: function (index, layero) {
+                        $('#sysconfGlobalGroup-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#sysconfGlobalGroup-edit').find('#reset').trigger('click');
+                    }
+                });
+            }
+            if (layEvent === 'update') {
+                var sysconfGlobalGroupId = checkStatus.data[0].id;
+                febs.modal.open('修改系统配置', 'sysconf/sysconfGlobalGroup/update/'+sysconfGlobalGroupId, {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    yes: function (index, layero) {
+                        $('#sysconfGlobalGroup-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#sysconfGlobalGroup-edit').find('#reset').trigger('click');
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的系统配置');
+                } else {
+                    var sysconfGlobalGroupIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysconfGlobalGroupIds.push(item.id)
+                    });
+                    febs.post(ctx + 'sysconf/sysconfGlobalGroup/enable/' + sysconfGlobalGroupIds.join(','), null, function () {
+                        tableIns_sysconfGlobalGroup.reload({where: getQueryParams(), page: {curr: 1}});
+                        tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的系统配置');
+                } else {
+                    var sysconfGlobalGroupIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysconfGlobalGroupIds.push(item.id)
+                    });
+                    febs.post(ctx + 'sysconf/sysconfGlobalGroup/disable/' + sysconfGlobalGroupIds.join(','), null, function () {
+                        tableIns_sysconfGlobalGroup.reload({where: getQueryParams(), page: {curr: 1}});
+                        tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'export') {
+                var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+                params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+                params.pageNum = $view.find(".layui-laypage-em").next().html();
+                febs.download(ctx + 'sysconf/sysconfGlobal/excel', params, '系统参数表.xlsx');
+            }
+
+            return false;
+        });
+
+        table.on('toolbar(sysconfGlobalParamTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('sysconfGlobalParamTable');
+            if (layEvent === 'add') {
+                if(selectSysconfGlobalGroupCode === '' || typeof selectSysconfGlobalGroupCode === 'undefined'){
+                    febs.alert.warn('请选择系统配置');
+                }else {
+                    febs.modal.open('新增系统参数', 'sysconf/sysconfGlobalParam/add/'+selectSysconfGlobalGroupCode, {
+                        btn: ['提交', '重置'],
+                        area: $(window).width() <= 750 ? '95%' : '50%',
+                        yes: function (index, layero) {
+                            $('#sysconfGlobalParam-edit').find('#submit').trigger('click');
+                        },
+                        btn2: function () {
+                            $('#sysconfGlobalParam-edit').find('#reset').trigger('click');
+                        }
+                    });
+                }
+            }
+            if (layEvent === 'update') {
+                var sysconfGlobalParamId = checkStatus.data[0].id;
+                febs.modal.open('修改系统参数', 'sysconf/sysconfGlobalParam/update/'+sysconfGlobalParamId, {
+                    btn: ['提交', '重置'],
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    yes: function (index, layero) {
+                        $('#sysconfGlobalParam-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        $('#sysconfGlobalParam-edit').find('#reset').trigger('click');
+                    }
+                });
+            }
+            if (layEvent === 'enable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要启用的系统参数');
+                } else {
+                    var sysconfGlobalParamIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysconfGlobalParamIds.push(item.id)
+                    });
+                    febs.post(ctx + 'sysconf/sysconfGlobalParam/enable/' + sysconfGlobalParamIds.join(','), null, function () {
+                        tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'disable') {
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要禁用的系统参数');
+                } else {
+                    var sysconfGlobalParamIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        sysconfGlobalParamIds.push(item.id)
+                    });
+                    febs.post(ctx + 'sysconf/sysconfGlobalParam/disable/' + sysconfGlobalParamIds.join(','), null, function () {
+                        tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+                        febs.alert.success('操作成功!');
+                    });
+                }
+            }
+            if (layEvent === 'export') {
+                var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+                params.pageSize = $view.find(".layui-laypage-limits option:selected").val();
+                params.pageNum = $view.find(".layui-laypage-em").next().html();
+                febs.download(ctx + 'sysconf/sysconfGlobalParam/excel', params, '系统参数.xlsx');
+            }
+
+            return false;
+        });
+
+        table.on('tool(sysconfGlobalGroupTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if(layEvent === 'synchro'){
+                var sysconfGlobalGroupIds = [];
+                sysconfGlobalGroupIds.push(data.sysGroupId)
+                febs.post(ctx + 'sysconf/sysconfGlobalGroup/synchro/' + sysconfGlobalGroupIds.join(','), null, function () {
+                    tableIns_sysconfGlobalGroup.reload({where: getQueryParams(), page: {curr: 1}});
+                    febs.alert.success('操作成功!');
+                });
+            }
+            if (layEvent === 'view') {
+                febs.modal.open('系统配置信息', 'sysconf/sysconfGlobalGroup/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改系统配置', 'sysconf/sysconfGlobalGroup/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysconfGlobalGroup-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('tool(sysconfGlobalParamTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if(layEvent === 'synchro'){
+                var sysconfGlobalParamIds = [];
+                sysconfGlobalParamIds.push(data.sysParamId)
+                febs.post(ctx + 'sysconf/sysconfGlobalParam/synchro/' + sysconfGlobalParamIds.join(','), null, function () {
+                    tableIns_sysconfGlobalParam.reload({where: getQueryParams(), page: {curr: 1}});
+                    febs.alert.success('操作成功!');
+                });
+            }
+            if (layEvent === 'view') {
+                febs.modal.open('系统参数信息', 'sysconf/sysconfGlobalParam/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改系统参数', 'sysconf/sysconfGlobalParam/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysconfGlobalParam-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        table.on('sort(sysconfGlobalGroupTable)', function (obj) {
+            sortObject = obj;
+            tableIns_sysconfGlobalGroup.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        table.on('sort(sysconfGlobalParamTable)', function (obj) {
+            sortObject = obj;
+            tableIns_sysconfGlobalParam.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(''), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns_sysconfGlobalGroup.reload({where: params, page: {curr: 1}});
+            tableIns_sysconfGlobalParam.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            selectSysconfGlobalGroupCode = "";
+            tableIns_sysconfGlobalGroup.reload({where: getQueryParams(''), page: {curr: 1}, initSort: sortObject});
+            tableIns_sysconfGlobalParam.reload({where: getQueryParams(''), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            baseStatusOptionMap = {};
+            for(var index in baseStatusOption){
+                baseStatusOptionMap[baseStatusOption[index].value] = baseStatusOption[index].text;
+            }
+
+            baseBooleanOptionMap = {};
+            for(var index in baseBooleanOption){
+                baseBooleanOptionMap[baseBooleanOption[index].value] = baseBooleanOption[index].text;
+            }
+        }
+
+        function initTable_sysconfGlobalGroup() {
+            tableIns_sysconfGlobalGroup = febs.table.init({
+                elem: $view.find('#sysconfGlobalGroupTable'),
+                id: 'sysconfGlobalGroupTable',
+                toolbar: '#sysconfGlobalGroupTable-toolbar',
+                url: ctx + 'sysconf/sysconfGlobalGroup/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'groupCode', title: '分组编码',sort: true, minWidth: 100},
+                        {field: 'groupName', title: '分组描述',sort: true, minWidth: 100},
+                        {field: 'status', title: '状态',sort: true, templet: function(d){
+                                return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                            }, minWidth: 100},
+                        {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                        {field: 'isSysCreated', title: '系统创建',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isSysCreated] == null? d.isSysCreated:baseBooleanOptionMap[d.isSysCreated];
+                            }, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#sysconfGlobalGroup-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#sysconfGlobalGroupTable').offset().top - 30,
+            });
+        }
+
+        function initTable_sysconfGlobalParam() {
+            tableIns_sysconfGlobalParam = febs.table.init({
+                elem: $view.find('#sysconfGlobalParamTable'),
+                id: 'sysconfGlobalParamTable',
+                toolbar: '#sysconfGlobalParamTable-toolbar',
+                url: ctx + 'sysconf/sysconfGlobalParam/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'paramKey', title: '参数键',sort: true, minWidth: 100},
+                        {field: 'paramValue', title: '参数值',sort: true, minWidth: 100},
+                        {field: 'status', title: '状态',sort: true, templet: function(d){
+                                return baseStatusOptionMap[d.status] == null? d.status:baseStatusOptionMap[d.status];
+                            }, minWidth: 100},
+                        {field: 'remark', title: '备注',sort: true, minWidth: 100},
+                        {field: 'isSysCreated', title: '系统创建',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isSysCreated] == null? d.isSysCreated:baseBooleanOptionMap[d.isSysCreated];
+                            }, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#sysconfGlobalParam-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#sysconfGlobalParamTable').offset().top - 30,
+            });
+        }
+
+        function getQueryParams() {
+            var groupCodeQ = selectSysconfGlobalGroupCode === ""?$searchForm.find('input[name="groupCode"]').val().trim():selectSysconfGlobalGroupCode;
+            return {
+                groupCode: groupCodeQ,
+                groupName: $searchForm.find('input[name="groupName"]').val().trim(),
+                status: $searchForm.find('select[name="status"]').val()
+            };
+        }
+    })
+</script>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOrganizationOcMapper">
+
+    <resultMap id="sysOrganizationOc" type="com.handturn.bole.system.entity.SysOrganizationOc">
+        <id column="id" property="id"/> <!--//-->
+        <result column="ocCode" property="ocCode"/>  <!--//业务组织编号-->
+        <result column="ocName" property="ocName"/>  <!--//业务组织名称-->
+        <result column="ocShortName" property="ocShortName"/>  <!--//业务组织简称-->
+        <result column="orgId" property="orgId"/>  <!--//系统组织id-->
+        <result column="ocType" property="ocType"/>  <!--//网点类型:OC-网点;CU-客户-->
+        <result column="address" property="address"/>  <!--//地址-->
+        <result column="region" property="region"/>  <!--//区域-->
+        <result column="city" property="city"/>  <!--//城市-->
+        <result column="province" property="province"/>  <!--//省份-->
+        <result column="country" property="country"/>  <!--//国家-->
+        <result column="postCode" property="postCode"/>  <!--//邮编-->
+        <result column="tel" property="tel"/>  <!--//电话-->
+        <result column="cell" property="cell"/>  <!--//手机-->
+        <result column="fax" property="fax"/>  <!--//传真-->
+        <result column="email" property="email"/>  <!--//邮箱-->
+        <result column="attentionTo" property="attentionTo"/>  <!--//联系人-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOrganizationOcSelectAll">
+        SELECT
+            SysOrganizationOc.id AS id,
+            SysOrganizationOc.oc_code AS ocCode,
+            SysOrganizationOc.oc_name AS ocName,
+            SysOrganizationOc.oc_short_name AS ocShortName,
+            SysOrganizationOc.org_id AS orgId,
+            SysOrganizationOc.oc_type AS ocType,
+            SysOrganizationOc.address AS address,
+            SysOrganizationOc.region AS region,
+            SysOrganizationOc.city AS city,
+            SysOrganizationOc.province AS province,
+            SysOrganizationOc.country AS country,
+            SysOrganizationOc.post_code AS postCode,
+            SysOrganizationOc.tel AS tel,
+            SysOrganizationOc.cell AS cell,
+            SysOrganizationOc.fax AS fax,
+            SysOrganizationOc.email AS email,
+            SysOrganizationOc.attention_to AS attentionTo,
+            SysOrganizationOc.remark AS remark,
+            SysOrganizationOc.status AS status,
+            SysOrganizationOc.record_version AS recordVersion,
+            SysOrganizationOc.create_date AS createDate,
+            SysOrganizationOc.create_user_code AS createUserCode,
+            SysOrganizationOc.create_user_name AS createUserName,
+            SysOrganizationOc.last_upd_date AS lastUpdDate,
+            SysOrganizationOc.last_upd_user_code AS lastUpdUserCode,
+            SysOrganizationOc.last_upd_user_name AS lastUpdUserName
+        FROM sys_organization_oc AS SysOrganizationOc
+    </sql>
+
+    <select id="findForPage" parameterType="sysOrganizationOc" resultType="sysOrganizationOc">
+        <include refid="SqlWithSysOrganizationOcSelectAll"/>
+        WHERE 1=1
+        <if test="sysOrganizationOc.orgId != null and sysOrganizationOc.orgId != ''">
+            AND SysOrganizationOc.org_id =#{sysOrganizationOc.orgId}
+        </if>
+        <if test="sysOrganizationOc.id != null and sysOrganizationOc.id != ''">
+            AND SysOrganizationOc.id =#{sysOrganizationOc.id}
+        </if>
+        <if test="sysOrganizationOc.ocCode != null and sysOrganizationOc.ocCode != ''">
+            AND SysOrganizationOc.oc_code LIKE CONCAT('%',#{sysOrganizationOc.ocCode},'%')
+        </if>
+        <if test="sysOrganizationOc.clientCodes != null and sysOrganizationOc.clientCodes.size != 0">
+            AND SysOrganizationOc.oc_code IN
+            <foreach close=")" collection="sysOrganizationOc.clientCodes" item="listItem" open="(" separator=",">
+                #{listItem}
+            </foreach>
+        </if>
+        <if test="sysOrganizationOc.ocName != null and sysOrganizationOc.ocName != ''">
+            AND SysOrganizationOc.oc_name LIKE CONCAT('%',#{sysOrganizationOc.ocName},'%')
+        </if>
+        <if test="sysOrganizationOc.ocType != null and sysOrganizationOc.ocType != ''">
+            AND SysOrganizationOc.oc_type =#{sysOrganizationOc.ocType}
+        </if>
+        <if test="sysOrganizationOc.status != null and sysOrganizationOc.status != ''">
+            AND SysOrganizationOc.status =#{sysOrganizationOc.status}
+        </if>
+    </select>
+
+    <select id="getOrgOcOptionVoByCurrentUser" parameterType="string" resultType="sysOrganizationOc">
+        <include refid="SqlWithSysOrganizationOcSelectAll"/>
+        LEFT JOIN sys_role_oc SysRoleOc ON SysOrganizationOc.id = SysRoleOc.oc_id
+        LEFT JOIN sys_role_user SysRoleUser ON SysRoleOc.role_id = SysRoleUser.role_id
+        WHERE 1=1
+        AND SysOrganizationOc.org_id = #{currentOrgId}
+        AND SysRoleUser.user_id = #{userId}
+        ORDER BY
+        SysOrganizationOc.id
+
+    </select>
+
+    <select id="getWarehouseOptionVoByClient" parameterType="string" resultType="sysOrganizationOc">
+        <include refid="SqlWithSysOrganizationOcSelectAll"/>
+        LEFT JOIN bas_client_oc BasClientOc ON SysOrganizationOc.oc_code = BasClientOc.oc_code
+        WHERE 1=1
+        AND BasClientOc.client_code = #{clientCode}
+        ORDER BY
+        SysOrganizationOc.id
+
+    </select>
+
+    <select id="getClientOptionVoByWarehouse" parameterType="string" resultType="sysOrganizationOc">
+        <include refid="SqlWithSysOrganizationOcSelectAll"/>
+        LEFT JOIN bas_client_oc BasClientOc ON SysOrganizationOc.oc_code = BasClientOc.client_code
+        WHERE 1=1
+        AND BasClientOc.oc_code = #{warehouseCode}
+        ORDER BY
+        SysOrganizationOc.id
+
+    </select>
+
+
+</mapper>

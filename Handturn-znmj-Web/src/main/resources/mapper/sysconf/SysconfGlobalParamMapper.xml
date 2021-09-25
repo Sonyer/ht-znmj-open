@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfGlobalParamMapper">
+
+    <resultMap id="sysconfGlobalParam" type="com.handturn.bole.sysconf.entity.SysconfGlobalParam">
+        <id column="id" property="id"/> <!--//-->
+        <result column="groupCode" property="groupCode"/>  <!--//分组编码-->
+        <result column="groupName" property="groupName"/>  <!--//分组描述-->
+        <result column="paramKey" property="paramKey"/>  <!--//参数键-->
+        <result column="paramValue" property="paramValue"/>  <!--//参数值-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编号-->
+        <result column="isSysCreated" property="isSysCreated"/>  <!--//是否系统创建(1:是 0:否)，系统创建的记录不能前台修改和删除-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="sysParamId" property="sysParamId"/>
+    </resultMap>
+
+    <sql id="SqlWithSysconfGlobalParamSelectAll">
+        SELECT
+            SysconfGlobalParamShow.id AS id,
+            SysconfGlobalParam.group_code AS groupCode,
+            CASE WHEN SysconfGlobalParamShow.group_name IS NOT NULL THEN
+            SysconfGlobalParamShow.group_name
+            ELSE SysconfGlobalParam.group_name END AS groupName,
+            SysconfGlobalParam.param_key AS paramKey,
+            CASE WHEN SysconfGlobalParamShow.group_name IS NOT NULL THEN
+            SysconfGlobalParamShow.param_value
+            ELSE  SysconfGlobalParam.param_value END AS paramValue,
+            SysconfGlobalParam.remark AS remark,
+            CASE WHEN SysconfGlobalParamShow.status IS NOT NULL THEN
+            SysconfGlobalParamShow.status
+            ELSE SysconfGlobalParam.status END AS status,
+            SysconfGlobalParam.oc_code AS ocCode,
+            SysconfGlobalParam.org_code AS orgCode,
+            CASE WHEN SysconfGlobalParamShow.is_sys_created IS NOT NULL THEN
+            SysconfGlobalParamShow.is_sys_created
+            ELSE SysconfGlobalParam.is_sys_created END AS isSysCreated,
+            SysconfGlobalParam.record_version AS recordVersion,
+            SysconfGlobalParam.create_date AS createDate,
+            SysconfGlobalParam.create_user_code AS createUserCode,
+            SysconfGlobalParam.create_user_name AS createUserName,
+            SysconfGlobalParam.last_upd_date AS lastUpdDate,
+            SysconfGlobalParam.last_upd_user_code AS lastUpdUserCode,
+            SysconfGlobalParam.last_upd_user_name AS lastUpdUserName,
+            SysconfGlobalParam.id AS sysParamId
+        FROM sysconf_global_param AS SysconfGlobalParam
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfGlobalParam" resultType="sysconfGlobalParam">
+        <include refid="SqlWithSysconfGlobalParamSelectAll"/>
+        LEFT JOIN sysconf_global_param AS SysconfGlobalParamShow ON SysconfGlobalParam.group_code = SysconfGlobalParamShow.group_code
+        AND SysconfGlobalParam.param_key = SysconfGlobalParamShow.param_key
+        AND SysconfGlobalParamShow.org_code =#{sysconfGlobalParam.orgCode} AND SysconfGlobalParamShow.oc_code =#{sysconfGlobalParam.ocCode}
+        WHERE SysconfGlobalParam.is_sys_created = 1
+
+            <if test="sysconfGlobalParam.groupCode != null and sysconfGlobalParam.groupCode != ''">
+                AND SysconfGlobalParam.group_code =#{sysconfGlobalParam.groupCode}
+            </if>
+            <if test="sysconfGlobalParam.groupName != null and sysconfGlobalParam.groupName != ''">
+                AND SysconfGlobalParam.group_name =#{sysconfGlobalParam.groupName}
+            </if>
+            <if test="sysconfGlobalParam.status != null and sysconfGlobalParam.status != ''">
+                AND SysconfGlobalParam.status =#{sysconfGlobalParam.status}
+            </if>
+    </select>
+</mapper>

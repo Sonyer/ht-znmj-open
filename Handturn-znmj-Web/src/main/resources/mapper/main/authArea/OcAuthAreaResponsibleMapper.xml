@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.authArea.mapper.OcAuthAreaResponsibleMapper">
+
+    <resultMap id="ocAuthAreaResponsible" type="com.handturn.bole.main.authArea.entity.OcAuthAreaResponsible">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="authAreaId" property="authAreaId"/>  <!--//权限区域-->
+        <result column="userId" property="userId"/>  <!--//负责人用户ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="userCode" property="userCode"/>
+        <result column="userName" property="userName"/>
+        <result column="depName" property="depName"/>
+    </resultMap>
+
+    <sql id="SqlWithOcAuthAreaResponsibleSelectAll">
+        SELECT
+            OcAuthAreaResponsible.id AS id,
+            OcAuthAreaResponsible.auth_area_id AS authAreaId,
+            OcAuthAreaResponsible.user_id AS userId,
+            OcAuthAreaResponsible.oc_code AS ocCode,
+            OcAuthAreaResponsible.org_code AS orgCode,
+            OcAuthAreaResponsible.oc_name AS ocName,
+            OcAuthAreaResponsible.org_name AS orgName,
+            OcAuthAreaResponsible.record_version AS recordVersion,
+            OcAuthAreaResponsible.create_date AS createDate,
+            OcAuthAreaResponsible.create_user_code AS createUserCode,
+            OcAuthAreaResponsible.create_user_name AS createUserName,
+            OcAuthAreaResponsible.last_upd_date AS lastUpdDate,
+            OcAuthAreaResponsible.last_upd_user_code AS lastUpdUserCode,
+            OcAuthAreaResponsible.last_upd_user_name AS lastUpdUserName,
+
+            SysUser.user_code AS userCode,
+            SysUser.user_name AS userName,
+            SysOrganizationDep.dep_name AS depName
+        FROM oc_auth_area_responsible AS OcAuthAreaResponsible
+        LEFT JOIN sys_user SysUser ON OcAuthAreaResponsible.user_id = SysUser.id
+        LEFT JOIN sys_organization_dep AS SysOrganizationDep ON SysUser.dep_id = SysOrganizationDep.id
+    </sql>
+
+    <select id="findForPage" parameterType="ocAuthAreaResponsible" resultType="ocAuthAreaResponsible">
+        <include refid="SqlWithOcAuthAreaResponsibleSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocAuthAreaResponsible.id != null and ocAuthAreaResponsible.id != ''">
+                AND OcAuthAreaResponsible.id =#{ocAuthAreaResponsible.id}
+            </if>
+            <if test="ocAuthAreaResponsible.authAreaId != null and ocAuthAreaResponsible.authAreaId != ''">
+                AND OcAuthAreaResponsible.auth_area_id =#{ocAuthAreaResponsible.authAreaId}
+            </if>
+            <if test="ocAuthAreaResponsible.userId != null and ocAuthAreaResponsible.userId != ''">
+                AND OcAuthAreaResponsible.user_id =#{ocAuthAreaResponsible.userId}
+            </if>
+            <if test="ocAuthAreaResponsible.ocCode != null and ocAuthAreaResponsible.ocCode != ''">
+                AND OcAuthAreaResponsible.oc_code =#{ocAuthAreaResponsible.ocCode}
+            </if>
+            <if test="ocAuthAreaResponsible.orgCode != null and ocAuthAreaResponsible.orgCode != ''">
+                AND OcAuthAreaResponsible.org_code =#{ocAuthAreaResponsible.orgCode}
+            </if>
+            <if test="ocAuthAreaResponsible.ocName != null and ocAuthAreaResponsible.ocName != ''">
+                AND OcAuthAreaResponsible.oc_name =#{ocAuthAreaResponsible.ocName}
+            </if>
+            <if test="ocAuthAreaResponsible.orgName != null and ocAuthAreaResponsible.orgName != ''">
+                AND OcAuthAreaResponsible.org_name =#{ocAuthAreaResponsible.orgName}
+            </if>
+
+            <if test="ocAuthAreaResponsible.userName != null and ocAuthAreaResponsible.userName != ''">
+                AND (SysUser.user_code LIKE CONCAT('%',#{ocAuthAreaResponsible.userName},'%')
+                OR SysUser.user_name LIKE CONCAT('%',#{ocAuthAreaResponsible.userName},'%'))
+            </if>
+            <if test="ocAuthAreaResponsible.depName != null and ocAuthAreaResponsible.depName != ''">
+                AND SysOrganizationDep.dep_name  LIKE CONCAT('%',#{ocAuthAreaResponsible.depName},'%')
+            </if>
+    </select>
+</mapper>

@@ -1,0 +1,352 @@
+<style>
+    .layui-table-click{
+        background-color:#b6d7a8 !important;
+    }
+</style>
+
+<div class="layui-fluid layui-anim febs-anim" id="febs-ocVisitorInfo" lay-title="访客信息管理">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="ocVisitorInfo-table-form" id="ocVisitorInfo-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">访客类型</label>
+                                            <div class="layui-input-inline">
+                                                <select name="visitorType" id="visitorType" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${ocVisitorTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">真实姓名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCardName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">身份证号码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="idCard" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户手机号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="phoneNumber" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">冻结状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="freezeStatus" id="freezeStatus" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${ocVisitorFreezeStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">录入类型</label>
+                                            <div class="layui-input-inline">
+                                                <select name="createType" id="createType" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${ocVisitorCreateTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">组织信息</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="orgName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">网点信息</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="ocName" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="layui-col-md9">
+                        <div class="layui-card">
+                            <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">访客列表</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <div class="layui-row febs-container">
+                                            <div class="layui-col-md12">
+                                                <div class="layui-card">
+                                                     <table id="ocVisitorInfoTable" lay-filter="ocVisitorInfoTable" lay-data="{id: 'ocVisitorInfoTable'}"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-card">
+                            <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">当前访客人脸</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show">
+                                        <div class="layui-row febs-container">
+                                            <div class="layui-col-md12">
+                                                <div class="layui-card">
+                                                    <div class="layui-form-item" id="visitorImgShow" style="overflow:auto">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="ocVisitorInfo-option">
+    <span shiro:lacksPermission="main:visitor:ocVisitorInfo:view,main:visitor:ocVisitorInfo:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="view" shiro:hasPermission="main:visitor:ocVisitorInfo:view" lay-tips="查看"><i
+                class="layui-icon febs-edit-area febs-green">&#xe7a5;</i></a>
+    <a lay-event="auth" shiro:hasPermission="main:visitor:ocVisitorInfo:view" lay-tips="区域权限"><i
+            class="layui-icon febs-edit-area febs-green">&#xe818;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect','upload'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            upload = layui.upload,
+            dropdown = layui.dropdown,
+            $view = $('#febs-ocVisitorInfo'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#ocVisitorInfo-table-form'),
+            ocVisitorTypeOption = [[${ocVisitorTypeOption}]],
+            ocVisitorTypeOptionMap = {},
+            ocVisitorFreezeStatusOption = [[${ocVisitorFreezeStatusOption}]],
+            ocVisitorFreezeStatusOptionMap = {},
+            ocVisitorCreateTypeOption = [[${ocVisitorCreateTypeOption}]],
+            ocVisitorCreateTypeOptionMap = {},
+            upClieckRow,
+            currentImgCount = 0,
+            currentOcVisitorInfo,
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(ocVisitorInfoTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('ocVisitorInfoTable');
+
+            if (layEvent === 'DEFAULT_EXPORT') {
+                exportTable();
+            }
+        });
+
+
+        table.on('tool(ocVisitorInfoTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('访客信息信息', 'master/visitor/ocVisitorInfo/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '95%' : '50%',
+                    offset: '100px',
+                });
+            }
+            if (layEvent === 'auth') {
+                febs.modal.open('访客授权', 'master/visitor/ocVisitorInfo/authShow/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    offset: '100px'
+                });
+            }
+        });
+
+        table.on('sort(ocVisitorInfoTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            ocVisitorTypeOptionMap = {};
+            for(var index in ocVisitorTypeOption){
+                ocVisitorTypeOptionMap[ocVisitorTypeOption[index].value] = ocVisitorTypeOption[index].text;
+            }
+            ocVisitorFreezeStatusOptionMap = {};
+            for(var index in ocVisitorFreezeStatusOption){
+                ocVisitorFreezeStatusOptionMap[ocVisitorFreezeStatusOption[index].value] = ocVisitorFreezeStatusOption[index].text;
+            }
+            ocVisitorCreateTypeOptionMap = {};
+            for(var index in ocVisitorCreateTypeOption){
+                ocVisitorCreateTypeOptionMap[ocVisitorCreateTypeOption[index].value] = ocVisitorCreateTypeOption[index].text;
+            }
+
+        }
+
+        //监听行单击事件（双击事件为：rowDouble）
+        table.on('row(ocVisitorInfoTable)', function(obj){
+            var data = obj.data;
+            if(upClieckRow){
+                upClieckRow.removeClass('layui-table-click');
+            }
+            obj.tr.addClass('layui-table-click');
+            upClieckRow = obj.tr;
+
+            currentOcVisitorInfo = data;
+
+            faceImgShow(currentOcVisitorInfo);
+        });
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'ocVisitorInfoTable',
+                toolbar: '#ocVisitorInfoTable-toolbar',
+                defaultToolbar: ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '导出'
+                    ,layEvent: 'DEFAULT_EXPORT'
+                    ,icon: 'layui-icon-export'
+                }],
+                url: ctx + 'master/visitor/ocVisitorInfo/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'visitorType', title: '访客类型',sort: true,dataMap:ocVisitorTypeOptionMap,templet: function(d){
+                                    return ocVisitorTypeOptionMap[d.visitorType] == null? d.visitorType:ocVisitorTypeOptionMap[d.visitorType];
+                                }, minWidth: 100},
+                            {field: 'idCardName', title: '真实姓名',sort: true, minWidth: 100},
+                            {field: 'idCard', title: '身份证号码',sort: true, minWidth: 100},
+                            {field: 'phoneNumber', title: '用户手机号',sort: true, minWidth: 100},
+                            {field: 'depName', title: '部门名称',sort: true, minWidth: 100},
+                            {field: 'positionName', title: '职位名称',sort: true, minWidth: 100},
+                            {field: 'abstractMsg', title: '摘要信息',sort: true, minWidth: 100},
+                            {field: 'freezeStatus', title: '冻结状态',sort: true,dataMap:ocVisitorFreezeStatusOptionMap,templet: function(d){
+                                    return ocVisitorFreezeStatusOptionMap[d.freezeStatus] == null? d.freezeStatus:ocVisitorFreezeStatusOptionMap[d.freezeStatus];
+                                }, minWidth: 100},
+                            {field: 'createType', title: '录入类型',sort: true,dataMap:ocVisitorCreateTypeOptionMap,templet: function(d){
+                                    return ocVisitorCreateTypeOptionMap[d.createType] == null? d.createType:ocVisitorCreateTypeOptionMap[d.createType];
+                                }, minWidth: 100},
+                            {field: 'orgName', title: '组织名称',sort: true, minWidth: 120},
+                            {field: 'ocName', title: '网点名称',sort: true, minWidth: 120},
+                        {fixed: 'right',title: '操作', toolbar: '#ocVisitorInfo-option', width: 170}
+                    ]
+                ],
+                height: $(document).height() - $('#ocVisitorInfoTable').offset().top - 30,
+            });
+        }
+
+        //导出函数
+        function exportTable(){
+            var queryData = getQueryParams();
+            var sortObj = {field: sortObject.field, order: sortObject.type};
+            var cols = tableIns.config.cols[0];
+
+            var colsTemp = [];
+            for(var i = 0; i < cols.length; i++){
+                var colTemp = {};
+
+                var flag = false;
+                for(var key in cols[i]){
+                    if(key == 'field'){
+                        flag = true;
+                    }
+                    if(key == 'field' || key == 'title' || key == 'dataMap'){
+                        colTemp[key] = cols[i][key];
+                    }
+                }
+                if(flag){
+                    colsTemp.push(colTemp);
+                }
+            }
+            var exportData = {
+                queryData:JSON.stringify(queryData),
+                sortObj:JSON.stringify(sortObj),
+                cols:JSON.stringify(colsTemp)
+            }
+            febs.download(ctx + 'master/visitor/ocVisitorInfo/export/', exportData, '导出数据.xlsx');
+            return false;
+        }
+
+        function getQueryParams() {
+            return {
+                    visitorType: $searchForm.find('select[name="visitorType"]').val(),
+                    idCardName: $searchForm.find('input[name="idCardName"]').val().trim(),
+                    idCard: $searchForm.find('input[name="idCard"]').val().trim(),
+                    phoneNumber: $searchForm.find('input[name="phoneNumber"]').val().trim(),
+                freezeStatus: $searchForm.find('select[name="freezeStatus"]').val(),
+                createType:$searchForm.find('select[name="createType"]').val(),
+                orgName:$searchForm.find('input[name="orgName"]').val().trim(),
+                ocName:$searchForm.find('input[name="ocName"]').val().trim(),
+            };
+        }
+
+        function faceImgShow(ocVisitorInfoTemp){
+            var htmlText = '';
+            if(ocVisitorInfoTemp.faceImgRequest != null && ocVisitorInfoTemp.faceImgRequest != ""){
+                htmlText = ' <div class=\"layui-inline\"><div style=\"width: 300px;height: 300px;align-items: center;text-align: center;display: flex;background:#9F9F9F;padding: 10px\">'
+                    + '<img src=\"'+ ocVisitorInfoTemp.faceImgRequest +'\" style=\"width:300px;max-height: 100%;\">'
+                    + '</div></div> ';
+                $view.find('#visitorImgShow').html(htmlText);
+            }else{
+                $view.find('#visitorImgShow').html(htmlText);
+            }
+
+            var height = $(document).height() - $view.find('#visitorImgShow').offset().top - 30;
+            $view.find('#visitorImgShow').height(height);
+        }
+    })
+</script>

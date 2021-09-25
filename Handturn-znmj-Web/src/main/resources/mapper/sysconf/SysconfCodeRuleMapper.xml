@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.sysconf.mapper.SysconfCodeRuleMapper">
+
+    <resultMap id="sysconfCodeRule" type="com.handturn.bole.sysconf.entity.SysconfCodeRule">
+        <id column="id" property="id"/> <!--//-->
+        <result column="ruleCode" property="ruleCode"/>  <!--//规则编号-->
+        <result column="ruleName" property="ruleName"/>  <!--//规则名称-->
+        <result column="ruleCodeStr" property="ruleCodeStr"/>  <!--//规则串-->
+        <result column="ruleSeqInit" property="ruleSeqInit"/>  <!--//流水初始值-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: enabled-有效;disabled-无效-->
+        <result column="isSysCreated" property="isSysCreated"/>  <!--//是否系统创建(1:是 0:否)，系统创建的记录不能前台修改和删除-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//数据版本-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysconfCodeRuleSelectAll">
+        SELECT
+            SysconfCodeRule.id AS id,
+            SysconfCodeRule.rule_code AS ruleCode,
+            SysconfCodeRule.rule_name AS ruleName,
+            SysconfCodeRule.rule_code_str AS ruleCodeStr,
+            SysconfCodeRule.rule_seq_init AS ruleSeqInit,
+            SysconfCodeRule.remark AS remark,
+            SysconfCodeRule.status AS status,
+            SysconfCodeRule.is_sys_created AS isSysCreated,
+            SysconfCodeRule.record_version AS recordVersion,
+            SysconfCodeRule.create_date AS createDate,
+            SysconfCodeRule.create_user_code AS createUserCode,
+            SysconfCodeRule.create_user_name AS createUserName,
+            SysconfCodeRule.last_upd_date AS lastUpdDate,
+            SysconfCodeRule.last_upd_user_code AS lastUpdUserCode,
+            SysconfCodeRule.last_upd_user_name AS lastUpdUserName
+        FROM sysconf_code_rule AS SysconfCodeRule
+    </sql>
+
+    <select id="findForPage" parameterType="sysconfCodeRule" resultType="sysconfCodeRule">
+        <include refid="SqlWithSysconfCodeRuleSelectAll"/>
+        WHERE 1=1
+            <if test="sysconfCodeRule.ruleCode != null and sysconfCodeRule.ruleCode != ''">
+                AND SysconfCodeRule.rule_code LIKE CONCAT('%',#{sysconfCodeRule.ruleCode},'%')
+            </if>
+            <if test="sysconfCodeRule.ruleName != null and sysconfCodeRule.ruleName != ''">
+                AND SysconfCodeRule.rule_name LIKE CONCAT('%',#{sysconfCodeRule.ruleName},'%')
+            </if>
+            <if test="sysconfCodeRule.status != null and sysconfCodeRule.status != ''">
+                AND SysconfCodeRule.status = #{sysconfCodeRule.status}
+            </if>
+    </select>
+</mapper>

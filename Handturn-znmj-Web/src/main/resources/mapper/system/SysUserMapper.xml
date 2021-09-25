@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysUserMapper">
+
+    <resultMap id="sysUser" type="com.handturn.bole.system.entity.SysUser">
+        <id column="id" property="id"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_name" property="userName"/>
+        <result column="org_id" property="orgId"/>
+        <result column="dep_id" property="depId"/>
+        <result column="oc_id" property="ocId"/>
+        <result column="password" property="password"/>
+        <result column="description" property="description"/>
+        <result column="address" property="address"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="phone" property="phone"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="status" property="status"/>
+        <result column="is_sys_create" property="isSysCreate"/>
+        <result column="sex" property="sex"/>
+        <result column="theme" property="theme"/>
+        <result column="avatar" property="avatar"/>
+        <result column="first_login" property="firstLogin"/>
+        <result column="is_tab" property="isTab"/>
+
+        <result column="commandCode" property="commandCode"/>
+        <result column="commandExpiresTime" property="commandExpiresTime"/>
+        <result column="isBindMember" property="isBindMember"/>
+        <result column="memberId" property="memberId"/>
+        <result column="memberAccountCode" property="memberAccountCode"/>
+
+        <result column="record_version" property="recordVersion"/>
+        <result column="createDate" property="createDate"/>
+        <result column="create_user_code" property="createUserCode"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="last_upd_date" property="lastUpdDate"/>
+        <result column="last_upd_user_code" property="lastUpdUserCode"/>
+        <result column="last_upd_user_name" property="lastUpdUserName"/>
+
+        <result column="depName" property="depName"/>
+        <result column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+    </resultMap>
+
+    <sql id="sysUserSelectAll">
+    SELECT
+        u.id,
+        u.user_code,
+        u.user_name,
+        u.org_id,
+        u.dep_id,
+        u.oc_id,
+        u.password,
+        u.description,
+        u.address,
+        u.email,
+        u.mobile,
+        u.phone,
+        u.login_time,
+        u.status,
+        u.is_sys_create,
+        u.sex,
+        u.theme,
+        u.avatar,
+        u.first_login,
+        u.is_tab,
+        u.record_version,
+        u.create_date AS createDate,
+        u.create_user_code,
+        u.create_user_name,
+        u.last_upd_date,
+        u.last_upd_user_code,
+        u.last_upd_user_name,
+        d.dep_name depName,
+
+        u.command_code commandCode,
+        u.command_expires_time commandExpiresTime,
+        u.is_bind_member isBindMember,
+        u.member_id memberId,
+        u.member_account_code memberAccountCode,
+        GROUP_CONCAT(r.id) roleId,
+        GROUP_CONCAT(r.ROLE_NAME) roleName
+        FROM
+        sys_user u
+        LEFT JOIN sys_organization_dep d ON (u.dep_id = d.id)
+        LEFT JOIN sys_role_user ur ON (u.id = ur.user_id)
+        LEFT JOIN sys_role r ON r.id = ur.role_id
+        WHERE 1=1
+    </sql>
+    <select id="findByUserCode" parameterType="string" resultType="sysUser">
+        <include refid="sysUserSelectAll"/>
+        AND u.user_code = #{userCode}
+        GROUP BY
+            u.id
+    </select>
+    <select id="findForPage" parameterType="sysUser" resultType="sysUser">
+        <include refid="sysUserSelectAll"/>
+        <if test="sysUser.ocId != null and sysUser.ocId != ''">
+            AND u.oc_id = #{sysUser.ocId}
+        </if>
+        <if test="sysUser.userCode != null and sysUser.userCode != ''">
+            AND u.user_code = #{sysUser.userCode}
+        </if>
+        <if test="sysUser.userName != null and sysUser.userName != ''">
+            AND u.user_name = #{sysUser.userName}
+        </if>
+        <if test="sysUser.depId != null and sysUser.depId != ''">
+            AND u.dep_id = #{sysUser.depId}
+        </if>
+        <if test="sysUser.sex != null and sysUser.sex != ''">
+            AND u.sex = #{sysUser.sex}
+        </if>
+        <if test="sysUser.status != null and sysUser.status != ''">
+            AND u.status = #{sysUser.status}
+        </if>
+        <if test="sysUser.mobile != null and sysUser.mobile != ''">
+            AND u.mobile = #{sysUser.mobile}
+        </if>
+
+        <if test="sysUser.commandCode != null and sysUser.commandCode != ''">
+            AND u.command_code = #{sysUser.commandCode}
+        </if>
+        <if test="sysUser.commandCodeIsExpires != null and sysUser.commandCodeIsExpires != ''">
+            <if test="sysUser.commandCodeIsExpires = '1'">
+                AND u.command_expires_time &lt; #{sysUser.commandExpiresTime}
+            </if>
+            <if test="sysUser.commandCodeIsExpires = '0'">
+                AND u.command_expires_time &gt;= #{sysUser.commandExpiresTime}
+            </if>
+        </if>
+        <if test="sysUser.isBindMember != null and sysUser.isBindMember != ''">
+            AND u.is_bind_member = #{sysUser.isBindMember}
+        </if>
+        <if test="sysUser.memberId != null and sysUser.memberId != ''">
+            AND u.member_id = #{sysUser.memberId}
+        </if>
+        <if test="sysUser.memberAccountCode != null and sysUser.memberAccountCode != ''">
+            AND u.member_account_code = #{sysUser.memberAccountCode}
+        </if>
+
+        GROUP BY
+        u.id
+    </select>
+</mapper>

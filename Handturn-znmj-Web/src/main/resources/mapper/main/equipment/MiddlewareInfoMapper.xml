@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.equipment.mapper.MiddlewareInfoMapper">
+
+    <resultMap id="middlewareInfo" type="com.handturn.bole.main.equipment.entity.MiddlewareInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="macId" property="macId"/>  <!--//MAC地址-->
+        <result column="appVersion" property="appVersion"/>  <!--//桌面应用版本-->
+        <result column="systemName" property="systemName"/>  <!--//操作系统名称-->
+        <result column="systemVersion" property="systemVersion"/>  <!--//操作系统版本-->
+        <result column="lanIp" property="lanIp"/>  <!--//局域网IP-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="equipmentMacId" property="equipmentMacId"/>  <!--//设备MAC地址-->
+        <result column="areaName" property="areaName"/>  <!--//区域名称-->
+        <result column="seqNum" property="seqNum"/>  <!--//设备序号-->
+        <result column="inOutFlag" property="inOutFlag"/>  <!--//0-未定义;1-入口;2-出口-->
+        <result column="onlineTime" property="onlineTime"/>  <!--//上次心跳时间-->
+        <result column="onlineStatus" property="onlineStatus"/>  <!--//状态: OFFLINE-离线;ONLINE-在线-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+    </resultMap>
+
+    <sql id="SqlWithMiddlewareInfoSelectAll">
+        SELECT
+            MiddlewareInfo.id AS id,
+            MiddlewareInfo.mac_id AS macId,
+            MiddlewareInfo.app_version AS appVersion,
+            MiddlewareInfo.system_name AS systemName,
+            MiddlewareInfo.system_version AS systemVersion,
+            MiddlewareInfo.lan_ip AS lanIp,
+            MiddlewareInfo.oc_code AS ocCode,
+            MiddlewareInfo.org_code AS orgCode,
+            MiddlewareInfo.oc_name AS ocName,
+            MiddlewareInfo.org_name AS orgName,
+            MiddlewareInfo.equipment_mac_id AS equipmentMacId,
+            MiddlewareInfo.area_name AS areaName,
+            MiddlewareInfo.seq_num AS seqNum,
+            MiddlewareInfo.in_out_flag AS inOutFlag,
+            MiddlewareInfo.online_time AS onlineTime,
+            MiddlewareInfo.online_status AS onlineStatus,
+            MiddlewareInfo.record_version AS recordVersion,
+            MiddlewareInfo.create_date AS createDate,
+            MiddlewareInfo.last_upd_date AS lastUpdDate
+        FROM middleware_info AS MiddlewareInfo
+    </sql>
+
+    <select id="findForPage" parameterType="middlewareInfo" resultType="middlewareInfo">
+        <include refid="SqlWithMiddlewareInfoSelectAll"/>
+        WHERE 1=1
+
+            <if test="middlewareInfo.id != null and middlewareInfo.id != ''">
+                AND MiddlewareInfo.id =#{middlewareInfo.id}
+            </if>
+            <if test="middlewareInfo.macId != null and middlewareInfo.macId != ''">
+                AND MiddlewareInfo.mac_id =#{middlewareInfo.macId}
+            </if>
+            <if test="middlewareInfo.appVersion != null and middlewareInfo.appVersion != ''">
+                AND MiddlewareInfo.app_version =#{middlewareInfo.appVersion}
+            </if>
+            <if test="middlewareInfo.systemName != null and middlewareInfo.systemName != ''">
+                AND MiddlewareInfo.system_name =#{middlewareInfo.systemName}
+            </if>
+            <if test="middlewareInfo.systemVersion != null and middlewareInfo.systemVersion != ''">
+                AND MiddlewareInfo.system_version =#{middlewareInfo.systemVersion}
+            </if>
+            <if test="middlewareInfo.lanIp != null and middlewareInfo.lanIp != ''">
+                AND MiddlewareInfo.lan_ip =#{middlewareInfo.lanIp}
+            </if>
+            <if test="middlewareInfo.ocCode != null and middlewareInfo.ocCode != ''">
+                AND MiddlewareInfo.oc_code =#{middlewareInfo.ocCode}
+            </if>
+            <if test="middlewareInfo.orgCode != null and middlewareInfo.orgCode != ''">
+                AND MiddlewareInfo.org_code =#{middlewareInfo.orgCode}
+            </if>
+            <if test="middlewareInfo.ocName != null and middlewareInfo.ocName != ''">
+                AND (MiddlewareInfo.oc_name LIKE CONCAT('%',#{middlewareInfo.ocName},'%')
+                OR MiddlewareInfo.oc_code LIKE CONCAT('%',#{middlewareInfo.ocName},'%'))
+            </if>
+            <if test="middlewareInfo.orgName != null and middlewareInfo.orgName != ''">
+                AND (MiddlewareInfo.org_name LIKE CONCAT('%',#{middlewareInfo.orgName},'%')
+                OR MiddlewareInfo.org_code LIKE CONCAT('%',#{middlewareInfo.orgName},'%'))
+            </if>
+            <if test="middlewareInfo.equipmentMacId != null and middlewareInfo.equipmentMacId != ''">
+                AND MiddlewareInfo.equipment_mac_id =#{middlewareInfo.equipmentMacId}
+            </if>
+            <if test="middlewareInfo.areaName != null and middlewareInfo.areaName != ''">
+                AND MiddlewareInfo.area_name =#{middlewareInfo.areaName}
+            </if>
+            <if test="middlewareInfo.seqNum != null and middlewareInfo.seqNum != ''">
+                AND MiddlewareInfo.seq_num =#{middlewareInfo.seqNum}
+            </if>
+            <if test="middlewareInfo.inOutFlag != null and middlewareInfo.inOutFlag != ''">
+                AND MiddlewareInfo.in_out_flag =#{middlewareInfo.inOutFlag}
+            </if>
+            <if test="middlewareInfo.onlineTime != null and middlewareInfo.onlineTime != ''">
+                AND MiddlewareInfo.online_time =#{middlewareInfo.onlineTime}
+            </if>
+            <if test="middlewareInfo.onlineStatus != null and middlewareInfo.onlineStatus != ''">
+                AND MiddlewareInfo.online_status =#{middlewareInfo.onlineStatus}
+            </if>
+    </select>
+</mapper>

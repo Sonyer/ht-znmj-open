@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.authArea.mapper.OcAuthAreaMapper">
+
+    <resultMap id="ocAuthArea" type="com.handturn.bole.main.authArea.entity.OcAuthArea">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="areaCode" property="areaCode"/>  <!--//区域编码-->
+        <result column="areaName" property="areaName"/>  <!--//区域名称-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-已启用;DISABLED-已禁用-->
+        <result column="isAutoAudit" property="isAutoAudit"/>
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+
+        <result column="layChecked" property="layChecked"/>
+    </resultMap>
+
+    <sql id="SqlWithOcAuthAreaSelectAll">
+        SELECT
+            OcAuthArea.id AS id,
+            OcAuthArea.area_code AS areaCode,
+            OcAuthArea.area_name AS areaName,
+            OcAuthArea.oc_code AS ocCode,
+            OcAuthArea.org_code AS orgCode,
+            OcAuthArea.oc_name AS ocName,
+            OcAuthArea.org_name AS orgName,
+            OcAuthArea.status AS status,
+            OcAuthArea.is_auto_audit AS isAutoAudit,
+            OcAuthArea.remark AS remark,
+            OcAuthArea.record_version AS recordVersion,
+            OcAuthArea.create_date AS createDate,
+            OcAuthArea.create_user_code AS createUserCode,
+            OcAuthArea.create_user_name AS createUserName,
+            OcAuthArea.last_upd_date AS lastUpdDate,
+            OcAuthArea.last_upd_user_code AS lastUpdUserCode,
+            OcAuthArea.last_upd_user_name AS lastUpdUserName
+    </sql>
+
+    <select id="findForPage" parameterType="ocAuthArea" resultType="ocAuthArea">
+        <include refid="SqlWithOcAuthAreaSelectAll"/>
+        <if test="ocAuthArea.authCheck != null and ocAuthArea.authCheck == true">
+            ,CASE WHEN OcAuthAreaVisitor.id IS NOT NULL THEN
+            'true'
+            ELSE 'false'
+            END AS layChecked
+            FROM oc_auth_area AS OcAuthArea
+            LEFT JOIN oc_auth_area_visitor AS OcAuthAreaVisitor ON OcAuthArea.id = OcAuthAreaVisitor.auth_area_id AND OcAuthArea.org_code = OcAuthAreaVisitor.org_code AND OcAuthArea.oc_code = OcAuthAreaVisitor.oc_code
+            AND OcAuthAreaVisitor.oc_visitor_id =#{ocAuthArea.visitorId}
+        </if>
+        <if test="ocAuthArea.authCheck == null or ocAuthArea.authCheck == false">
+            FROM oc_auth_area AS OcAuthArea
+        </if>
+
+        WHERE 1=1
+
+            <if test="ocAuthArea.id != null and ocAuthArea.id != ''">
+                AND OcAuthArea.id =#{ocAuthArea.id}
+            </if>
+            <if test="ocAuthArea.areaCode != null and ocAuthArea.areaCode != ''">
+                AND OcAuthArea.area_code =#{ocAuthArea.areaCode}
+            </if>
+            <if test="ocAuthArea.areaName != null and ocAuthArea.areaName != ''">
+                AND OcAuthArea.area_name =#{ocAuthArea.areaName}
+            </if>
+            <if test="ocAuthArea.ocCode != null and ocAuthArea.ocCode != ''">
+                AND OcAuthArea.oc_code =#{ocAuthArea.ocCode}
+            </if>
+            <if test="ocAuthArea.orgCode != null and ocAuthArea.orgCode != ''">
+                AND OcAuthArea.org_code =#{ocAuthArea.orgCode}
+            </if>
+            <if test="ocAuthArea.ocName != null and ocAuthArea.ocName != ''">
+                AND OcAuthArea.oc_name =#{ocAuthArea.ocName}
+            </if>
+            <if test="ocAuthArea.orgName != null and ocAuthArea.orgName != ''">
+                AND OcAuthArea.org_name =#{ocAuthArea.orgName}
+            </if>
+            <if test="ocAuthArea.status != null and ocAuthArea.status != ''">
+                AND OcAuthArea.status =#{ocAuthArea.status}
+            </if>
+            <if test="ocAuthArea.isAutoAudit != null and ocAuthArea.isAutoAudit != ''">
+                AND OcAuthArea.is_auto_audit =#{ocAuthArea.isAutoAudit}
+            </if>
+            <if test="ocAuthArea.remark != null and ocAuthArea.remark != ''">
+                AND OcAuthArea.remark =#{ocAuthArea.remark}
+            </if>
+    </select>
+
+    <select id="authAreaPageQuery" resultType="ocAuthArea">
+        <include refid="SqlWithOcAuthAreaSelectAll"/>
+        FROM oc_auth_area AS OcAuthArea
+        WHERE 1=1
+        <if test="authAreaIds != null and authAreaIds.size() > 0">
+            AND OcAuthArea.id IN
+            <foreach close=")" collection="authAreaIds" item="listItem" open="(" separator=",">
+                #{listItem}
+            </foreach>
+        </if>
+        <if test="authAreaIds == null or authAreaIds.size() &lt;= 0">
+            AND OcAuthArea.id = -1
+        </if>
+        <if test="searchValue != null and searchValue !=''">
+            AND (OcAuthArea.area_name LIKE CONCAT('%',#{searchValue},'%')
+                OR OcAuthArea.oc_name LIKE CONCAT('%',#{searchValue},'%')
+                OR OcAuthArea.org_name LIKE CONCAT('%',#{searchValue},'%')
+            )
+        </if>
+        ORDER BY OcAuthArea.oc_code,OcAuthArea.area_code
+    </select>
+</mapper>

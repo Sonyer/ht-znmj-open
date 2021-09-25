@@ -1,0 +1,66 @@
+<style>
+    #sysGroup-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #sysGroup-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="sysGroup-edit">
+    <form class="layui-form" action="" lay-filter="sysGroup-edit-form">
+        <div class="layui-form-item">
+            <div class="layui-form-item febs-hide">
+                <label class="layui-form-label">:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" data-th-value="${sysGroup.id}">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分组编码:</label>
+            <div class="layui-input-block">
+                <input type="text" name="groupCode"
+                       autocomplete="off" class="layui-input" data-th-value="${sysGroup.groupCode}" data-th-readonly="${sysGroup.id != null}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label febs-form-item-require">分组名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="groupName"
+                       autocomplete="off" class="layui-input" data-th-value="${sysGroup.groupName}">
+            </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="sysGroup-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#sysGroup-edit'),
+            sysGroup = [[${sysGroup}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(sysGroup-edit-form-submit)', function (data) {
+            febs.post(ctx + 'system/sysGroup/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-sysGroup').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

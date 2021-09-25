@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "微信订阅",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 0,
+  "usingComponents": {}
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.authArea.mapper.OcAuthAreaVisitorMapper">
+
+    <resultMap id="ocAuthAreaVisitor" type="com.handturn.bole.main.authArea.entity.OcAuthAreaVisitor">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="authAreaId" property="authAreaId"/>  <!--//权限区域-->
+        <result column="ocVisitorId" property="ocVisitorId"/>  <!--//访客ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="effectiveTimeBegin" property="effectiveTimeBegin"/>  <!--//有效开始时间-->
+        <result column="effectiveTimeEnd" property="effectiveTimeEnd"/>  <!--//有效结束时间-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-已启用;DISABLED-已禁用-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithOcAuthAreaVisitorSelectAll">
+        SELECT
+            OcAuthAreaVisitor.id AS id,
+            OcAuthAreaVisitor.auth_area_id AS authAreaId,
+            OcAuthAreaVisitor.oc_visitor_id AS ocVisitorId,
+            OcAuthAreaVisitor.oc_code AS ocCode,
+            OcAuthAreaVisitor.org_code AS orgCode,
+            OcAuthAreaVisitor.oc_name AS ocName,
+            OcAuthAreaVisitor.org_name AS orgName,
+            OcAuthAreaVisitor.effective_time_begin AS effectiveTimeBegin,
+            OcAuthAreaVisitor.effective_time_end AS effectiveTimeEnd,
+            OcAuthAreaVisitor.status AS status,
+            OcAuthAreaVisitor.record_version AS recordVersion,
+            OcAuthAreaVisitor.create_date AS createDate,
+            OcAuthAreaVisitor.create_user_code AS createUserCode,
+            OcAuthAreaVisitor.create_user_name AS createUserName,
+            OcAuthAreaVisitor.last_upd_date AS lastUpdDate,
+            OcAuthAreaVisitor.last_upd_user_code AS lastUpdUserCode,
+            OcAuthAreaVisitor.last_upd_user_name AS lastUpdUserName
+        FROM oc_auth_area_visitor AS OcAuthAreaVisitor
+    </sql>
+
+    <select id="findForPage" parameterType="ocAuthAreaVisitor" resultType="ocAuthAreaVisitor">
+        <include refid="SqlWithOcAuthAreaVisitorSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocAuthAreaVisitor.id != null and ocAuthAreaVisitor.id != ''">
+                AND OcAuthAreaVisitor.id =#{ocAuthAreaVisitor.id}
+            </if>
+            <if test="ocAuthAreaVisitor.authAreaId != null and ocAuthAreaVisitor.authAreaId != ''">
+                AND OcAuthAreaVisitor.auth_area_id =#{ocAuthAreaVisitor.authAreaId}
+            </if>
+            <if test="ocAuthAreaVisitor.ocVisitorId != null and ocAuthAreaVisitor.ocVisitorId != ''">
+                AND OcAuthAreaVisitor.oc_visitor_id =#{ocAuthAreaVisitor.ocVisitorId}
+            </if>
+            <if test="ocAuthAreaVisitor.ocCode != null and ocAuthAreaVisitor.ocCode != ''">
+                AND OcAuthAreaVisitor.oc_code =#{ocAuthAreaVisitor.ocCode}
+            </if>
+            <if test="ocAuthAreaVisitor.orgCode != null and ocAuthAreaVisitor.orgCode != ''">
+                AND OcAuthAreaVisitor.org_code =#{ocAuthAreaVisitor.orgCode}
+            </if>
+            <if test="ocAuthAreaVisitor.ocName != null and ocAuthAreaVisitor.ocName != ''">
+                AND OcAuthAreaVisitor.oc_name =#{ocAuthAreaVisitor.ocName}
+            </if>
+            <if test="ocAuthAreaVisitor.orgName != null and ocAuthAreaVisitor.orgName != ''">
+                AND OcAuthAreaVisitor.org_name =#{ocAuthAreaVisitor.orgName}
+            </if>
+            <if test="ocAuthAreaVisitor.effectiveTimeBegin != null and ocAuthAreaVisitor.effectiveTimeBegin != ''">
+                AND OcAuthAreaVisitor.effective_time_begin =#{ocAuthAreaVisitor.effectiveTimeBegin}
+            </if>
+            <if test="ocAuthAreaVisitor.effectiveTimeEnd != null and ocAuthAreaVisitor.effectiveTimeEnd != ''">
+                AND OcAuthAreaVisitor.effective_time_end =#{ocAuthAreaVisitor.effectiveTimeEnd}
+            </if>
+            <if test="ocAuthAreaVisitor.status != null and ocAuthAreaVisitor.status != ''">
+                AND OcAuthAreaVisitor.status =#{ocAuthAreaVisitor.status}
+            </if>
+    </select>
+</mapper>

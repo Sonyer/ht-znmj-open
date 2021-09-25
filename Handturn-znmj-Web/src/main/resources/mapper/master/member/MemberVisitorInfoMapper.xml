@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.master.member.mapper.MemberVisitorInfoMapper">
+
+    <resultMap id="memberVisitorInfo" type="com.handturn.bole.master.member.entity.MemberVisitorInfo">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="memberId" property="memberId"/>  <!--//用户ID-->
+        <result column="memberAccountCode" property="memberAccountCode"/>  <!--//用户账号-->
+        <result column="idCardName" property="idCardName"/>  <!--//真实姓名-->
+        <result column="idCard" property="idCard"/>  <!--//身份证号码-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="faceImgAttchment" property="faceImgAttchment"/>  <!--//人脸附件-存根地址-->
+        <result column="faceImgRequest" property="faceImgRequest"/>  <!--//人脸图片-请求地址-->
+        <result column="status" property="status"/>  <!--//审核状态:INIT-草稿,UPLOAD-已认证-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithMemberVisitorInfoSelectAll">
+        SELECT
+            MemberVisitorInfo.id AS id,
+            MemberVisitorInfo.member_id AS memberId,
+            MemberVisitorInfo.member_account_code AS memberAccountCode,
+            MemberVisitorInfo.id_card_name AS idCardName,
+            MemberVisitorInfo.id_card AS idCard,
+            MemberVisitorInfo.phone_number AS phoneNumber,
+            MemberVisitorInfo.face_img_attchment AS faceImgAttchment,
+            MemberVisitorInfo.face_img_request AS faceImgRequest,
+            MemberVisitorInfo.status AS status,
+            MemberVisitorInfo.record_version AS recordVersion,
+            MemberVisitorInfo.create_date AS createDate,
+            MemberVisitorInfo.create_user_code AS createUserCode,
+            MemberVisitorInfo.create_user_name AS createUserName,
+            MemberVisitorInfo.last_upd_date AS lastUpdDate,
+            MemberVisitorInfo.last_upd_user_code AS lastUpdUserCode,
+            MemberVisitorInfo.last_upd_user_name AS lastUpdUserName
+        FROM member_visitor_info AS MemberVisitorInfo
+    </sql>
+
+    <select id="findForPage" parameterType="memberVisitorInfo" resultType="memberVisitorInfo">
+        <include refid="SqlWithMemberVisitorInfoSelectAll"/>
+        WHERE 1=1
+
+            <if test="memberVisitorInfo.id != null and memberVisitorInfo.id != ''">
+                AND MemberVisitorInfo.id =#{memberVisitorInfo.id}
+            </if>
+            <if test="memberVisitorInfo.memberId != null and memberVisitorInfo.memberId != ''">
+                AND MemberVisitorInfo.member_id =#{memberVisitorInfo.memberId}
+            </if>
+            <if test="memberVisitorInfo.memberAccountCode != null and memberVisitorInfo.memberAccountCode != ''">
+                AND MemberVisitorInfo.member_account_code =#{memberVisitorInfo.memberAccountCode}
+            </if>
+            <if test="memberVisitorInfo.idCardName != null and memberVisitorInfo.idCardName != ''">
+                AND MemberVisitorInfo.id_card_name =#{memberVisitorInfo.idCardName}
+            </if>
+            <if test="memberVisitorInfo.idCard != null and memberVisitorInfo.idCard != ''">
+                AND MemberVisitorInfo.id_card =#{memberVisitorInfo.idCard}
+            </if>
+            <if test="memberVisitorInfo.phoneNumber != null and memberVisitorInfo.phoneNumber != ''">
+                AND MemberVisitorInfo.phone_number =#{memberVisitorInfo.phoneNumber}
+            </if>
+            <if test="memberVisitorInfo.faceImgAttchment != null and memberVisitorInfo.faceImgAttchment != ''">
+                AND MemberVisitorInfo.face_img_attchment =#{memberVisitorInfo.faceImgAttchment}
+            </if>
+            <if test="memberVisitorInfo.faceImgRequest != null and memberVisitorInfo.faceImgRequest != ''">
+                AND MemberVisitorInfo.face_img_request =#{memberVisitorInfo.faceImgRequest}
+            </if>
+            <if test="memberVisitorInfo.status != null and memberVisitorInfo.status != ''">
+                AND MemberVisitorInfo.status =#{memberVisitorInfo.status}
+            </if>
+    </select>
+</mapper>

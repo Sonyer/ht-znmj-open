@@ -1,0 +1,178 @@
+<style>
+    #middlewareInfo-edit {
+        padding: 20px 25px 25px 0;
+    }
+    #middlewareInfo-edit .layui-treeSelect .ztree li a, .ztree li span {
+        margin: 0 0 2px 3px !important;
+    }
+    .layui-form-select .layui-input {
+        padding-right: 0px;
+        cursor: pointer;
+    }
+</style>
+<div class="layui-fluid" id="middlewareInfo-edit">
+    <form class="layui-form" action="" lay-filter="middlewareInfo-edit-form">
+        <div class="layui-form-item">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="${middlewareInfo.id}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">MAC地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="macId"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.macId}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">桌面应用版本:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="appVersion"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.appVersion}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">操作系统名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="systemName"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.systemName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">操作系统版本:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="systemVersion"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.systemVersion}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">局域网IP:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lanIp"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.lanIp}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">网点编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ocCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.ocCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">组织编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orgCode"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.orgCode}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">网点名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="ocName"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.ocName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">组织名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="orgName"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.orgName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备MAC地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="equipmentMacId"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.equipmentMacId}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">区域名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="areaName"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.areaName}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">设备序号:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="seqNum"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.seqNum}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">0-未定义;1-入口;2-出口:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="inOutFlag"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.inOutFlag}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">上次心跳时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="onlineTime"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.onlineTime}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">状态: OFFLINE-离线;ONLINE-在线:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="onlineStatus"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.onlineStatus}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">版本编码:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="recordVersion"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.recordVersion}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">新增时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="createDate"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.createDate}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label febs-form-item-require">最后修改时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="lastUpdDate"
+                                   autocomplete="off" class="layui-input" data-th-value="${middlewareInfo.lastUpdDate}">
+                        </div>
+                    </div>
+        </div>
+        <div class="layui-form-item febs-hide">
+            <button class="layui-btn" lay-submit="" lay-filter="middlewareInfo-edit-form-submit" id="submit"></button>
+            <button type="reset" class="layui-btn" id="reset"></button>
+        </div>
+    </form>
+</div>
+
+<script data-th-inline="javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            $view = $('#middlewareInfo-edit'),
+            middlewareInfo = [[${middlewareInfo}]],
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        form.on('submit(middlewareInfo-edit-form-submit)', function (data) {
+            febs.post(ctx + 'main/equipment/middlewareInfo/save', data.field, function () {
+                layer.closeAll();
+                $('#febs-middlewareInfo').find('#query').click();
+            });
+            return false;
+        });
+    });
+</script>

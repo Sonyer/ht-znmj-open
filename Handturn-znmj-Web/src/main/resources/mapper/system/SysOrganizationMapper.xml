@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOrganizationMapper">
+
+    <resultMap id="sysOrganization" type="com.handturn.bole.system.entity.SysOrganization">
+        <id column="id" property="id"/> <!--//-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编号-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="orgShortName" property="orgShortName"/>  <!--//组织简称-->
+        <result column="address" property="address"/>  <!--//地址-->
+        <result column="region" property="region"/>  <!--//区域-->
+        <result column="city" property="city"/>  <!--//城市-->
+        <result column="province" property="province"/>  <!--//省份-->
+        <result column="country" property="country"/>  <!--//国家-->
+        <result column="postCode" property="postCode"/>  <!--//邮编-->
+        <result column="tel" property="tel"/>  <!--//电话-->
+        <result column="cell" property="cell"/>  <!--//手机-->
+        <result column="fax" property="fax"/>  <!--//传真-->
+        <result column="email" property="email"/>  <!--//邮箱-->
+        <result column="attentionTo" property="attentionTo"/>  <!--//联系人-->
+        <result column="remark" property="remark"/>  <!--//备注-->
+        <result column="status" property="status"/>  <!--//状态: ENABLED-有效;DISABLED-无效-->
+        <result column="orgType" property="orgType"/>  <!--//组织类别(SYS-系统组织,ORG-客户组织)-->
+        <result column="relateOcId" property="relateOcId"/>
+        <result column="relateRoleId" property="relateRoleId"/>
+        <result column="relateUserId" property="relateUserId"/>
+        <result column="relateDepId" property="relateDepId"/>
+        <result column="logoFileName" property="logoFileName"/>
+        <result column="logoFilePath" property="logoFilePath"/>
+        <result column="logoRequestUrl" property="logoRequestUrl"/>
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOrganizationSelectAll">
+        SELECT
+            SysOrganization.id AS id,
+            SysOrganization.org_code AS orgCode,
+            SysOrganization.org_name AS orgName,
+            SysOrganization.org_short_name AS orgShortName,
+            SysOrganization.address AS address,
+            SysOrganization.region AS region,
+            SysOrganization.city AS city,
+            SysOrganization.province AS province,
+            SysOrganization.country AS country,
+            SysOrganization.post_code AS postCode,
+            SysOrganization.tel AS tel,
+            SysOrganization.cell AS cell,
+            SysOrganization.fax AS fax,
+            SysOrganization.email AS email,
+            SysOrganization.attention_to AS attentionTo,
+            SysOrganization.remark AS remark,
+            SysOrganization.status AS status,
+            SysOrganization.org_type AS orgType,
+            SysOrganization.relate_oc_id AS relateOcId,
+            SysOrganization.relate_role_id AS relateRoleId,
+            SysOrganization.relate_user_id AS relateUserId,
+            SysOrganization.relate_dep_id AS relateDepId,
+            SysOrganization.logo_file_name AS logoFileName,
+            SysOrganization.logo_file_path AS logoFilePath,
+            SysOrganization.logo_request_url AS logoRequestUrl,
+            SysOrganization.record_version AS recordVersion,
+            SysOrganization.create_date AS createDate,
+            SysOrganization.create_user_code AS createUserCode,
+            SysOrganization.create_user_name AS createUserName,
+            SysOrganization.last_upd_date AS lastUpdDate,
+            SysOrganization.last_upd_user_code AS lastUpdUserCode,
+            SysOrganization.last_upd_user_name AS lastUpdUserName
+        FROM sys_organization AS SysOrganization
+    </sql>
+
+    <select id="findForAll" resultType="sysOrganization">
+        <include refid="SqlWithSysOrganizationSelectAll"/>
+        ORDER BY
+        SysOrganization.id
+    </select>
+
+    <select id="findForPage" parameterType="sysOrganization" resultType="sysOrganization">
+        <include refid="SqlWithSysOrganizationSelectAll"/>
+        WHERE 1=1
+        <if test="sysOrganization.id != null and sysOrganization.id != ''">
+            AND SysOrganization.id =#{sysOrganization.id}
+        </if>
+        <if test="sysOrganization.orgCode != null and sysOrganization.orgCode != ''">
+            AND SysOrganization.org_code LIKE CONCAT('%',#{sysOrganization.orgCode},'%')
+        </if>
+        <if test="sysOrganization.orgName != null and sysOrganization.orgName != ''">
+            AND SysOrganization.org_name LIKE CONCAT('%',#{sysOrganization.orgName},'%')
+        </if>
+        <if test="sysOrganization.cell != null and sysOrganization.cell != ''">
+            AND SysOrganization.cell LIKE CONCAT('%',#{sysOrganization.cell},'%')
+        </if>
+        <if test="sysOrganization.attentionTo != null and sysOrganization.attentionTo != ''">
+            AND SysOrganization.attention_to LIKE CONCAT('%',#{sysOrganization.attentionTo},'%')
+        </if>
+        <if test="sysOrganization.status != null and sysOrganization.status != ''">
+            AND SysOrganization.status = #{sysOrganization.status}
+        </if>
+        <if test="sysOrganization.orgType != null and sysOrganization.orgType != ''">
+            AND SysOrganization.org_type = #{sysOrganization.orgType}
+        </if>
+    </select>
+
+</mapper>

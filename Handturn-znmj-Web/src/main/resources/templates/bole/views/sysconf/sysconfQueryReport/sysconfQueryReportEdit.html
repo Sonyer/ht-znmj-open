@@ -1,0 +1,331 @@
+<style>
+    #sysconfQueryReport-edit {
+        padding: 20px 25px 25px 0;
+    }
+</style>
+<div class="layui-fluid" id="sysconfQueryReport-edit">
+    <div class="layui-tab layui-tab-brief" lay-filter="tabChangeResize">
+        <ul class="layui-tab-title">
+            <li class="layui-this">报表配置</li>
+            <li>报表字段配置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" lay-filter="sysconfQueryReport-form" id="sysconfQueryReport-edit-form">
+                    <div class="layui-form-item febs-hide">
+                        <label class="layui-form-label">菜单id:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" data-th-value="${sysconfQueryReport.id}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">主模块:</label>
+                        <div class="layui-input-block">
+                            <input type="hidden" name="rootReportId" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.rootReportId}">
+                            <input type="text" name="rootReportName" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.rootReportName}" readonly="true">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级报表:</label>
+                        <div class="layui-input-block">
+                            <input type="hidden" name="parentReportId" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.parentReportId}">
+                            <input type="text" name="parentReportName" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.parentReportName}" readonly="true">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label febs-form-item-require">名称:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="reportName" lay-verify="required" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.reportName}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label febs-form-item-require">类型:</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="reportNodeType" lay-filter="reportNodeTypeFilter" data-th-each="option:${queryReportTypeOption}" data-th-value="${option.value}"  data-th-title="${option.text}"
+                                   data-th-checked="${option.value eq sysconfQueryReport.reportNodeType}"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label febs-form-item-require">排序:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sortNo" autocomplete="off" class="layui-input"
+                                   lay-verify="integer|positiveNumber" data-th-value="${sysconfQueryReport.sortNo}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据源:</label>
+                        <div class="layui-input-block">
+                            <select name="dataSource" id="dataSource" lay-search>
+                                <option value=""></option>
+                                <option data-th-each="option:${dataSourceOption}" data-th-value="${option.value}"  data-th-text="${option.text}" data-th-selected="${option.value eq sysconfQueryReport.dataSource}"/>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">SQL Script:</label>
+                        <div class="layui-input-block">
+                            <textarea name="sqlScript" maxlength="1024000000"
+                                      class="layui-textarea" data-th-text="${sysconfQueryReport.sqlScript}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">SQL Order Script:</label>
+                        <div class="layui-input-block">
+                            <textarea name="sqlSortScript" maxlength="1024000"
+                                      class="layui-textarea" data-th-text="${sysconfQueryReport.sqlSortScript}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注:</label>
+                        <div class="layui-input-block">
+                            <textarea name="description" maxlength="100"
+                                      class="layui-textarea" data-th-text="${sysconfQueryReport.description}"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item febs-hide">
+                        <button class="layui-btn" lay-submit="" lay-filter="sysconfQueryReport-edit-form-submit" id="submit"></button>
+                        <button type="reset" class="layui-btn" id="reset"></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-row febs-container">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-body febs-table-full">
+                                <form class="layui-form layui-table-form" lay-filter="sysconfQueryReportColumn-table-form" id="sysconfQueryReportColumn-table-form">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md10">
+                                            <div class="layui-form-item">
+                                                <div class="layui-inline febs-hide">
+                                                    <label class="layui-form-label">报表ID</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="reportId" id="reportId" autocomplete="off" class="layui-input" data-th-value="${sysconfQueryReport.id}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area febs-hide">
+                                            <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                                <i class="layui-icon">&#xe848;</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <table id="sysconfQueryReportColumnTable" lay-filter="sysconfQueryReportColumnTable" lay-data="{id: 'sysconfQueryReportColumnTable'}" ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="sysconfQueryReportColumnTable-toolbar">
+
+</script>
+<script type="text/html" id="sysconfQueryReportColumnTable-option">
+    <span shiro:lacksPermission="sysconfQueryReport:update">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+    <a lay-event="update" shiro:hasPermission="sysconfQueryReport:update" lay-tips="修改"><i
+            class="layui-icon febs-edit-area febs-blue">&#xe7a4;</i></a>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['febs', 'form', 'formSelects', 'validate', 'treeSelect','table'], function () {
+        var $ = layui.$,
+            febs = layui.febs,
+            layer = layui.layer,
+            table = layui.table,
+            formSelects = layui.formSelects,
+            form = layui.form,
+            $view = $('#sysconfQueryReport-edit'),
+            $query = $view.find('#query'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#sysconfQueryReportColumn-table-form'),
+            $dataSource = $view.find('select[name="dataSource"]'),
+            $dataSource_parent = $dataSource.parents('.layui-form-item'),
+            $sqlScript = $view.find('textarea[name="sqlScript"]'),
+            $sqlScript_parent = $sqlScript.parents('.layui-form-item'),
+            $sqlSortScript = $view.find('textarea[name="sqlSortScript"]'),
+            $sqlSortScript_parent = $sqlSortScript.parents('.layui-form-item'),
+            $header = $view.find('#form-header'),
+            baseBooleanOption = [[${baseBooleanOption}]],
+            baseBooleanOptionMap = {},
+            queryReportColumnTypeOption = [[${queryReportColumnTypeOption}]],
+            queryReportColumnTypeOptionMap = {},
+            queryReportColumnQueryMethodOption = [[${queryReportColumnQueryMethodOption}]],
+            queryReportColumnQueryMethodOptionMap= {},
+            sysconfQueryReport = [[${sysconfQueryReport}]],
+            tableIns,
+            validate = layui.validate;
+
+        form.verify(validate);
+        form.render();
+
+        table.on('sort(sysconfQueryReportColumnTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params});
+        });
+
+
+        initDictData();
+
+        initTable();
+
+        formSelects.render();
+
+        table.on('tool(sysconfQueryReportColumnTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            if (layEvent === 'view') {
+                febs.modal.open('查看报表字段配置', 'sysconf/sysconfQueryReportColumn/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                });
+            }
+            if (layEvent === 'update') {
+                febs.modal.open('修改报表字段配置', 'sysconf/sysconfQueryReportColumn/update/' + data.id, {
+                    area: $(window).width() <= 750 ? '90%' : '50%',
+                    btn: ['提交', '取消'],
+                    yes: function (index, layero) {
+                        $('#sysconfQueryReportColumn-edit').find('#submit').trigger('click');
+                    },
+                    btn2: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        });
+
+        form.on("radio(reportNodeTypeFilter)", function (data) {
+            handleTypeChange(data.value);
+        });
+
+        var handleTypeChange = function (type) {
+            form.val("sysconfQueryReport-form", {
+                "sqlScript": '',
+                "sqlSortScript": ''
+            });
+            if (type === 'REPORT_ROOT') {
+                $header.text('编辑模块');
+                $dataSource_parent.hide();
+                $sqlScript_parent.hide();
+                $sqlSortScript_parent.hide();
+            }else
+            if (type === 'REPORT_DIR') {
+                $header.text('编辑目录');
+                $dataSource_parent.hide();
+                $sqlScript_parent.hide();
+                $sqlSortScript_parent.hide();
+            }else
+            if (type === 'REPORT') {
+                $header.text('编辑报表');
+                $dataSource_parent.show();
+                $sqlScript_parent.show();
+                $sqlSortScript_parent.show();
+            }else{
+                $dataSource_parent.hide();
+                $sqlScript_parent.hide();
+                $sqlSortScript_parent.hide();
+            }
+        };
+
+        function initDictData(){
+            baseBooleanOptionMap = {};
+            for(var index in baseBooleanOption){
+                baseBooleanOptionMap[baseBooleanOption[index].value] = baseBooleanOption[index].text;
+            }
+
+            queryReportColumnTypeOptionMap = {};
+            for(var index in queryReportColumnTypeOption){
+                queryReportColumnTypeOptionMap[queryReportColumnTypeOption[index].value] = queryReportColumnTypeOption[index].text;
+            }
+
+            queryReportColumnQueryMethodOptionMap = {};
+            for(var index in queryReportColumnQueryMethodOption){
+                queryReportColumnQueryMethodOptionMap[queryReportColumnQueryMethodOption[index].value] = queryReportColumnQueryMethodOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('#sysconfQueryReportColumnTable'),
+                id: 'sysconfQueryReportColumnTable',
+                toolbar: '#sysconfQueryReportColumnTable-toolbar',
+                url: ctx + 'sysconf/sysconfQueryReportColumn/list',
+                where: getQueryParams(),
+                cols: [
+                    [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                        {field: 'columnSeqNum', title: '序号',sort: true, minWidth: 100},
+                        {field: 'columnCode', title: '参数编号',sort: true, minWidth: 100},
+                        {field: 'columnName', title: '参数名称',sort: true, minWidth: 150},
+                        {field: 'columnType', title: '参数类型',sort: true, templet: function(d){
+                                return queryReportColumnTypeOptionMap[d.columnType] == null? d.columnType:queryReportColumnTypeOptionMap[d.columnType];
+                            }, minWidth: 100},
+                        {field: 'isQuery', title: '是否条件',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isQuery] == null? d.isQuery:baseBooleanOptionMap[d.isQuery];
+                            }, minWidth: 100},
+                        {field: 'isRequire', title: '是否必填',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isRequire] == null? d.isRequire:baseBooleanOptionMap[d.isRequire];
+                            }, minWidth: 100},
+                        {field: 'isHidden', title: '是否隐藏',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isHidden] == null? d.isHidden:baseBooleanOptionMap[d.isHidden];
+                            }, minWidth: 100},
+                        {field: 'isTotalRowField', title: '是否汇总字段',sort: true, templet: function(d){
+                                return baseBooleanOptionMap[d.isTotalRowField] == null? d.isTotalRowField:baseBooleanOptionMap[d.isTotalRowField];
+                            }, minWidth: 100},
+                        {field: 'columnInitValue', title: '参数初始值',sort: true, minWidth: 100},
+                        {field: 'columnDefaultValue', title: '参数默认值',sort: true, width: 300},
+                        {field: 'columnWidth', title: '列宽',sort: true, minWidth: 100},
+                        {field: 'formatStr', title: '格式',sort: true, minWidth: 100},
+                        {field: 'step', title: '时间间隔天数',sort: true, minWidth: 100},
+                        {field: 'queryMethod', title: '查询方式',sort: true, templet: function(d){
+                                return queryReportColumnQueryMethodOptionMap[d.queryMethod] == null? d.queryMethod:queryReportColumnQueryMethodOptionMap[d.queryMethod];
+                            }, minWidth: 100},
+                        {fixed: 'right',title: '操作', toolbar: '#sysconfQueryReportColumnTable-option', width: 170}
+                    ]
+                ],
+                height: $('#sysconfQueryReport-edit').height() - $('#sysconfQueryReportColumnTable').offset().top - 30,
+            });
+        }
+
+        function getQueryParams() {
+            var reportId = $searchForm.find('input[name="reportId"]').val().trim();
+            if(reportId == ''){
+                reportId = -1;
+            }
+            return {
+                reportId: reportId
+            };
+        }
+
+        form.on('submit(sysconfQueryReport-edit-form-submit)', function (data) {
+            febs.post(ctx + 'sysconf/sysconfQueryReport/save', data.field, function (res) {
+                sysconfQueryReport = res.data;
+                form.val('sysconfQueryReport-edit-form', sysconfQueryReport);
+                $('#reportId').val(sysconfQueryReport.id)
+                $('#sysconfQueryReportColumn-table-form').find('#query').click();
+                $('#febs-sysconfQueryReport').find('#query').click();
+
+                febs.alert.success('保存成功!');
+            });
+            return false;
+        });
+    });
+
+
+</script>

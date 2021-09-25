@@ -1,0 +1,282 @@
+<div class="layui-fluid layui-anim febs-anim" id="febs-member" lay-title="平台会员">
+    <div class="layui-row febs-container">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body febs-table-full">
+                    <form class="layui-form layui-table-form" lay-filter="member-table-form" id="member-table-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md10">
+                                <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">平台会员账号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="accountCode" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">平台会员昵称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="nickName" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户手机号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="phoneNumber" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户邮箱</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="email" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">会员等级</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="vipLevel" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">特约会员</label>
+                                        <div class="layui-input-inline">
+                                            <select name="specialUser" id="specialUser" lay-search>
+                                                <option value=""></option>
+                                                <option data-th-each="option:${basBooleanOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                            </select>
+                                        </div>
+                                    </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">认证类型</label>
+                                            <div class="layui-input-inline">
+                                                <select name="certificationType" id="certificationType" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${certificationTypeOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户状态</label>
+                                            <div class="layui-input-inline">
+                                                <select name="status" id="status" lay-search>
+                                                    <option value=""></option>
+                                                    <option data-th-each="option:${memberStatusOption}" data-th-value="${option.value}"  data-th-text="${option.text}"/>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md2 layui-col-sm12 layui-col-xs12 table-action-area">
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="query">
+                                    <i class="layui-icon">&#xe848;</i>
+                                </div>
+                                <div class="layui-btn layui-btn-sm layui-btn-primary table-action" id="reset">
+                                    <i class="layui-icon">&#xe79b;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="memberTable" lay-filter="memberTable" lay-data="{id: 'memberTable'}"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="memberTable-toolbar">
+    <button lay-event="specialUser" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:member:member:specialUser">
+        <i class="layui-icon">&#xe7ce;</i> 特约会员
+    </button>
+    <button lay-event="cancelSpecialUser" class="layui-btn  layui-btn-sm layui-btn-primary"
+            shiro:hasPermission="master:member:member:cancelSpecialUser">
+        <i class="layui-icon">&#xe7cc;</i> 取消特约
+    </button>
+</script>
+<script type="text/html" id="member-option">
+    <span shiro:lacksPermission="master:member:member:view">
+        <span class="layui-badge-dot febs-bg-orange"></span> 无权限
+    </span>
+</script>
+<script data-th-inline="javascript" type="text/javascript">
+    layui.use(['dropdown', 'jquery', 'laydate', 'form', 'table', 'febs', 'treeSelect'], function () {
+        var $ = layui.jquery,
+            laydate = layui.laydate,
+            febs = layui.febs,
+            form = layui.form,
+            table = layui.table,
+            treeSelect = layui.treeSelect,
+            dropdown = layui.dropdown,
+            $view = $('#febs-member'),
+            $query = $view.find('#query'),
+            $reset = $view.find('#reset'),
+            sortObject = {field: 'createDate', type: null},
+            $searchForm = $view.find('#member-table-form'),
+            certificationTypeOption = [[${certificationTypeOption}]],
+            certificationTypeOptionMap = {},
+            memberStatusOption = [[${memberStatusOption}]],
+            memberStatusOptionMap = {},
+            basBooleanOption = [[${basBooleanOption}]],
+            basBooleanOptionMap = {},
+            tableIns;
+
+        form.render();
+
+        initDictData();
+
+        initTable();
+
+        //监听事件
+        table.on('toolbar(memberTable)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+            var checkStatus = table.checkStatus('memberTable');
+            if (layEvent === 'specialUser') {
+
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要特约的会员!');
+                } else {
+                    var memberIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        memberIds.push(item.id)
+                    });
+                    febs.modal.confirm('提示', '特约客户将不收任何平台费用,你确认?', function () {
+                        febs.post(ctx + 'master/member/member/specialUser/' + memberIds.join(','), null, function () {
+                            tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                            febs.alert.success('操作成功!');
+                        });
+                    });
+                }
+            }
+
+            if (layEvent === 'cancelSpecialUser') {
+
+                if (!checkStatus.data.length) {
+                    febs.alert.warn('请选择需要取消特约的会员!');
+                } else {
+                    var memberIds = [];
+                    layui.each(checkStatus.data, function (key, item) {
+                        memberIds.push(item.id)
+                    });
+                    febs.modal.confirm('提示', '取消特约客户将恢复收取平台费用,你确认?', function () {
+                        febs.post(ctx + 'master/member/member/cancelSpecialUser/' + memberIds.join(','), null, function () {
+                            tableIns.reload({where: getQueryParams(), page: {curr: 1}});
+                            febs.alert.success('操作成功!');
+                        });
+                    });
+                }
+            }
+        });
+
+
+        table.on('tool(memberTable)', function (obj) {
+            var data = obj.data,
+                layEvent = obj.event;
+
+        });
+
+        table.on('sort(memberTable)', function (obj) {
+            sortObject = obj;
+            tableIns.reload({
+                initSort: obj,
+                where: $.extend(getQueryParams(), {
+                    field: obj.field,
+                    order: obj.type
+                })
+            });
+        });
+
+        $query.on('click', function () {
+            var params = $.extend(getQueryParams(), {field: sortObject.field, order: sortObject.type});
+            tableIns.reload({where: params, page: {curr: 1}});
+        });
+
+        $reset.on('click', function () {
+            $searchForm[0].reset();
+            tableIns.reload({where: getQueryParams(), page: {curr: 1}, initSort: sortObject});
+        });
+
+        function initDictData(){
+            certificationTypeOptionMap = {};
+            for(var index in certificationTypeOption){
+                certificationTypeOptionMap[certificationTypeOption[index].value] = certificationTypeOption[index].text;
+            }
+            memberStatusOptionMap = {};
+            for(var index in memberStatusOption){
+                memberStatusOptionMap[memberStatusOption[index].value] = memberStatusOption[index].text;
+            }
+            basBooleanOptionMap = {};
+            for(var index in basBooleanOption){
+                basBooleanOptionMap[basBooleanOption[index].value] = basBooleanOption[index].text;
+            }
+        }
+
+        function initTable() {
+            tableIns = febs.table.init({
+                elem: $view.find('table'),
+                id: 'memberTable',
+                toolbar: '#memberTable-toolbar',
+                url: ctx + 'master/member/member/list',
+                cols: [
+                        [
+                        {fixed: 'left',type: 'checkbox', width: 50},
+                            {field: 'avatarRequest', title: '头像-访问地址',sort: true,templet: function(d){
+                                    return "<img width='50' height='50' src='"+d.avatarRequest+"'/>";
+                                }, minWidth: 100},
+                            {field: 'accountCode', title: '平台会员账号-自动生成',sort: true, minWidth: 100},
+                            {field: 'nickName', title: '平台会员昵称',sort: true, minWidth: 100},
+                            {field: 'certificationType', title: '认证类型',sort: true, templet: function(d){
+                                    return certificationTypeOptionMap[d.certificationType] == null? d.certificationType:certificationTypeOptionMap[d.certificationType];
+                                }, minWidth: 100},
+                            {field: 'specialUser', title: '特约会员',sort: true, templet: function(d){
+                                    return basBooleanOptionMap[d.specialUser] == null? d.specialUser:basBooleanOptionMap[d.specialUser];
+                                }, minWidth: 100},
+                            {field: 'gender', title: '性别',sort: true, minWidth: 100},
+                            {field: 'avatarAttchment', title: '头像-存根地址',sort: true, minWidth: 100},
+                            {field: 'avatarRequest', title: '头像-访问地址',sort: true, minWidth: 100},
+                            {field: 'phoneNumber', title: '用户手机号',sort: true, minWidth: 100},
+                            {field: 'email', title: '用户邮箱',sort: true, minWidth: 100},
+                            {field: 'vipLevel', title: '会员等级',sort: true, minWidth: 100},
+                            {field: 'specialUserTime', title: '特约时间',sort: true, minWidth: 100},
+                            {field: 'isPersionUser', title: '个人已认证',sort: true, templet: function(d){
+                                    return basBooleanOptionMap[d.isPersionUser] == null? d.isPersionUser:basBooleanOptionMap[d.isPersionUser];
+                                }, minWidth: 100},
+                            {field: 'isClientUser', title: '商户已认证',sort: true, templet: function(d){
+                                    return basBooleanOptionMap[d.isClientUser] == null? d.isClientUser:basBooleanOptionMap[d.isClientUser];
+                                }, minWidth: 100},
+                            {field: 'status', title: '用户状态',sort: true, templet: function(d){
+                                    return memberStatusOptionMap[d.status] == null? d.status:memberStatusOptionMap[d.status];
+                                }, minWidth: 100},
+                            {field: 'followCount', title: '被关注数',sort: true, minWidth: 100},
+                            {field: 'loginCount', title: '登陆次数',sort: true, minWidth: 100},
+                            {field: 'lastLoginIp', title: '最后登陆IP',sort: true, minWidth: 100},
+                            {field: 'lastIpRegion', title: '最后登陆IP区域',sort: true, minWidth: 100},
+                            {field: 'firstLoginTime', title: '第一次登陆时间',sort: true, minWidth: 100},
+                            {field: 'lastLoginTime', title: '最后登陆时间',sort: true, minWidth: 100},
+                       /* {fixed: 'right',title: '操作', toolbar: '#member-option', width: 170}*/
+                    ]
+                ],
+                height: $(document).height() - $('#memberTable').offset().top - 30,
+            });
+        }
+
+        function getQueryParams() {
+            return {
+                    accountCode: $searchForm.find('input[name="accountCode"]').val().trim(),
+                    nickName: $searchForm.find('input[name="nickName"]').val().trim(),
+                    phoneNumber: $searchForm.find('input[name="phoneNumber"]').val().trim(),
+                    email: $searchForm.find('input[name="email"]').val().trim(),
+                    vipLevel: $searchForm.find('input[name="vipLevel"]').val().trim(),
+                    certificationType: $searchForm.find('select[name="certificationType"]').val(),
+                    specialUser: $searchForm.find('select[name="specialUser"]').val(),
+                    status: $searchForm.find('select[name="status"]').val()
+            };
+        }
+    })
+</script>
+<style>
+    #febs-member .layui-table-cell{
+        height:50px;
+        line-height: 50px;
+    }
+</style>
+

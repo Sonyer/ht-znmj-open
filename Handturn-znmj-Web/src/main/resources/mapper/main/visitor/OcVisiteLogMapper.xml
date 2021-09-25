@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.main.visitor.mapper.OcVisiteLogMapper">
+
+    <resultMap id="ocVisiteLog" type="com.handturn.bole.main.visitor.entity.OcVisiteLog">
+        <id column="id" property="id"/> <!--//ID-->
+        <result column="ocCode" property="ocCode"/>  <!--//网点编码-->
+        <result column="orgCode" property="orgCode"/>  <!--//组织编码-->
+        <result column="ocName" property="ocName"/>  <!--//网点名称-->
+        <result column="orgName" property="orgName"/>  <!--//组织名称-->
+        <result column="equipmentId" property="equipmentId"/>  <!--//设备信息信息ID-->
+        <result column="equipmentCode" property="equipmentCode"/>  <!--//设备系统编码-->
+        <result column="equipmentMdCode" property="equipmentMdCode"/>  <!--//设备出厂编码-->
+        <result column="equipmentModelCode" property="equipmentModelCode"/>  <!--//设备型号编号-->
+        <result column="seqNum" property="seqNum"/>  <!--//设备序号-->
+        <result column="areaName" property="areaName"/>  <!--//区域名称-->
+        <result column="inOutFlag" property="inOutFlag"/>  <!--//出入标记：0-未知位置 1-入口  2-出口-->
+        <result column="ocVisitorId" property="ocVisitorId"/>  <!--//网点访客信息ID-->
+        <result column="idCardName" property="idCardName"/>  <!--//真实姓名-->
+        <result column="idCard" property="idCard"/>  <!--//身份证号码-->
+        <result column="phoneNumber" property="phoneNumber"/>  <!--//用户手机号-->
+        <result column="depName" property="depName"/>  <!--//部门名称-->
+        <result column="positionName" property="positionName"/>  <!--//职位名称-->
+        <result column="wegin" property="wegin"/>  <!--//韦根号-->
+        <result column="faceImgAttchment" property="faceImgAttchment"/>  <!--//人脸附件-存根地址-->
+        <result column="faceImgRequest" property="faceImgRequest"/>  <!--//人脸图片-请求地址-->
+        <result column="logFlag" property="logFlag"/>
+        <result column="openTime" property="openTime"/>
+        <result column="openStatus" property="openStatus"/>
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithOcVisiteLogSelectAll">
+        SELECT
+            OcVisiteLog.id AS id,
+            OcVisiteLog.oc_code AS ocCode,
+            OcVisiteLog.org_code AS orgCode,
+            OcVisiteLog.oc_name AS ocName,
+            OcVisiteLog.org_name AS orgName,
+            OcVisiteLog.equipment_id AS equipmentId,
+            OcVisiteLog.equipment_code AS equipmentCode,
+            OcVisiteLog.equipment_md_code AS equipmentMdCode,
+            OcVisiteLog.equipment_model_code AS equipmentModelCode,
+            OcVisiteLog.seq_num AS seqNum,
+            OcVisiteLog.area_name AS areaName,
+            OcVisiteLog.in_out_flag AS inOutFlag,
+            OcVisiteLog.oc_visitor_id AS ocVisitorId,
+            OcVisiteLog.id_card_name AS idCardName,
+            OcVisiteLog.id_card AS idCard,
+            OcVisiteLog.phone_number AS phoneNumber,
+            OcVisiteLog.dep_name AS depName,
+            OcVisiteLog.position_name AS positionName,
+            OcVisiteLog.wegin AS wegin,
+            OcVisiteLog.face_img_attchment AS faceImgAttchment,
+            OcVisiteLog.face_img_request AS faceImgRequest,
+            OcVisiteLog.log_flag AS logFlag,
+            OcVisiteLog.open_time AS openTime,
+            OcVisiteLog.open_status AS openStatus,
+            OcVisiteLog.record_version AS recordVersion,
+            OcVisiteLog.create_date AS createDate,
+            OcVisiteLog.create_user_code AS createUserCode,
+            OcVisiteLog.create_user_name AS createUserName,
+            OcVisiteLog.last_upd_date AS lastUpdDate,
+            OcVisiteLog.last_upd_user_code AS lastUpdUserCode,
+            OcVisiteLog.last_upd_user_name AS lastUpdUserName
+        FROM oc_visite_log AS OcVisiteLog
+    </sql>
+
+    <select id="findForPage" parameterType="ocVisiteLog" resultType="ocVisiteLog">
+        <include refid="SqlWithOcVisiteLogSelectAll"/>
+        WHERE 1=1
+
+            <if test="ocVisiteLog.id != null and ocVisiteLog.id != ''">
+                AND OcVisiteLog.id =#{ocVisiteLog.id}
+            </if>
+            <if test="ocVisiteLog.ocCode != null and ocVisiteLog.ocCode != ''">
+                AND OcVisiteLog.oc_code =#{ocVisiteLog.ocCode}
+            </if>
+            <if test="ocVisiteLog.orgCode != null and ocVisiteLog.orgCode != ''">
+                AND OcVisiteLog.org_code =#{ocVisiteLog.orgCode}
+            </if>
+            <if test="ocVisiteLog.ocName != null and ocVisiteLog.ocName != ''">
+                AND (OcVisiteLog.oc_name LIKE CONCAT('%',#{ocVisiteLog.ocName},'%')
+                OR OcVisiteLog.oc_code LIKE CONCAT('%',#{ocVisiteLog.ocName},'%'))
+            </if>
+            <if test="ocVisiteLog.orgName != null and ocVisiteLog.orgName != ''">
+                AND (OcVisiteLog.org_name LIKE CONCAT('%',#{ocVisiteLog.orgName},'%')
+                OR OcVisiteLog.org_code LIKE CONCAT('%',#{ocVisiteLog.orgName},'%'))
+            </if>
+            <if test="ocVisiteLog.equipmentId != null and ocVisiteLog.equipmentId != ''">
+                AND OcVisiteLog.equipment_id =#{ocVisiteLog.equipmentId}
+            </if>
+            <if test="ocVisiteLog.equipmentCode != null and ocVisiteLog.equipmentCode != ''">
+                AND OcVisiteLog.equipment_code =#{ocVisiteLog.equipmentCode}
+            </if>
+            <if test="ocVisiteLog.equipmentMdCode != null and ocVisiteLog.equipmentMdCode != ''">
+                AND OcVisiteLog.equipment_md_code LIKE CONCAT('%',#{ocVisiteLog.equipmentMdCode},'%')
+            </if>
+            <if test="ocVisiteLog.equipmentModelCode != null and ocVisiteLog.equipmentModelCode != ''">
+                AND OcVisiteLog.equipment_model_code =#{ocVisiteLog.equipmentModelCode}
+            </if>
+            <if test="ocVisiteLog.seqNum != null and ocVisiteLog.seqNum != ''">
+                AND OcVisiteLog.seq_num =#{ocVisiteLog.seqNum}
+            </if>
+            <if test="ocVisiteLog.areaName != null and ocVisiteLog.areaName != ''">
+                AND OcVisiteLog.area_name LIKE CONCAT('%',#{ocVisiteLog.areaName},'%')
+            </if>
+            <if test="ocVisiteLog.inOutFlag != null and ocVisiteLog.inOutFlag != ''">
+                AND OcVisiteLog.in_out_flag =#{ocVisiteLog.inOutFlag}
+            </if>
+            <if test="ocVisiteLog.ocVisitorId != null and ocVisiteLog.ocVisitorId != ''">
+                AND OcVisiteLog.oc_visitor_id =#{ocVisiteLog.ocVisitorId}
+            </if>
+            <if test="ocVisiteLog.idCardName != null and ocVisiteLog.idCardName != ''">
+                AND OcVisiteLog.id_card_name LIKE CONCAT('%',#{ocVisiteLog.idCardName},'%')
+            </if>
+            <if test="ocVisiteLog.idCard != null and ocVisiteLog.idCard != ''">
+                AND OcVisiteLog.id_card LIKE CONCAT('%',#{ocVisiteLog.idCard},'%')
+            </if>
+            <if test="ocVisiteLog.phoneNumber != null and ocVisiteLog.phoneNumber != ''">
+                AND OcVisiteLog.phone_number =#{ocVisiteLog.phoneNumber}
+            </if>
+            <if test="ocVisiteLog.depName != null and ocVisiteLog.depName != ''">
+                AND OcVisiteLog.dep_name LIKE CONCAT('%',#{ocVisiteLog.depName},'%')
+            </if>
+            <if test="ocVisiteLog.positionName != null and ocVisiteLog.positionName != ''">
+                AND OcVisiteLog.position_name LIKE CONCAT('%',#{ocVisiteLog.positionName},'%')
+            </if>
+            <if test="ocVisiteLog.wegin != null and ocVisiteLog.wegin != ''">
+                AND OcVisiteLog.wegin =#{ocVisiteLog.wegin}
+            </if>
+            <if test="ocVisiteLog.faceImgAttchment != null and ocVisiteLog.faceImgAttchment != ''">
+                AND OcVisiteLog.face_img_attchment =#{ocVisiteLog.faceImgAttchment}
+            </if>
+            <if test="ocVisiteLog.faceImgRequest != null and ocVisiteLog.faceImgRequest != ''">
+                AND OcVisiteLog.face_img_request =#{ocVisiteLog.faceImgRequest}
+            </if>
+            <if test="ocVisiteLog.logFlag != null and ocVisiteLog.logFlag != ''">
+                AND OcVisiteLog.log_flag =#{ocVisiteLog.logFlag}
+            </if>
+        <if test="ocVisiteLog.openTime_start != null">
+            AND OcVisiteLog.open_time &gt;=#{ocVisiteLog.openTime_start}
+        </if>
+        <if test="ocVisiteLog.openTime_end != null">
+            AND OcVisiteLog.open_time &lt;=#{ocVisiteLog.openTime_end}
+        </if>
+        <if test="ocVisiteLog.openStatus != null and ocVisiteLog.openStatus != ''">
+            AND OcVisiteLog.open_status =#{ocVisiteLog.openStatus}
+        </if>
+    </select>
+</mapper>

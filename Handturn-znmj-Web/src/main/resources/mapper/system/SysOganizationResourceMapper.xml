@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.handturn.bole.system.mapper.SysOganizationResourceMapper">
+
+    <resultMap id="sysOganizationResource" type="com.handturn.bole.system.entity.SysOganizationResource">
+        <id column="id" property="id"/> <!--//-->
+        <result column="orgId" property="orgId"/>  <!--//组织id-->
+        <result column="resourceId" property="resourceId"/>  <!--//资源id-->
+        <result column="recordVersion" property="recordVersion"/>  <!--//版本编码-->
+        <result column="createDate" property="createDate"/>  <!--//新增时间-->
+        <result column="createUserCode" property="createUserCode"/>  <!--//新增用户编码-->
+        <result column="createUserName" property="createUserName"/>  <!--//新增用户名-->
+        <result column="lastUpdDate" property="lastUpdDate"/>  <!--//最后修改时间-->
+        <result column="lastUpdUserCode" property="lastUpdUserCode"/>  <!--//最后修改用户编码-->
+        <result column="lastUpdUserName" property="lastUpdUserName"/>  <!--//最后修改用户名-->
+    </resultMap>
+
+    <sql id="SqlWithSysOganizationResourceSelectAll">
+        SELECT
+            SysOganizationResource.id AS id,
+            SysOganizationResource.org_id AS orgId,
+            SysOganizationResource.resource_id AS resourceId,
+            SysOganizationResource.record_version AS recordVersion,
+            SysOganizationResource.create_date AS createDate,
+            SysOganizationResource.create_user_code AS createUserCode,
+            SysOganizationResource.create_user_name AS createUserName,
+            SysOganizationResource.last_upd_date AS lastUpdDate,
+            SysOganizationResource.last_upd_user_code AS lastUpdUserCode,
+            SysOganizationResource.last_upd_user_name AS lastUpdUserName
+        FROM sys_oganization_resource AS SysOganizationResource
+    </sql>
+
+    <select id="findForPage" parameterType="sysOganizationResource" resultType="sysOganizationResource">
+        <include refid="SqlWithSysOganizationResourceSelectAll"/>
+        WHERE 1=1
+
+            <if test="sysOganizationResource.id != null and sysOganizationResource.id != ''">
+                AND SysOganizationResource.id = #{sysOganizationResource.id}
+            </if>
+            <if test="sysOganizationResource.orgId != null and sysOganizationResource.orgId != ''">
+                AND SysOganizationResource.org_id = #{sysOganizationResource.orgId}
+            </if>
+            <if test="sysOganizationResource.resourceId != null and sysOganizationResource.resourceId != ''">
+                AND SysOganizationResource.resource_id = #{sysOganizationResource.resourceId}
+            </if>
+            <if test="sysOganizationResource.recordVersion != null and sysOganizationResource.recordVersion != ''">
+                AND SysOganizationResource.record_version = #{sysOganizationResource.recordVersion}
+            </if>
+            <if test="sysOganizationResource.createDate != null and sysOganizationResource.createDate != ''">
+                AND SysOganizationResource.create_date = #{sysOganizationResource.createDate}
+            </if>
+            <if test="sysOganizationResource.createUserCode != null and sysOganizationResource.createUserCode != ''">
+                AND SysOganizationResource.create_user_code = #{sysOganizationResource.createUserCode}
+            </if>
+            <if test="sysOganizationResource.createUserName != null and sysOganizationResource.createUserName != ''">
+                AND SysOganizationResource.create_user_name = #{sysOganizationResource.createUserName}
+            </if>
+            <if test="sysOganizationResource.lastUpdDate != null and sysOganizationResource.lastUpdDate != ''">
+                AND SysOganizationResource.last_upd_date = #{sysOganizationResource.lastUpdDate}
+            </if>
+            <if test="sysOganizationResource.lastUpdUserCode != null and sysOganizationResource.lastUpdUserCode != ''">
+                AND SysOganizationResource.last_upd_user_code = #{sysOganizationResource.lastUpdUserCode}
+            </if>
+            <if test="sysOganizationResource.lastUpdUserName != null and sysOganizationResource.lastUpdUserName != ''">
+                AND SysOganizationResource.last_upd_user_name = #{sysOganizationResource.lastUpdUserName}
+            </if>
+    </select>
+</mapper>
